@@ -11,6 +11,6 @@ for p in [ROOT+'/apkbuild/web/index.html',ROOT+'/apkbuild/app/assets/www/index.h
 import shutil
 shutil.copytree(ROOT+'/apkbuild/web/lib',ROOT+'/apkbuild/app/assets/www/lib',dirs_exist_ok=True)
 shutil.copytree(ROOT+'/apkbuild/web/fonts',ROOT+'/apkbuild/app/assets/www/fonts',dirs_exist_ok=True)
-for f in os.listdir(D+'/static'):
+for f in (os.listdir(D+'/static') if os.path.isdir(D+'/static') else []):
     for dst in [ROOT+'/apkbuild/web/',ROOT+'/apkbuild/app/assets/www/']:shutil.copy(D+'/static/'+f,dst+f)
 print('built',len(out))
