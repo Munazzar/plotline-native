@@ -188,7 +188,7 @@ final class NUi {
     /* .btn.sm: 38 high, 14 side padding, radius 12, 13.5px (primary or plain surface) */
     static TextView btnSm(Context c, String label, boolean primary, View.OnClickListener l) {
         TextView t = body(c, label, 13.5f, primary ? NTheme.onAccent : NTheme.text, 600);
-        t.setGravity(Gravity.CENTER); t.setPadding(dp(14), 0, dp(14), 0); t.setMinHeight(dp(38)); t.setSingleLine(true);
+        t.setSingleLine(true); t.setGravity(Gravity.CENTER); t.setPadding(dp(14), 0, dp(14), 0); t.setMinHeight(dp(38));   /* singleLine first: it resets the min height to one line */
         t.setBackground(ripple(primary ? round(NTheme.accent, 12, 0) : round(NTheme.surface, 12, NTheme.line2), 12));
         tap(t, l);
         return t;

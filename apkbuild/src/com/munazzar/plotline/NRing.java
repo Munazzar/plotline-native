@@ -16,8 +16,10 @@ final class NRing extends View {
     String big = "", small = "";
     boolean check;
     float strokeDp = 4;
-    boolean inline;
-    String glyph;   /* an icon in the middle (web hChk: play for a routine not yet done) */   /* web .hday-r: "1/10" on one baseline, the /10 small and faded */
+    boolean inline;   /* web .hday-r / .hsum: "1/10" or "0%" on one baseline, the small part faded */
+    boolean mono;     /* web .hchk span: "0/20" in mono 700 13px, the /20 9px muted */
+    boolean bodyNum;  /* web week strip: the day number in body 700 */
+    String glyph;     /* an icon in the middle (web hChk: play for a routine not yet done) */
     final Paint arc = new Paint(Paint.ANTI_ALIAS_FLAG), txt = new Paint(Paint.ANTI_ALIAS_FLAG), fillP = new Paint(Paint.ANTI_ALIAS_FLAG);
     final RectF r = new RectF();
     ValueAnimator va;
@@ -64,14 +66,20 @@ final class NRing extends View {
             ic.setBounds((int) (cx - s / 2f), (int) (cy - s / 2f), (int) (cx + s / 2f), (int) (cy + s / 2f)); ic.draw(c);
             return;
         }
-        if (inline && !big.isEmpty()) {
+        if ((inline || mono) && !big.isEmpty()) {
             txt.setTextAlign(Paint.Align.LEFT);
-            txt.setTypeface(NFont.display(800)); txt.setTextSize(NUi.sp(24)); float bw = txt.measureText(big);
-            Paint sp = new Paint(txt); sp.setTypeface(NFont.body(600)); sp.setTextSize(NUi.sp(13)); float sw2 = sp.measureText(small);
-            float x0 = cx - (bw + sw2) / 2, by = cy + NUi.sp(24) * .35f;
-            txt.setColor(NTheme.text); c.drawText(big, x0, by, txt);
-            sp.setColor(NTheme.alpha(NTheme.text, .6f)); c.drawText(small, x0 + bw, by, sp);
+            float bsz = mono ? NUi.sp(13) : sz * .32f, ssz = mono ? NUi.sp(9) : sz * .17f;
+            txt.setTypeface(mono ? NFont.mono(700) : NFont.display(800)); txt.setTextSize(bsz); float bw = txt.measureText(big);
+            Paint sp = new Paint(txt); sp.setTypeface(mono ? NFont.mono(500) : NFont.body(600)); sp.setTextSize(ssz); float sw2 = sp.measureText(small);
+            float x0 = cx - (bw + sw2) / 2, by = cy + bsz * .35f;
+            txt.setColor(check && shown >= 1 ? NTheme.on(color) : NTheme.text); c.drawText(big, x0, by, txt);
+            sp.setColor(mono ? NTheme.muted : NTheme.alpha(NTheme.text, .6f)); c.drawText(small, x0 + bw, by, sp);
             txt.setTextAlign(Paint.Align.CENTER);
+            return;
+        }
+        if (bodyNum && !big.isEmpty()) {
+            txt.setColor(NTheme.text); txt.setTypeface(NFont.body(700)); txt.setTextSize(NUi.sp(14));
+            c.drawText(big, cx, cy + NUi.sp(14) * .36f, txt);
             return;
         }
         if (!big.isEmpty()) {

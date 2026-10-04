@@ -114,7 +114,7 @@ final class NHabitsPage extends NPage {
             if (miss) { ring.color = NTheme.alpha(PINK, .55f); ring.track = NTheme.alpha(PINK, .55f); ring.set(1, false); }
             else ring.set(p, false);
             if (p >= 1) ring.centerFill = NUi.mix(NTheme.accent, .22f, NTheme.surface);
-            ring.text(String.valueOf(NDates.day(ds)), "");
+            ring.bodyNum = true; ring.text(String.valueOf(NDates.day(ds)), "");
             LinearLayout.LayoutParams rl = NUi.lp(NUi.dp(32), NUi.dp(32)); rl.topMargin = NUi.dp(5); cell.addView(ring, rl);
             TextView sm = NBits.meta(c, q[0] == 0 ? "–" : q[1] + "/" + q[0], NTheme.muted); sm.setTextSize(10); sm.setGravity(Gravity.CENTER);
             LinearLayout.LayoutParams sl = NUi.lp(-1, -2); sl.topMargin = NUi.dp(5); cell.addView(sm, sl);
@@ -127,7 +127,7 @@ final class NHabitsPage extends NPage {
         tg.setBackground(NUi.ripple(NUi.dashed(0, 14, NTheme.line2, 1), 14)); tg.setPadding(NUi.dp(9), NUi.dp(9), NUi.dp(9), NUi.dp(9));
         tg.addView(NUi.icon(c, "cal", 16, NTheme.text));
         TextView tl = NUi.body(c, calOn() ? "Hide calendar" : "Show the month", 13.5f, NTheme.text, 600); tl.setPadding(NUi.dp(8), 0, NUi.dp(8), 0); tg.addView(tl);
-        tg.addView(NUi.icon(c, calOn() ? "up" : "down", 16, NTheme.text));
+        tg.addView(NUi.icon(c, calOn() ? "chevup" : "chev", 16, NTheme.text));
         NUi.tap(tg, new View.OnClickListener() { public void onClick(View v) {
             try { JSONObject l = st.settings().optJSONObject("layout"); if (l == null) { l = new JSONObject(); st.settings().put("layout", l); } l.put("hcal", !calOn()); } catch (Exception ignored) { }
             sh.save();
@@ -195,7 +195,7 @@ final class NHabitsPage extends NPage {
         int[] t = NHabits.dayRatio(habits, NDates.ymd()); float f = t[0] == 0 ? 0 : t[1] / (float) t[0];
         LinearLayout card = NUi.col(c); card.setGravity(Gravity.CENTER_HORIZONTAL);
         card.setBackground(NUi.round(NTheme.surface, 28, NTheme.line)); card.setPadding(NUi.dp(24), NUi.dp(22), NUi.dp(24), NUi.dp(22));
-        NRing ring = new NRing(c); ring.strokeDp = 9; ring.set(f, true); ring.text(Math.round(f * 100) + "", "%");
+        NRing ring = new NRing(c); ring.strokeDp = 9; ring.inline = true; ring.set(f, true); ring.text(Math.round(f * 100) + "", "%");
         card.addView(ring, NUi.lp(NUi.dp(108), NUi.dp(108)));
         TextView cap = NBits.meta(c, "Today · " + t[1] + " of " + t[0] + " done", NTheme.muted); cap.setGravity(Gravity.CENTER); cap.setAllCaps(true); cap.setLetterSpacing(.12f);
         LinearLayout.LayoutParams cl = NUi.lp(-1, -2); cl.topMargin = NUi.dp(18); card.addView(cap, cl);
@@ -287,14 +287,17 @@ final class NHabitsPage extends NPage {
         int st = NHabits.streak(h);
         if (st > 0) {
             if (!first) r.addView(sepDot()); first = false;
-            LinearLayout fg = NUi.row(c); fg.addView(NUi.icon(c, "flame", 13, col));
+            LinearLayout fg = NUi.row(c); fg.addView(NUi.icon(c, "flamef", 13, col));
             TextView t = NUi.body(c, st + (NHabits.freq(h).equals("times") ? " wk" : ""), 12.5f, col, 700); t.setPadding(NUi.dp(3), 0, 0, 0); fg.addView(t); r.addView(fg);
         }
         String mid = null;
         if (NHabits.freq(h).equals("times")) mid = NHabits.weekCount(h, NDates.wkStart(NDates.today())) + " of " + NHabits.times(h) + " this week";
         else if (NHabits.freq(h).equals("days") && NHabits.days(h).size() < 7) mid = NHabits.freqText(h);
         if (mid != null) { if (!first) r.addView(sepDot()); first = false; r.addView(NUi.text(c, mid, 12.5f, NTheme.muted)); }
-        if (NHabits.kind(h).equals("routine")) { int k = NHabits.steps(h).length(); if (!first) r.addView(sepDot()); first = false; r.addView(NUi.text(c, k + (k == 1 ? " step" : " steps"), 12.5f, NTheme.muted)); }
+        if (NHabits.kind(h).equals("routine")) {
+            JSONArray ss = NHabits.steps(h); int k = ss.length(), mn = 0; for (int i = 0; i < k; i++) { JSONObject x = ss.optJSONObject(i); if (x != null) mn += x.optInt("min", 0); }
+            if (!first) r.addView(sepDot()); first = false; r.addView(NUi.text(c, k + (k == 1 ? " step" : " steps") + (mn > 0 ? " · " + mn + " min" : ""), 12.5f, NTheme.muted));
+        }
         String last = !h.optString("cue").isEmpty() ? h.optString("cue") : NDates.fmtTime(h.optString("time"));
         if (!last.isEmpty()) { if (!first) r.addView(sepDot()); first = false; TextView t = NUi.text(c, last, 12.5f, NTheme.muted); r.addView(t); }
         return r;
@@ -318,9 +321,15 @@ final class NHabitsPage extends NPage {
         LinearLayout mid = NUi.col(c);
         boolean done = NHabits.done(h, NDates.ymd());
         LinearLayout tl = NUi.row(c);
-        tl.addView(NUi.ell(NUi.body(c, h.optString("title"), 16, active && !done ? NTheme.text : NTheme.muted, 600), 1));
+        /* web .t.ell: the title with the unit as an inline span, one line, ellipsised together */
+        android.text.SpannableStringBuilder tsb = new android.text.SpannableStringBuilder(h.optString("title"));
         int tg = NHabits.target(h);
-        if (NHabits.kind(h).equals("build") && tg > 1) { TextView u = NBits.meta(c, (tg + " " + h.optString("unit")).toUpperCase(), NTheme.muted); u.setTextSize(10); u.setPadding(NUi.dp(8), 0, 0, 0); tl.addView(u); }
+        if (NHabits.kind(h).equals("build") && tg > 1) {
+            tsb.append("  "); int a0 = tsb.length(); tsb.append((tg + " " + h.optString("unit")).toUpperCase());
+            tsb.setSpan(new android.text.style.AbsoluteSizeSpan(10, true), a0, tsb.length(), 0); tsb.setSpan(new android.text.style.TypefaceSpan(NFont.mono(500)), a0, tsb.length(), 0);
+            tsb.setSpan(new android.text.style.ForegroundColorSpan(NTheme.muted), a0, tsb.length(), 0); tsb.setSpan(new android.text.style.ScaleXSpan(1.05f), a0, tsb.length(), 0);
+        }
+        tl.addView(NUi.ell(NUi.body(c, tsb, 16, active && !done ? NTheme.text : NTheme.muted, 600), 1), NUi.lpw(0, -2, 1));
         mid.addView(tl);
         mid.addView(subLine(h), NUi.mt(2));
         mid.addView(NBits.week(c, h, new Runnable() { public void run() { sh.save(); } }), NUi.mt(9));
@@ -395,64 +404,95 @@ final class NHabitsPage extends NPage {
             h.addView(NUi.link(c, "All", new View.OnClickListener() { public void onClick(View v) { filter = "quit"; refresh(); } }));
             add(h);
         }
-        for (final JSONObject q : l) {
-            int col = NTheme.areaCol(q.optString("area"));
-            LinearLayout card = NUi.col(c);
-            card.setBackground(NUi.ripple(NCard.bg(col, 26), 26));
-            card.setPadding(NUi.dp(18), NUi.dp(16), NUi.dp(18), NUi.dp(16));
-            boolean lim = NHabits.limitMode(q);
-            int today = q.optJSONObject("log") == null ? 0 : q.optJSONObject("log").optInt(NDates.ymd(), 0);
-            card.addView(NUi.label(c, lim ? "Cutting down · max " + NHabits.limit(q) + (q.optString("unit").isEmpty() ? "" : " " + q.optString("unit")) + " a day" : (q.optJSONArray("slips") != null && q.optJSONArray("slips").length() > 0 ? "Since your last slip" : "Free since " + NDates.fmtDate(NDates.ymd(NHabits.since(q)))), NTheme.INK_MUTED));
-            TextView t = NUi.ell(NUi.text(c, NHabits.icon(q) + "  " + q.optString("title").toUpperCase(), 22, NTheme.INK), 2); t.setTypeface(NFont.display(800));
-            card.addView(t, NUi.mt(8));
+        for (final JSONObject q : l) add(qcard(sh, q), 10);
+    }
+
+    /* web qcard: tinted card, "Since your last slip" + the emoji tile, the name, a live clock (or today's count when
+       cutting down), progress to the next milestone, and ink buttons */
+    static View qcard(final NShell sh, final JSONObject q) {
+        final android.content.Context c = sh.a;
+        int col = NTheme.areaCol(q.optString("area"));
+        LinearLayout card = NUi.col(c);
+        card.setBackground(NUi.ripple(NCard.bg(col, 26), 26));
+        card.setPadding(NUi.dp(20), NUi.dp(20), NUi.dp(20), NUi.dp(18));
+        boolean lim = NHabits.limitMode(q);
+        final int today = q.optJSONObject("log") == null ? 0 : q.optJSONObject("log").optInt(NDates.ymd(), 0);
+        boolean slipped = false; JSONArray sl0 = q.optJSONArray("slips");
+        for (int i = 0; sl0 != null && i < sl0.length(); i++) { JSONObject s0 = sl0.optJSONObject(i); if (s0 != null && s0.optLong("t") >= q.optLong("start")) slipped = true; }
+        LinearLayout top = NUi.row(c); top.setGravity(Gravity.CENTER_VERTICAL);
+        top.addView(NUi.ell(NUi.label(c, lim ? "Cutting down · max " + NHabits.limit(q) + (q.optString("unit").isEmpty() ? "" : " " + q.optString("unit")) + " a day" : slipped ? "Since your last slip" : "Free since " + NDates.fmtDate(NDates.ymd(NHabits.since(q))), NTheme.INK_MUTED), 1), NUi.lpw(0, -2, 1));
+        TextView ic = NUi.text(c, NHabits.icon(q), 18, NTheme.text); ic.setGravity(Gravity.CENTER); ic.setIncludeFontPadding(false);
+        ic.setBackground(NUi.round(NTheme.alpha(col, .16f), 12, NTheme.alpha(col, .3f)));
+        LinearLayout.LayoutParams icl = NUi.lp(NUi.dp(36), NUi.dp(36)); icl.leftMargin = NUi.dp(10); top.addView(ic, icl);
+        card.addView(top);
+        TextView t = NUi.title(c, q.optString("title"), 30); t.setTextColor(NTheme.INK); t.setLineSpacing(0, .95f);
+        card.addView(t, NUi.mt(10));
+        if (lim) {
             LinearLayout big = NUi.row(c); big.setGravity(Gravity.BOTTOM);
-            int n = lim ? today : NHabits.cleanDays(q);
-            TextView num = NUi.text(c, String.valueOf(lim ? today : n), 54, NTheme.INK); num.setTypeface(NFont.display(800)); num.setIncludeFontPadding(false);
+            TextView num = NUi.text(c, String.valueOf(today), 66, today > NHabits.limit(q) ? 0xFFFF7A7A : NTheme.INK); num.setTypeface(NFont.display(800)); num.setIncludeFontPadding(false); num.setLineSpacing(0, .82f);
             big.addView(num);
-            TextView u = NUi.body(c, lim ? " of " + NHabits.limit(q) + " today" : (n == 1 ? " day" : " days"), 16, NTheme.INK, 600); u.setPadding(NUi.dp(6), 0, 0, NUi.dp(8));
-            big.addView(u);
-            card.addView(big, NUi.mt(6));
-            if (lim) {
-                card.addView(NBits.bar(c, NHabits.limit(q) == 0 ? (today > 0 ? 1 : 0) : Math.min(1f, today / (float) NHabits.limit(q)), NTheme.INK), NUi.mt(8));
-                int st1 = NHabits.limitStreak(q);
-                card.addView(NUi.label(c, (today > NHabits.limit(q) ? "Over the limit today · tomorrow is a fresh start" : Math.max(0, NHabits.limit(q) - today) + " left today") + (st1 > 0 ? " · " + st1 + " day" + (st1 > 1 ? "s" : "") + " on track" : ""), NTheme.INK_MUTED), NUi.mt(8));
-            } else {
-                int nx = 0; for (int m : NActs.MILES) if (m > n) { nx = m; break; } if (nx == 0) nx = n + 365;
-                int pv = NActs.floorMile(NActs.MILES, n);
-                long since = NHabits.since(q); float f = (System.currentTimeMillis() - since - pv * 86400000L) / (float) ((nx - pv) * 86400000L);
-                card.addView(NBits.bar(c, Math.max(0, Math.min(1, f)), NTheme.INK), NUi.mt(8));
-                String saved = "";
-                if (q.optDouble("cost", 0) > 0 || q.optDouble("mins", 0) > 0) {
-                    JSONArray sl = q.optJSONArray("slips"); java.util.Set<String> sd = new java.util.HashSet<>();
-                    if (sl != null) for (int i = 0; i < sl.length(); i++) { JSONObject s = sl.optJSONObject(i); if (s != null && s.optLong("t") >= q.optLong("start")) sd.add(NDates.ymd(s.optLong("t"))); }
-                    double days = Math.max(0, (System.currentTimeMillis() - q.optLong("start")) / 86400000.0 - sd.size());
-                    double money = days * q.optDouble("cost", 0), mins = days * q.optDouble("mins", 0);
-                    if (money >= .5) saved = " · " + q.optString("cur", "$") + (money >= 100 ? String.format(java.util.Locale.US, "%,d", Math.round(money)) : String.format(java.util.Locale.US, money < 10 ? "%.2f" : "%.0f", money)) + " saved";
-                    else if (mins >= 30) saved = " · " + (mins >= 60 ? Math.round(mins / 60) + " h" : Math.round(mins) + " min") + " back";
-                }
-                card.addView(NUi.label(c, "Next milestone: " + mileName(nx) + saved, NTheme.INK_MUTED), NUi.mt(8));
+            TextView u = NUi.text(c, "of " + NHabits.limit(q) + " today", 15, NTheme.INK); u.setPadding(NUi.dp(10), 0, 0, NUi.dp(6)); big.addView(u);
+            card.addView(big, NUi.mt(10));
+            card.addView(NBits.bar(c, NHabits.limit(q) == 0 ? (today > 0 ? 1 : 0) : Math.min(1f, today / (float) NHabits.limit(q)), NTheme.INK, 5), NUi.mt(10));
+            int st1 = NHabits.limitStreak(q);
+            card.addView(NUi.label(c, (today > NHabits.limit(q) ? "Over the limit today · tomorrow is a fresh start" : Math.max(0, NHabits.limit(q) - today) + " left today") + (st1 > 0 ? " · " + st1 + " day" + (st1 > 1 ? "s" : "") + " on track" : ""), NTheme.INK_MUTED), NUi.mt(10));
+        } else {
+            final long since = NHabits.since(q);
+            /* web clockHTML: <b>9</b><small>days</small><span class="hms">14:24:11</span>, ticking every second */
+            final TextView clk = NUi.text(c, "", 15, NTheme.INK); clk.setIncludeFontPadding(false);
+            final Runnable[] tick = new Runnable[1];
+            tick[0] = new Runnable() { public void run() {
+                long ms = Math.max(0, System.currentTimeMillis() - since); long d = ms / 86400000L, h = ms % 86400000L / 3600000L, m = ms % 3600000L / 60000L, sc = ms % 60000L / 1000L;
+                android.text.SpannableStringBuilder sb = new android.text.SpannableStringBuilder();
+                int a0 = sb.length(); sb.append(String.valueOf(d));
+                sb.setSpan(new android.text.style.AbsoluteSizeSpan(66, true), a0, sb.length(), 0); sb.setSpan(new android.text.style.TypefaceSpan(NFont.display(800)), a0, sb.length(), 0);
+                sb.append("  "); int a1 = sb.length(); sb.append(d == 1 ? "day" : "days"); sb.setSpan(new android.text.style.TypefaceSpan(NFont.body(700)), a1, sb.length(), 0);
+                sb.append("    "); int a2 = sb.length(); sb.append(String.format(java.util.Locale.US, "%02d:%02d:%02d", h, m, sc));
+                sb.setSpan(new android.text.style.TypefaceSpan(NFont.mono(500)), a2, sb.length(), 0); sb.setSpan(new android.text.style.ForegroundColorSpan(NTheme.alpha(NTheme.INK, .72f)), a2, sb.length(), 0);
+                clk.setText(sb);
+                if (clk.isAttachedToWindow()) clk.postDelayed(this, 1000);
+            } };
+            tick[0].run();
+            clk.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+                public void onViewAttachedToWindow(View v) { v.removeCallbacks(tick[0]); v.postDelayed(tick[0], 1000); }
+                public void onViewDetachedFromWindow(View v) { v.removeCallbacks(tick[0]); }
+            });
+            card.addView(clk, NUi.mt(10));
+            int n = NHabits.cleanDays(q);
+            int nx = 0; for (int m : NActs.MILES) if (m > n) { nx = m; break; } if (nx == 0) nx = n + 365;
+            int pv = NActs.floorMile(NActs.MILES, n);
+            float f = (System.currentTimeMillis() - since - pv * 86400000L) / (float) ((nx - pv) * 86400000L);
+            card.addView(NBits.bar(c, Math.max(0, Math.min(1, f)), NTheme.INK, 5), NUi.mt(10));
+            String saved = "";
+            if (q.optDouble("cost", 0) > 0 || q.optDouble("mins", 0) > 0) {
+                JSONArray sl = q.optJSONArray("slips"); java.util.Set<String> sd = new java.util.HashSet<>();
+                if (sl != null) for (int i = 0; i < sl.length(); i++) { JSONObject s = sl.optJSONObject(i); if (s != null && s.optLong("t") >= q.optLong("start")) sd.add(NDates.ymd(s.optLong("t"))); }
+                double days = Math.max(0, (System.currentTimeMillis() - q.optLong("start")) / 86400000.0 - sd.size());
+                double money = days * q.optDouble("cost", 0), mins = days * q.optDouble("mins", 0);
+                if (money >= .5) saved = " · " + q.optString("cur", "$") + (money >= 100 ? String.format(java.util.Locale.US, "%,d", Math.round(money)) : String.format(java.util.Locale.US, money < 10 ? "%.2f" : "%.0f", money)) + " saved";
+                else if (mins >= 30) saved = " · " + (mins >= 60 ? Math.round(mins / 60) + " h" : Math.round(mins) + " min") + " back";
             }
-            LinearLayout acts = NUi.row(c);
-            if (lim) {
-                acts.addView(inkBtn("+ Log one", true, new View.OnClickListener() { public void onClick(View v) {
-                    NUi.haptic(v); int cur = q.optJSONObject("log") == null ? 0 : q.optJSONObject("log").optInt(NDates.ymd(), 0);
-                    try { NHabits.obj(q, "log").put(NDates.ymd(), cur + 1); } catch (Exception ignored) { }
-                    sh.save();
-                } }));
-                if (today > 0) { LinearLayout.LayoutParams ul = NUi.lp(-2, NUi.dp(44)); ul.leftMargin = NUi.dp(8); acts.addView(inkBtn("Undo", false, new View.OnClickListener() { public void onClick(View v) {
-                    try { JSONObject lg = NHabits.obj(q, "log"); int cur = lg.optInt(NDates.ymd(), 0) - 1; if (cur > 0) lg.put(NDates.ymd(), cur); else lg.remove(NDates.ymd()); } catch (Exception ignored) { }
-                    sh.save();
-                } }), ul); }
-            } else {
-                acts.addView(inkBtn("🌊 I have an urge", true, new View.OnClickListener() { public void onClick(View v) { NUrge.urge(sh, q); } }));
-                LinearLayout.LayoutParams sl = NUi.lp(-2, NUi.dp(44)); sl.leftMargin = NUi.dp(8);
-                acts.addView(inkBtn("Log a slip", false, new View.OnClickListener() { public void onClick(View v) { NUrge.slip(sh, q); } }), sl);
-            }
-            if (lim) { LinearLayout.LayoutParams ul = NUi.lp(-2, NUi.dp(44)); ul.leftMargin = NUi.dp(8); acts.addView(inkBtn("🌊 Urge", false, new View.OnClickListener() { public void onClick(View v) { NUrge.urge(sh, q); } }), ul); }
-            card.addView(NBits.hscroll(c, acts), NUi.mt(14));
-            NUi.tap(card, new View.OnClickListener() { public void onClick(View v) { sh.push(new NHabitScreen(sh, q.optString("id"))); } });
-            add(card, 10);
+            card.addView(NUi.label(c, "Next milestone: " + mileName(nx) + saved, NTheme.INK_MUTED), NUi.mt(10));
         }
+        NFlow acts = new NFlow(c, 8, 8);
+        if (lim) {
+            acts.addView(NBits.inkSm(c, "plus", "Log one", true, new View.OnClickListener() { public void onClick(View v) {
+                NUi.haptic(v); int cur = q.optJSONObject("log") == null ? 0 : q.optJSONObject("log").optInt(NDates.ymd(), 0);
+                try { NHabits.obj(q, "log").put(NDates.ymd(), cur + 1); } catch (Exception ignored) { }
+                sh.save();
+            } }));
+            if (today > 0) acts.addView(NBits.inkSm(c, null, "Undo", false, new View.OnClickListener() { public void onClick(View v) {
+                try { JSONObject lg = NHabits.obj(q, "log"); int cur = lg.optInt(NDates.ymd(), 0) - 1; if (cur > 0) lg.put(NDates.ymd(), cur); else lg.remove(NDates.ymd()); } catch (Exception ignored) { }
+                sh.save();
+            } }));
+            acts.addView(NBits.inkSm(c, "wave", "Urge", false, new View.OnClickListener() { public void onClick(View v) { NUrge.urge(sh, q); } }));
+        } else {
+            acts.addView(NBits.inkSm(c, "wave", "I have an urge", true, new View.OnClickListener() { public void onClick(View v) { NUrge.urge(sh, q); } }));
+            acts.addView(NBits.inkSm(c, null, "Log a slip", false, new View.OnClickListener() { public void onClick(View v) { NUrge.slip(sh, q); } }));
+        }
+        card.addView(acts, NUi.mt(14));
+        NUi.tap(card, new View.OnClickListener() { public void onClick(View v) { sh.push(new NHabitScreen(sh, q.optString("id"))); } });
+        return card;
     }
 
     static String mileName(int m) { return m >= 365 ? (m / 365) + " year" + (m > 365 ? "s" : "") : m >= 30 ? Math.round(m / 30f) + " month" + (m >= 60 ? "s" : "") : m % 7 == 0 && m >= 7 ? (m / 7) + " week" + (m > 7 ? "s" : "") : m + " day" + (m > 1 ? "s" : ""); }

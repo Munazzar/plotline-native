@@ -164,18 +164,21 @@ final class NHome extends NPage {
         String lr = st.settings().optString("lastReview", "");
         boolean reviewed = NDates.valid(lr) && NDates.daysUntil(lr) > -5;
         if (!(dow == 0 || dow >= 5) || reviewed) return;
-        LinearLayout r = NUi.row(c);
-        r.setBackground(NUi.ripple(NUi.round(0, 20, NTheme.line2), 20));
-        r.setPadding(NUi.dp(16), NUi.dp(14), NUi.dp(16), NUi.dp(14));
-        TextView ic = NUi.text(c, "🏁", 18, NTheme.text); ic.setGravity(Gravity.CENTER);
-        ic.setBackground(NUi.oval(0, NTheme.accent, 1.5f));
-        r.addView(ic, NUi.lp(NUi.dp(38), NUi.dp(38)));
-        LinearLayout tx = NUi.col(c); tx.setPadding(NUi.dp(14), 0, 0, 0);
-        tx.addView(NUi.body(c, "Time for your weekly review", 16, NTheme.text, 700));
+        /* web: .li with a 30px accent ring holding the flag, title, line, chevron; radius 18, line-2 border */
+        LinearLayout r = NUi.row(c); r.setGravity(Gravity.CENTER_VERTICAL);
+        r.setBackground(NUi.ripple(NUi.round(0, 18, NTheme.line2), 18));
+        r.setPadding(NUi.dp(18), NUi.dp(15), NUi.dp(18), NUi.dp(15));
+        android.widget.FrameLayout ic = new android.widget.FrameLayout(c); ic.setBackground(NUi.oval(0, NTheme.accent, 2));
+        ic.addView(NUi.icon(c, "flag", 15, NTheme.accent), new android.widget.FrameLayout.LayoutParams(NUi.dp(15), NUi.dp(15), Gravity.CENTER));
+        r.addView(ic, NUi.lp(NUi.dp(30), NUi.dp(30)));
+        LinearLayout tx = NUi.col(c);
+        tx.addView(NUi.body(c, "Time for your weekly review", 16, NTheme.text, 600));
         tx.addView(NUi.text(c, "Two minutes to look back and set next week’s focus", 13, NTheme.muted));
-        r.addView(tx, NUi.lpw(0, -2, 1));
+        LinearLayout.LayoutParams tl = NUi.lpw(0, -2, 1); tl.leftMargin = NUi.dp(14); tl.rightMargin = NUi.dp(14);
+        r.addView(tx, tl);
+        r.addView(NUi.icon(c, "next", 16, NTheme.muted), NUi.lp(NUi.dp(16), NUi.dp(16)));
         NUi.tap(r, new View.OnClickListener() { public void onClick(View v) { NSheets.weekly(sh); } });
-        add(r, 14);
+        add(r, 0); ((LinearLayout.LayoutParams) r.getLayoutParams()).bottomMargin = NUi.dp(14);
     }
 
     /* ---- Plan with AI (explained, rework, minimize) ---- */
@@ -208,7 +211,7 @@ final class NHome extends NPage {
             card.addView(NUi.ibtn(c, "down", new View.OnClickListener() { public void onClick(View v) { try { st.settings().put("aipHide", false); } catch (Exception ignored) { } sh.save(); } }), xl);
             return card;
         }
-        card.setPadding(NUi.dp(18), NUi.dp(18), NUi.dp(18), NUi.dp(18));
+        card.setPadding(NUi.dp(18), NUi.dp(18), NUi.dp(18), NUi.dp(18)); card.setGravity(Gravity.TOP);
         card.addView(ic, NUi.lp(NUi.dp(44), NUi.dp(44)));
         LinearLayout b = NUi.col(c);
         b.addView(NUi.body(c, "Plan with AI", 17, NTheme.text, 700));
@@ -245,7 +248,12 @@ final class NHome extends NPage {
             NUi.tap(card, new View.OnClickListener() { public void onClick(View v) { sh.push(new NGoalScreen(sh, g.optString("id"))); } });
             LinearLayout.LayoutParams l = NUi.lp(NUi.dp(210), NUi.dp(156)); l.rightMargin = NUi.dp(12); row.addView(card, l); NTheme.popImg(pim);
         }
-        add(NBits.hscroll(c, row));
+        /* web .hscroll: full bleed with room above/below so the halo glow isn't cut off (margins cancel the padding) */
+        android.widget.HorizontalScrollView hs = NBits.hscroll(c, row);
+        int g = NUi.dp(sh.wide() ? 32 : 16), hr = NUi.dp(40);
+        hs.setPadding(g, hr + NUi.dp(8), g, hr + NUi.dp(8)); hs.setClipChildren(false); row.setClipChildren(false);
+        LinearLayout.LayoutParams hl = NUi.lp(-1, -2); hl.leftMargin = -g; hl.rightMargin = -g; hl.topMargin = -(hr + NUi.dp(6)); hl.bottomMargin = -(hr + NUi.dp(6));
+        body.addView(hs, hl);
     }
 
     /* ---- your day: one ring for everything due today ---- */
@@ -306,6 +314,7 @@ final class NHome extends NPage {
         card.setPadding(NUi.dp(22), NUi.dp(22), NUi.dp(22), NUi.dp(22));
         card.addView(NUi.ell(NJCards.data(c, "Up next · " + g.optString("title"), NTheme.INK_MUTED), 1));
         TextView t = NJCards.display(c, s.optString("title"), 34, NTheme.INK, 5); t.setLineSpacing(0, .92f);
+        t.setMaxWidth(Math.round(t.getPaint().measureText("0") * 18));   /* web .now h2 max-width:18ch */
         LinearLayout.LayoutParams tl = NUi.mt(16); tl.bottomMargin = NUi.dp(12); card.addView(t, tl);
         String due = NDates.dueText(s.optString("due"), s.optString("time"));
         boolean rem = s.opt("remind") != null && !s.isNull("remind") && !String.valueOf(s.opt("remind")).isEmpty() && !"false".equals(String.valueOf(s.opt("remind")));
@@ -348,10 +357,9 @@ final class NHome extends NPage {
         /* add field */
         LinearLayout addRow = NUi.row(c); addRow.setPadding(NUi.dp(20), NUi.dp(8), NUi.dp(8), NUi.dp(8));
         final EditText in = NForms.input(c, "Add a goal for today…", "", false); in.setTextSize(15.5f);
-        NVoice.attach(c, in);
         in.setBackground(null); in.setPadding(0, NUi.dp(10), 0, NUi.dp(10));
         in.setImeOptions(EditorInfo.IME_ACTION_DONE); in.setTag("dayIn");
-        addRow.addView(in, NUi.lpw(0, -2, 1));
+        LinearLayout.LayoutParams inl = NUi.lpw(0, -2, 1); inl.rightMargin = NUi.dp(10); addRow.addView(in, inl);
         final Runnable addIt = new Runnable() { public void run() {
             String t = in.getText().toString().trim(); if (t.isEmpty()) return;
             NForms.addDay(st, t, td, ""); in.setText(""); focusTag = "dayIn"; sh.save();
@@ -361,6 +369,8 @@ final class NHome extends NPage {
         android.widget.ImageView pi = new android.widget.ImageView(c); pi.setImageDrawable(new NIcon("plus", NTheme.onAccent).stroke(2.2f));
         plus.addView(pi, new FrameLayout.LayoutParams(NUi.dp(18), NUi.dp(18), Gravity.CENTER));
         NUi.tap(plus, new View.OnClickListener() { public void onClick(View v) { addIt.run(); } });
+        View mic = NVoice.button(c, in);
+        if (mic != null) { LinearLayout.LayoutParams ml = NUi.lp(NUi.dp(40), NUi.dp(40)); ml.rightMargin = NUi.dp(10); addRow.addView(mic, ml); }
         addRow.addView(plus, NUi.lp(NUi.dp(40), NUi.dp(40)));
         box.addView(addRow);
         for (final JSONObject x : NActs.daysOn(st, td)) {
@@ -398,10 +408,10 @@ final class NHome extends NPage {
             mv.setLayoutParams(NUi.lp(-2, NUi.dp(34))); t2 = mv;
         } else {
             final String xid = x.optString("id");
-            boolean on = x.opt("remind") != null && !x.isNull("remind") && !String.valueOf(x.opt("remind")).isEmpty();
+            boolean on = NHome.dayRemOn(x);
             android.widget.ImageView bl = NUi.icon(c, "bell", 17, on ? NTheme.accent : NTheme.muted); bl.setAlpha(on ? 1f : .55f);
             NUi.tap(bl, new View.OnClickListener() { public void onClick(View v) { NReminders.open(sh, "day", xid); } });
-            t2 = bl;
+            t2 = x.optBoolean("done") ? null : bl;
         }
         LinearLayout r = NBits.li(c, chk, x.optString("title"), x.optBoolean("done"), g == null ? 0 : gc, sub, 12, t1, t2);
         NUi.tap(r, new View.OnClickListener() { public void onClick(View v) { new NForms(sh).dayGoal(x.optString("date"), x); } });
@@ -419,7 +429,7 @@ final class NHome extends NPage {
 
     /* ---- today's habits: the web's horizontal strip of pills ---- */
     void habits() {
-        final List<JSONObject> hs = NHabits.today(st.arr("habits"));
+        final List<JSONObject> hs = todayOrdered(st);
         boolean anyQuit = false;
         for (JSONObject h : NStore.list(st.arr("habits"))) if ("active".equals(NHabits.status(h)) && NHabits.kind(h).equals("quit")) anyQuit = true;
         if (hs.isEmpty() && !anyQuit) return;
@@ -457,7 +467,7 @@ final class NHome extends NPage {
             int s = NHabits.streak(h);
             String sub = skip ? "Rest day" : s > 0 ? s + (NHabits.freq(h).equals("times") ? " wk" : " d") : NHabits.routine(h) ? NHabits.steps(h).length() + (NHabits.steps(h).length() == 1 ? " step" : " steps") : NHabits.target(h) > 1 ? NHabits.val(h, td) + "/" + NHabits.target(h) + " " + h.optString("unit") : "Start today";
             TextView sd = NJCards.data(c, sub, NTheme.muted); sd.setSingleLine(true); sd.setEllipsize(android.text.TextUtils.TruncateAt.END);
-            if (!skip && s > 0) { android.graphics.drawable.Drawable fl = NUi.iconD("flame", 12, ac); sd.setCompoundDrawablesRelative(fl, null, null, null); sd.setCompoundDrawablePadding(NUi.dp(4)); }
+            if (!skip && s > 0) { android.graphics.drawable.Drawable fl = NUi.iconD("flamef", 12, ac); sd.setCompoundDrawablesRelative(fl, null, null, null); sd.setCompoundDrawablePadding(NUi.dp(4)); }
             t.addView(sd, NUi.mt(6));
             final View.OnClickListener tapRing = new View.OnClickListener() { public void onClick(View v) {
                 NUi.haptic(v);
@@ -498,6 +508,28 @@ final class NHome extends NPage {
             LinearLayout.LayoutParams l = NUi.lp(NUi.dp(168), -2); l.rightMargin = NUi.dp(12); row.addView(t, l);
         }
         add(NBits.hscroll(c, row));
+    }
+
+    /* web hasRem(step): a reminder is set and the step has a date */
+    static boolean stepRem(JSONObject s) {
+        if (s.optBoolean("done") || !NDates.valid(s.optString("due"))) return false;
+        Object r = s.opt("remind"); return r != null && r != JSONObject.NULL && !String.valueOf(r).isEmpty() && !"false".equals(String.valueOf(r));
+    }
+
+    /* web dayRem/dayRemAt: no "remind" field + a time = remind at that time; "" = off */
+    static boolean dayRemOn(JSONObject x) {
+        String r = x.has("remind") && !x.isNull("remind") ? String.valueOf(x.opt("remind")) : (x.optString("time").isEmpty() ? "" : "0");
+        return !r.isEmpty() && !"false".equals(r);
+    }
+
+    /* web todayHabits(): due today, not quit, by time of day then creation order */
+    static List<JSONObject> todayOrdered(NStore st) {
+        List<JSONObject> l = new ArrayList<>(NHabits.today(st.arr("habits")));
+        java.util.Collections.sort(l, new java.util.Comparator<JSONObject>() { public int compare(JSONObject a, JSONObject b) {
+            String ta = a.optString("time", ""), tb = b.optString("time", ""); if (ta.isEmpty()) ta = "99"; if (tb.isEmpty()) tb = "99";
+            int c = ta.compareTo(tb); return c != 0 ? c : Long.compare(a.optLong("createdAt"), b.optLong("createdAt"));
+        } });
+        return l;
     }
 
     /* .hic.sm: the habit's emoji in a soft tile of its colour */
@@ -558,12 +590,14 @@ final class NHome extends NPage {
         TextView wr = NUi.link(c, "Weekly review", new View.OnClickListener() { public void onClick(View v) { NSheets.weekly(sh); } }); wr.setPadding(0, 0, NUi.dp(16), 0);
         chd.addView(wr, chd.getChildCount() - 1); add(chd);
         LinearLayout box = NBits.listBox(c);
-        for (int i = 1; i < Math.min(6, up.size()); i++) {
+        for (int i = 1; i < Math.min(5, up.size()); i++) {   /* web nx.slice(1,5) */
             final JSONObject g = up.get(i)[0], s = up.get(i)[1];
             if (i > 1) box.addView(NBits.divider(c));
             View chk = NBits.check(c, false, NTheme.areaCol(g.optString("area")), new View.OnClickListener() { public void onClick(View v) { String m = NActs.toggleStep(st, g, s); sh.save(); NShell.toast(m != null ? m : "Step done"); } });
             String due = NDates.dueShort(s.optString("due"));
-            TextView d = NBits.meta(c, due.toUpperCase(), NDates.valid(s.optString("due")) && NDates.daysUntil(s.optString("due")) < 0 ? NTheme.LATE : NTheme.muted); d.setTextSize(10.5f); d.setLetterSpacing(.05f);
+            int du = NDates.valid(s.optString("due")) ? NDates.daysUntil(s.optString("due")) : 99;
+            TextView d = NBits.meta(c, due.toUpperCase(), du < 0 ? NTheme.LATE : du <= 1 ? NTheme.accent : NTheme.muted); d.setTextSize(10.5f); d.setLetterSpacing(.05f);
+            if (stepRem(s)) { d.setCompoundDrawablesRelative(null, null, NUi.iconD("bell", 13, NTheme.muted), null); d.setCompoundDrawablePadding(NUi.dp(5)); }
             LinearLayout r = NBits.li(c, chk, s.optString("title"), false, NTheme.areaCol(g.optString("area")), g.optString("title"), 15, d);
             NUi.tap(r, new View.OnClickListener() { public void onClick(View v) { sh.push(new NGoalScreen(sh, g.optString("id"))); } });
             box.addView(r);

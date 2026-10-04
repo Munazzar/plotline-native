@@ -68,7 +68,25 @@ final class NVoice {
 
     JSONObject cfg() { JSONObject v = a.shell.st.settings().optJSONObject("voice"); return v == null ? new JSONObject() : v; }
 
-    void paint(boolean on) { live = on; mic.color(on ? NTheme.accent : NTheme.muted); }
+    View holder;   /* set when the mic is its own accent button (web .tg-add .mic) */
+    void paint(boolean on) {
+        live = on;
+        if (holder != null) { mic.color(NTheme.onAccent); holder.setBackground(NUi.ripple(NUi.round(on ? NUi.mix(NTheme.accent, .7f, 0xFF000000) : NTheme.accent, 14, 0), 14)); return; }
+        mic.color(on ? NTheme.accent : NTheme.muted);
+    }
+
+    /* the mic as a 40dp accent button next to a field (Home "Add a goal for today") */
+    static View button(android.content.Context c, EditText e) {
+        if (!(c instanceof MainActivity) || !enabled((MainActivity) c)) return null;
+        final NVoice nv = new NVoice((MainActivity) c, e);
+        android.widget.FrameLayout f = new android.widget.FrameLayout(c);
+        android.widget.ImageView iv = new android.widget.ImageView(c); iv.setImageDrawable(nv.mic);
+        f.addView(iv, new android.widget.FrameLayout.LayoutParams(NUi.dp(18), NUi.dp(18), android.view.Gravity.CENTER));
+        f.setContentDescription("Speak instead of typing");
+        nv.holder = f; nv.paint(false);
+        NUi.tap(f, new View.OnClickListener() { public void onClick(View v) { nv.toggle(); } });
+        return f;
+    }
 
     void toggle() {
         if (live) { Voice.stop(a); return; }

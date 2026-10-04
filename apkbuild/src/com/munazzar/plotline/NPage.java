@@ -122,7 +122,7 @@ abstract class NPage {
         /* web fitH1: the title never breaks inside a word. It shrinks to fit beside the buttons (down to 30px);
            if it would get smaller than that, the buttons move to their own row above and the title gets the width */
         TextView t = NUi.title(c, title, 40);
-        t.setMaxLines(title.split("\n").length);
+        t.setLineSpacing(0, .88f);   /* web .ph h1: 800 40px/.88, wraps between words like the web */
         int avail = c.getResources().getDisplayMetrics().widthPixels - 2 * NUi.dp(sh.wide() ? 32 : 16), aw = 0;
         for (View a : actions) { a.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED); aw += a.getMeasuredWidth() + NUi.dp(NUi.narrow ? 6 : 8); }
         android.graphics.Paint pm = new android.graphics.Paint(t.getPaint()); pm.setTextSize(30 * c.getResources().getDisplayMetrics().scaledDensity);
@@ -142,7 +142,8 @@ abstract class NPage {
         return r;
     }
 
-    static float widest(android.graphics.Paint pm, String s) { float m = 0; for (String l : s.split("\n")) m = Math.max(m, pm.measureText(l)); return m; }
+    /* the web fits the longest single word (h1 wraps between words; fitH1 only stops a word breaking) */
+    static float widest(android.graphics.Paint pm, String s) { float m = 0; for (String l : s.split("\\s+")) m = Math.max(m, pm.measureText(l)); return m; }
 
     /* largest size (40sp down to min) at which the one-line title fits the width */
     float fit(TextView t, float min, int w) {

@@ -211,7 +211,7 @@ final class NBits {
     static NRing habitRing(Context c, JSONObject h, int sizeDp) {
         NRing r = new NRing(c);
         int v = NHabits.val(h, NDates.ymd()), n = NHabits.target(h);
-        r.color = NTheme.areaCol(h.optString("area")); r.check = true; r.strokeDp = 3.5f;
+        r.color = NTheme.areaCol(h.optString("area")); r.check = true; r.strokeDp = 3.5f; r.mono = true;
         r.set(v / (float) n, false);
         if (n > 1 && v < n) r.text(String.valueOf(v), "/" + n);
         r.setLayoutParams(new LinearLayout.LayoutParams(NUi.dp(sizeDp), NUi.dp(sizeDp)));
@@ -344,5 +344,17 @@ final class NBits {
         hs.setHorizontalScrollBarEnabled(false); hs.setClipToPadding(false); hs.setOverScrollMode(View.OVER_SCROLL_NEVER);
         hs.addView(inner);
         return hs;
+    }
+
+    /* .btn.ink.sm / .btn.inkline.sm on a tinted card: 38 high, radius 12, optional icon */
+    static View inkSm(Context c, String icon, String label, boolean fill, View.OnClickListener l) {
+        int fg = fill ? 0xFFF4F2EC : NTheme.INK;
+        LinearLayout b = NUi.row(c); b.setGravity(Gravity.CENTER); b.setPadding(NUi.dp(14), 0, NUi.dp(14), 0); b.setMinimumHeight(NUi.dp(38));
+        b.setBackground(NUi.ripple(fill ? NUi.round(NTheme.INK, 12, 0) : NUi.round(0, 12, NTheme.alpha(NTheme.INK, .28f)), 12));
+        if (icon != null) { LinearLayout.LayoutParams il = NUi.lp(NUi.dp(16), NUi.dp(16)); il.rightMargin = NUi.dp(8); b.addView(NUi.icon(c, icon, 16, fg), il); }
+        b.addView(NUi.body(c, label, 13.5f, fg, 600));
+        NUi.tap(b, l);
+        b.setLayoutParams(new LinearLayout.LayoutParams(-2, NUi.dp(38)));
+        return b;
     }
 }
