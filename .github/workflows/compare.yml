@@ -30,16 +30,21 @@ jobs:
       - name: Build tools
         run: sh scripts/get-tools.sh
       - name: Build debuggable APK (debug-signed; release signing stays off CI)
+        shell: bash
         run: |
-          DEBUGGABLE=1 sh apkbuild/build.sh
+          mkdir -p ci/out
+          set -o pipefail
+          DEBUGGABLE=1 sh apkbuild/build.sh 2>&1 | tee ci/out/build.log
           cp apkbuild/out/Plotline-*.apk apkbuild/out/Plotline-debug.apk
       - uses: actions/upload-artifact@v4
         with: { name: Plotline-debug-apk, path: apkbuild/out/Plotline-debug.apk, retention-days: 14 }
       - name: Screenshot the 1.13 web build
+        shell: bash
         run: |
+          set -o pipefail
           pip install -q playwright pillow
           python -m playwright install --with-deps chromium
-          python ci/web_shots.py
+          python ci/web_shots.py 2>&1 | tee ci/out/web.log
       - name: Enable KVM
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
@@ -53,7 +58,7 @@ jobs:
           profile: pixel_6
           disable-animations: false
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
-          script: python ci/emu.py apkbuild/out/Plotline-debug.apk
+          script: python ci/emu.py apkbuild/out/Plotline-debug.apk 2>&1 | tee ci/out/emu.log
       - name: Side by side
         if: always()
         run: python ci/compare.py || true
@@ -61,7 +66,7 @@ jobs:
         if: always()
         run: |
           set -e
-          cp -r ci/out /tmp/shots
+          mkdir -p ci/out; cp -r ci/out /tmp/shots
           echo "commit ${GITHUB_SHA} · run ${GITHUB_RUN_ID} · $(date -u +%FT%TZ)" > /tmp/shots/RUN.txt
           git config user.name "plotline-ci"; git config user.email "ci@users.noreply.github.com"
           git checkout --orphan shots-tmp

@@ -14,4 +14,4 @@ apkbuild/app/build/
 __pycache__/
 scripts/x-*.png
 ci/out/
-www/
+/www/
