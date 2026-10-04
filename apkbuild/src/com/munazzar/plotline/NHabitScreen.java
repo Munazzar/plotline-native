@@ -151,7 +151,7 @@ final class NHabitScreen extends NPage {
         acts.add(NUi.ibtn(c, "more", new View.OnClickListener() { public void onClick(View v) { more(h); } }));
         acts.add(NUi.ibtn(c, "ai", new View.OnClickListener() { public void onClick(View v) { sh.ask("How am I doing with my habit “" + h.optString("title") + "”? When do I keep it, when do I slip, and what would help?"); } }));
         acts.add(gear());
-        for (View a : acts) { LinearLayout.LayoutParams l = new LinearLayout.LayoutParams(a.getLayoutParams()); l.leftMargin = NUi.dp(6); crumb.addView(a, l); }
+        for (View a : acts) { LinearLayout.LayoutParams l = a.getLayoutParams() != null ? new LinearLayout.LayoutParams(a.getLayoutParams()) : NUi.lp(-2, -2); l.leftMargin = NUi.dp(6); crumb.addView(a, l); }
         add(crumb);
 
         /* hero */
