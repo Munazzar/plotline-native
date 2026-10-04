@@ -1,0 +1,31 @@
+/* reactions */
+.rx-go{flex:none;gap:6px;padding:0 12px}.rx-go span{font-size:15px}
+.rx-emo{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-top:14px}
+.rx-b{aspect-ratio:1;max-height:64px;border-radius:18px;border:1px solid var(--line-2);background:var(--surface);font-size:28px;line-height:1;cursor:pointer;transition:transform .25s var(--spring),background-color .2s}
+.rx-b:active{transform:scale(.88)}.rx-b:hover{background:var(--surface-2)}.rx-b:disabled,.rx-m:disabled{opacity:.4;cursor:default}
+.rx-msgs{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.rx-m{padding:9px 14px;border-radius:999px;border:1px solid var(--line-2);background:var(--surface);color:var(--text);font:500 14px var(--f-body);cursor:pointer;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rx-msgs.static{margin:10px 0 12px}.rx-msgs.static .rx-m{cursor:default;font-size:13px;padding:6px 12px}
+.rx-left{margin-top:12px}
+.rx-qf{display:grid;gap:8px;margin-top:12px}
+.rx-feed{margin-top:14px;padding:12px;border-radius:18px;background:color-mix(in srgb,var(--accent) 8%,var(--bg-2));border:1px solid color-mix(in srgb,var(--accent) 22%,transparent)}
+.rx-i{display:flex;align-items:center;gap:10px;padding:7px 0}.rx-i+.rx-i{border-top:1px solid var(--line)}
+.rx-ie{flex:none;width:34px;height:34px;border-radius:12px;display:grid;place-items:center;font-size:19px;background:var(--surface)}
+.rx-it{flex:1;min-width:0;font-size:13.5px}.rx-it b{display:block;font-size:13px}.rx-it span{display:block;color:var(--text);overflow-wrap:anywhere}
+.rx-i small{flex:none;color:var(--muted);font:500 11px var(--f-mono)}.rx-i.out{opacity:.78}
+.rx-none{margin-top:12px}
+.rx-ava{background:color-mix(in srgb,var(--accent) 16%,var(--surface));font-size:18px}
+.sh-chip{position:relative}.sh-chip.new{background:color-mix(in srgb,var(--accent) 22%,transparent)}
+.sh-dot{display:inline-grid;place-items:center;min-width:16px;height:16px;padding:0 4px;margin-left:2px;border-radius:999px;background:var(--accent);color:var(--on-accent,#0B1020);font:700 10px/1 var(--f-body);font-style:normal;letter-spacing:0;animation:rxPop .5s var(--spring)}
+.rxb{position:fixed;z-index:95;left:50%;top:calc(10px + var(--sat,env(safe-area-inset-top)));width:min(520px,calc(100% - 24px));display:flex;align-items:center;gap:8px;padding:8px 8px 8px 8px;border-radius:22px;background:var(--surface);color:var(--text);border:1.5px solid var(--accent);box-shadow:0 18px 50px -10px rgba(0,0,0,.55),0 0 0 4px color-mix(in srgb,var(--accent) 18%,transparent);transform:translate(-50%,-160%);opacity:0;visibility:hidden;transition:transform .55s var(--spring),opacity .3s,visibility 0s .55s}
+.rxb.on{transform:translate(-50%,0);opacity:1;visibility:visible;transition:transform .55s var(--spring),opacity .3s}
+.rxb-main{flex:1;min-width:0;display:flex;align-items:center;gap:10px;background:none;border:0;color:inherit;text-align:left;padding:0;cursor:pointer;font:inherit}
+.rxb-e{flex:none;width:46px;height:46px;border-radius:15px;display:grid;place-items:center;font-size:28px;background:color-mix(in srgb,var(--accent) 16%,var(--surface-2));animation:rxPop .6s var(--spring)}
+.rxb-t{min-width:0}.rxb-t b{display:block;font-size:14px}.rxb-t span{display:block;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rxb-t small{display:block;color:var(--muted);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rxb .btn{flex:none}.rxb-x{flex:none;font-size:14px}
+@media(min-width:821px){.rxb{left:calc(50% + 48px)}}
+@keyframes rxPop{0%{transform:scale(.3)}100%{transform:scale(1)}}
+.rx-burst{position:fixed;inset:0;pointer-events:none;z-index:96;overflow:hidden}
+.rx-burst span{position:absolute;left:50%;bottom:18%;font-size:calc(34px * var(--s));opacity:0;animation:rxUp 1.8s var(--d) cubic-bezier(.2,.7,.3,1) forwards}
+@keyframes rxUp{0%{opacity:0;transform:translate(-50%,0) scale(.4)}15%{opacity:1}100%{opacity:0;transform:translate(calc(-50% + var(--x)),-46vh) scale(1.1) rotate(12deg)}}
+@media(prefers-reduced-motion:reduce){.rx-burst{display:none}}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/c_card" android:background="@drawable/widget_card" android:padding="14.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="15.0sp" android:textStyle="bold" android:textColor="#ffeceae3" android:ellipsize="end" android:id="@id/c_t" android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxLines="1" android:text="💡  Plotline ideas" />
+    <TextView android:textSize="13.0sp" android:textColor="#ff8f96ac" android:ellipsize="end" android:id="@id/c_x" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="1.0" android:layout_marginTop="4.0dip" android:maxLines="3" android:text="Voice logging from a widget" android:lineSpacingMultiplier="1.1" />
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="8.0dip">
+        <TextView android:textSize="11.0sp" android:textColor="#ff5a6384" android:ellipsize="end" android:id="@id/c_when" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" android:maxLines="1" android:text="2h ago" />
+        <TextView android:textSize="16.0sp" android:gravity="center" android:id="@id/c_mic" android:background="@drawable/widget_chip" android:layout_width="36.0dip" android:layout_height="36.0dip" android:text="🎤" android:contentDescription="Speak an update" />
+        <TextView android:textSize="13.5sp" android:textStyle="bold" android:textColor="#ff1b1300" android:gravity="center" android:id="@id/c_add" android:background="@drawable/widget_btn" android:paddingLeft="12.0dip" android:paddingRight="12.0dip" android:layout_width="wrap_content" android:layout_height="36.0dip" android:layout_marginStart="6.0dip" android:text="+ Add" android:contentDescription="Type an update" />
+    </LinearLayout>
+</LinearLayout>

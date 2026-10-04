@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/w_root" android:background="@drawable/widget_bg" android:padding="16.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <TextView android:textSize="10.5sp" android:textStyle="bold" android:textColor="#ffffb547" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="THIS WEEK" android:layout_weight="1.0" android:letterSpacing="0.14" />
+        <TextView android:textSize="12.0sp" android:textStyle="bold" android:textColor="#ff8f96ac" android:id="@id/w_month" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="September" />
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dip">
+        <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/w_d0" android:paddingTop="7.0dip" android:paddingBottom="5.0dip" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" android:layout_marginStart="2.0dip" android:layout_marginEnd="2.0dip">
+            <TextView android:textSize="10.0sp" android:textColor="#ff8f96ac" android:id="@id/w_dn0" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="S" android:fontFamily="monospace" />
+            <TextView android:textSize="17.0sp" android:textStyle="bold" android:textColor="#ffeceae3" android:id="@id/w_dd0" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="27" />
+            <TextView android:textSize="10.0sp" android:textColor="#ffffb547" android:id="@id/w_dc0" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=" " android:letterSpacing="0.1" />
+        </LinearLayout>
+        <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/w_d1" android:paddingTop="7.0dip" android:paddingBottom="5.0dip" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" android:layout_marginStart="2.0dip" android:layout_marginEnd="2.0dip">
+            <TextView android:textSize="10.0sp" android:textColor="#ff8f96ac" android:id="@id/w_dn1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="M" android:fontFamily="monospace" />
+            <TextView android:textSize="17.0sp" android:textStyle="bold" android:textColor="#ffeceae3" android:id="@id/w_dd1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="28" />
+            <TextView android:textSize="10.0sp" android:textColor="#ffffb547" android:id="@id/w_dc1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="••" android:letterSpacing="0.1" />
+        </LinearLayout>
+        <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/w_d2" android:background="@drawable/widget_pill" android:paddingTop="7.0dip" android:paddingBottom="5.0dip" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" android:layout_marginStart="2.0dip" android:layout_marginEnd="2.0dip">
+            <TextView android:textSize="10.0sp" android:textColor="#ff8f96ac" android:id="@id/w_dn2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="T" android:fontFamily="monospace" />
+            <TextView android:textSize="17.0sp" android:textStyle="bold" android:textColor="#ffffb547" android:id="@id/w_dd2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="29" />
+            <TextView android:textSize="10.0sp" android:textColor="#ffffb547" android:id="@id/w_dc2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="•••" android:letterSpacing="0.1" />
+        </LinearLayout>
+        <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/w_d3" android:paddingTop="7.0dip" android:paddingBottom="5.0dip" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" android:layout_marginStart="2.0dip" android:layout_marginEnd="2.0dip">
+            <TextView android:textSize="10.0sp" android:textColor="#ff8f96ac" android:id="@id/w_dn3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="W" android:fontFamily="monospace" />
+            <TextView android:textSize="17.0sp" android:textStyle="bold" android:textColor="#ffeceae3" android:id="@id/w_dd3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="30" />
+            <TextView android:textSize="10.0sp" android:textColor="#ffffb547" android:id="@id/w_dc3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=" " android:letterSpacing="0.1" />
+        </LinearLayout>
+        <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/w_d4" android:paddingTop="7.0dip" android:paddingBottom="5.0dip" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" android:layout_marginStart="2.0dip" android:layout_marginEnd="2.0dip">
+            <TextView android:textSize="10.0sp" android:textColor="#ff8f96ac" android:id="@id/w_dn4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="T" android:fontFamily="monospace" />
+            <TextView android:textSize="17.0sp" android:textStyle="bold" android:textColor="#ffeceae3" android:id="@id/w_dd4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="1" />
+            <TextView android:textSize="10.0sp" android:textColor="#ffffb547" android:id="@id/w_dc4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="••" android:letterSpacing="0.1" />
+        </LinearLayout>
+        <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/w_d5" android:paddingTop="7.0dip" android:paddingBottom="5.0dip" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" android:layout_marginStart="2.0dip" android:layout_marginEnd="2.0dip">
+            <TextView android:textSize="10.0sp" android:textColor="#ff8f96ac" android:id="@id/w_dn5" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="F" android:fontFamily="monospace" />
+            <TextView android:textSize="17.0sp" android:textStyle="bold" android:textColor="#ffeceae3" android:id="@id/w_dd5" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="2" />
+            <TextView android:textSize="10.0sp" android:textColor="#ffffb547" android:id="@id/w_dc5" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=" " android:letterSpacing="0.1" />
+        </LinearLayout>
+        <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/w_d6" android:paddingTop="7.0dip" android:paddingBottom="5.0dip" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" android:layout_marginStart="2.0dip" android:layout_marginEnd="2.0dip">
+            <TextView android:textSize="10.0sp" android:textColor="#ff8f96ac" android:id="@id/w_dn6" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="S" android:fontFamily="monospace" />
+            <TextView android:textSize="17.0sp" android:textStyle="bold" android:textColor="#ffeceae3" android:id="@id/w_dd6" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="3" />
+            <TextView android:textSize="10.0sp" android:textColor="#ffffb547" android:id="@id/w_dc6" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=" " android:letterSpacing="0.1" />
+        </LinearLayout>
+    </LinearLayout>
+    <TextView android:textSize="13.0sp" android:textColor="#ff8f96ac" android:id="@id/w_empty" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:text="A clear week ahead. Tap a day to plan it." />
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/w_row0" android:background="@drawable/widget_row" android:padding="7.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dip">
+        <TextView android:textSize="10.0sp" android:textStyle="bold" android:textColor="#ff8f96ac" android:id="@id/w_ud0" android:layout_width="54.0dip" android:layout_height="wrap_content" android:text="TODAY" android:fontFamily="monospace" android:letterSpacing="0.06" />
+        <TextView android:id="@id/w_ub0" android:background="#ffffb547" android:layout_width="3.0dip" android:layout_height="26.0dip" />
+        <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" android:layout_marginStart="9.0dip">
+            <TextView android:textSize="13.0sp" android:textStyle="bold" android:textColor="#ffeceae3" android:ellipsize="end" android:id="@id/w_ut0" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Call mom after work" android:maxLines="1" />
+            <TextView android:textSize="11.0sp" android:textColor="#ff8f96ac" android:ellipsize="end" android:id="@id/w_um0" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="6:00 PM" android:maxLines="1" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/w_row1" android:background="@drawable/widget_row" android:padding="7.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="5.0dip">
+        <TextView android:textSize="10.0sp" android:textStyle="bold" android:textColor="#ff8f96ac" android:id="@id/w_ud1" android:layout_width="54.0dip" android:layout_height="wrap_content" android:text="THU" android:fontFamily="monospace" android:letterSpacing="0.06" />
+        <TextView android:id="@id/w_ub1" android:background="#ff46c99b" android:layout_width="3.0dip" android:layout_height="26.0dip" />
+        <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" android:layout_marginStart="9.0dip">
+            <TextView android:textSize="13.0sp" android:textStyle="bold" android:textColor="#ffeceae3" android:ellipsize="end" android:id="@id/w_ut1" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Run 20 minutes, 3 times this week" android:maxLines="1" />
+            <TextView android:textSize="11.0sp" android:textColor="#ff8f96ac" android:ellipsize="end" android:id="@id/w_um1" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="7:00 AM" android:maxLines="1" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/w_row2" android:background="@drawable/widget_row" android:padding="7.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="5.0dip">
+        <TextView android:textSize="10.0sp" android:textStyle="bold" android:textColor="#ff8f96ac" android:id="@id/w_ud2" android:layout_width="54.0dip" android:layout_height="wrap_content" android:text="THU" android:fontFamily="monospace" android:letterSpacing="0.06" />
+        <TextView android:id="@id/w_ub2" android:background="#ffa9d14a" android:layout_width="3.0dip" android:layout_height="26.0dip" />
+        <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" android:layout_marginStart="9.0dip">
+            <TextView android:textSize="13.0sp" android:textStyle="bold" android:textColor="#ffeceae3" android:ellipsize="end" android:id="@id/w_ut2" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Pay the credit card bill" android:maxLines="1" />
+            <TextView android:textSize="11.0sp" android:textColor="#ff8f96ac" android:ellipsize="end" android:id="@id/w_um2" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="9:00 AM" android:maxLines="1" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

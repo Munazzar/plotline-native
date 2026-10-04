@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.munazzar.plotline" android:versionCode="61" android:versionName="2.0.9" android:compileSdkVersion="34" android:compileSdkVersionCodename="14">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"/>
+    <uses-permission android:name="android.permission.health.READ_EXERCISE"/>
+    <uses-permission android:name="android.permission.health.READ_SLEEP"/>
+    <uses-permission android:name="android.permission.health.READ_STEPS"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC"/>
+    <queries>
+        <intent><action android:name="android.speech.RecognitionService"/></intent>
+        <intent><action android:name="android.speech.action.RECOGNIZE_SPEECH"/></intent>
+        <intent><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent>
+        <package android:name="com.google.android.apps.healthdata"/>
+    </queries>
+    <application android:extractNativeLibs="true" android:label="@string/app_name" android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher" android:theme="@style/AppTheme" android:allowBackup="true" android:hardwareAccelerated="true" android:supportsRtl="true">
+        <activity android:name="com.munazzar.plotline.MainActivity" android:exported="true" android:launchMode="singleTask" android:configChanges="orientation|screenSize|screenLayout|keyboardHidden|keyboard|smallestScreenSize|uiMode|density" android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="plotline" android:host="auth"/>
+            </intent-filter>
+        </activity>
+        <receiver android:name="com.munazzar.plotline.ThreadsWidget" android:exported="true" android:label="Plotline · Threads">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_threads_info"/>
+        </receiver>
+        <service android:name="com.munazzar.plotline.ThreadsCards" android:exported="false" android:permission="android.permission.BIND_REMOTEVIEWS"/>
+        <activity android:name="com.munazzar.plotline.QuickLog" android:exported="false" android:excludeFromRecents="true" android:taskAffinity="com.munazzar.plotline.quick" android:launchMode="singleTask" android:theme="@android:style/Theme.DeviceDefault.Dialog.NoActionBar" android:windowSoftInputMode="stateVisible|adjustResize"/>
+        <receiver android:name="com.munazzar.plotline.UpNextWidget" android:exported="true" android:label="Plotline · Up next">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_info"/>
+        </receiver>
+        <receiver android:name="com.munazzar.plotline.TodayWidget" android:exported="true" android:label="Plotline · Today&apos;s goals">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_today_info"/>
+        </receiver>
+        <receiver android:name="com.munazzar.plotline.WeekWidget" android:exported="true" android:label="Plotline · This week">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_week_info"/>
+        </receiver>
+        <receiver android:name="com.munazzar.plotline.GoalsWidget" android:exported="true" android:label="Plotline · Goal progress">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_goals_info"/>
+        </receiver>
+        <receiver android:name="com.munazzar.plotline.HabitsWidget" android:exported="true" android:label="Plotline · Habits today">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_habits_info"/>
+        </receiver>
+        <receiver android:name="com.munazzar.plotline.HabitGridWidget" android:exported="true" android:label="Plotline · Habit tracker">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_hgrid_info"/>
+        </receiver>
+        <receiver android:name="com.munazzar.plotline.HabitVistaWidget" android:exported="true" android:label="Plotline · Habit vista">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_hvista_info"/>
+        </receiver>
+        <receiver android:name="com.munazzar.plotline.StreakWidget" android:exported="true" android:label="Plotline · Clean streak">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_streak_info"/>
+        </receiver>
+        <receiver android:name="com.munazzar.plotline.WidgetActions" android:exported="false"/>
+        <receiver android:name="com.munazzar.plotline.AlarmReceiver" android:exported="false"/>
+        <receiver android:name="com.munazzar.plotline.Notify" android:exported="false"/>
+        <receiver android:name="com.munazzar.plotline.Auto" android:exported="false"/>
+        <receiver android:name="com.munazzar.plotline.ShareCheck" android:exported="false"/>
+        <activity-alias android:name="com.munazzar.plotline.ViewPermissionUsageActivity" android:exported="true" android:targetActivity="com.munazzar.plotline.MainActivity" android:permission="android.permission.START_VIEW_PERMISSION_USAGE">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW_PERMISSION_USAGE"/>
+                <category android:name="android.intent.category.HEALTH_PERMISSIONS"/>
+            </intent-filter>
+        </activity-alias>
+        <service android:name="com.munazzar.plotline.ReplyService" android:exported="false" android:foregroundServiceType="dataSync"/>
+        <service android:name="com.munazzar.plotline.LiveShare" android:exported="false" android:foregroundServiceType="dataSync"/>
+        <receiver android:name="com.munazzar.plotline.BootReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+                <action android:name="android.app.action.SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED"/>
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

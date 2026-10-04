@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/w_root" android:background="@drawable/widget_bg" android:padding="16.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <TextView android:textSize="19.0sp" android:gravity="center" android:id="@id/w_e" android:background="@drawable/widget_chip" android:layout_width="36.0dip" android:layout_height="36.0dip" android:text="🛡️" />
+        <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" android:layout_marginStart="10.0dip">
+            <TextView android:textSize="10.0sp" android:textStyle="bold" android:textColor="#ffffb547" android:id="@id/w_l" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="BREAKING" android:letterSpacing="0.14" />
+            <TextView android:textSize="15.0sp" android:textStyle="bold" android:textColor="#ffeceae3" android:ellipsize="end" android:id="@id/w_t" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="No added sugar" android:maxLines="1" />
+        </LinearLayout>
+        <TextView android:textSize="20.0sp" android:textColor="#ffeceae3" android:gravity="center" android:id="@id/w_next" android:background="@drawable/widget_btn_line" android:visibility="gone" android:layout_width="32.0dip" android:layout_height="32.0dip" android:text="›" />
+    </LinearLayout>
+    <LinearLayout android:gravity="bottom" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="8.0dip">
+        <TextView android:textSize="46.0sp" android:textStyle="bold" android:textColor="#ffeceae3" android:id="@id/w_days" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="9" android:includeFontPadding="false" android:fontFamily="sans-serif-condensed" />
+        <TextView android:textSize="13.0sp" android:textStyle="bold" android:textColor="#ffeceae3" android:id="@id/w_du" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="6.0dip" android:text="days" android:layout_marginStart="6.0dip" />
+        <TextView android:layout_width="0.0dip" android:layout_height="1.0dip" android:layout_weight="1.0" />
+        <Chronometer android:textSize="16.0sp" android:textColor="#ff8f96ac" android:id="@id/w_clock" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="6.0dip" android:fontFamily="monospace" />
+    </LinearLayout>
+    <TextView android:textSize="11.5sp" android:textColor="#ff8f96ac" android:ellipsize="end" android:id="@id/w_sub" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:text="" android:maxLines="1" />
+    <LinearLayout android:orientation="horizontal" android:id="@id/w_btns" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dip">
+        <TextView android:textSize="13.0sp" android:textStyle="bold" android:textColor="#ffeceae3" android:gravity="center" android:id="@id/w_urge" android:background="@drawable/widget_btn_line" android:layout_width="0.0dip" android:layout_height="36.0dip" android:text="Urge" android:layout_weight="1.0" />
+        <TextView android:textSize="13.0sp" android:textStyle="bold" android:textColor="#ff1b1300" android:gravity="center" android:id="@id/w_act" android:background="@drawable/widget_btn" android:layout_width="0.0dip" android:layout_height="36.0dip" android:text="Log a slip" android:layout_weight="1.0" android:layout_marginStart="8.0dip" />
+    </LinearLayout>
+    <TextView android:textSize="13.0sp" android:textColor="#ff8f96ac" android:id="@id/w_empty" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:text="Break a habit in Plotline and its live clock shows up here." />
+</LinearLayout>

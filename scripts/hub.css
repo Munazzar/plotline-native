@@ -1,0 +1,16 @@
+/* settings hub */
+.shub{display:grid;gap:8px;max-width:760px}
+.shub-r{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:20px;background:var(--surface);border:1px solid var(--line);color:var(--text);text-decoration:none;transition:border-color .2s,transform .4s var(--spring)}
+.shub-r:hover{border-color:var(--line-2)}.shub-r:active{transform:scale(.99)}
+.shub-i{flex:none;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:var(--bg-2);color:var(--accent)}.shub-i svg{width:19px;height:19px}
+.shub-t{flex:1;min-width:0}.shub-t b{display:block;font-size:15px;font-weight:650}.shub-t small{display:block;color:var(--muted);font-size:12.5px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.shub-r>svg:last-child{width:16px;height:16px;color:var(--muted);flex:none}
+.shub-r.warn{border-color:color-mix(in srgb,#FF7A7A 50%,transparent)}.shub-r.warn small{color:#FF9A9A}
+.shub-f{margin-top:18px;max-width:760px}
+/* setup checklist */
+.setup{display:grid;gap:8px;margin-top:14px}
+.su-r{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;background:var(--bg-2);border:1px solid var(--line)}
+.su-r>div{flex:1;min-width:0}.su-r b{display:block;font-size:14.5px}.su-r b em{font-style:normal;font:500 9.5px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-left:6px}
+.su-r small{display:block;color:var(--muted);font-size:12.5px;line-height:1.4;margin-top:2px}
+.su-i{flex:none;width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:var(--surface);color:var(--muted)}.su-i svg{width:16px;height:16px}
+.su-r.done .su-i{background:color-mix(in srgb,var(--accent) 20%,transparent);color:var(--accent)}

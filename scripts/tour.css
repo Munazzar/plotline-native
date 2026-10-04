@@ -1,0 +1,62 @@
+/* ================= guided tour ================= */
+.tour{position:fixed;inset:0;z-index:90;pointer-events:none}
+.tblock{position:absolute;inset:0;pointer-events:auto}
+.tspot{position:fixed;left:0;top:0;border-radius:20px;box-shadow:0 0 0 2px var(--accent),0 0 0 9999px rgba(3,5,12,.68),0 0 40px 6px color-mix(in srgb,var(--accent) 35%,transparent);transition:transform .55s var(--ease),width .55s var(--ease),height .55s var(--ease),opacity .35s;pointer-events:none}
+[data-theme=daylight] .tspot{box-shadow:0 0 0 2px var(--accent),0 0 0 9999px rgba(10,16,34,.55),0 0 40px 6px color-mix(in srgb,var(--accent) 30%,transparent)}
+.tcard{position:fixed;left:16px;top:16px;width:min(380px,calc(100vw - 24px));padding:18px 18px 14px;border-radius:24px;background:var(--bg-2);border:1px solid var(--line-2);box-shadow:0 30px 70px -20px rgba(0,0,0,.7);pointer-events:auto;transition:left .5s var(--ease),top .5s var(--ease)}
+.tcard.in{animation:tcin .5s var(--spring)}
+@keyframes tcin{0%{opacity:0;transform:translateY(10px) scale(.97)}100%{opacity:1;transform:none}}
+.tcard h3{font:800 26px/1 var(--f-display);text-transform:uppercase;margin:8px 0 8px}
+.tcard p{font-size:14.5px;line-height:1.55;color:var(--muted)}
+.tc-bar{height:3px;border-radius:3px;background:var(--line-2);margin-bottom:12px;overflow:hidden}
+.tc-bar i{display:block;height:100%;background:var(--accent);border-radius:3px;transition:width .6s var(--ease)}
+.tc-a{display:flex;align-items:center;gap:8px;margin-top:14px}
+.tc-a .link{font-size:13px;color:var(--muted)}
+.tbadge{position:fixed;top:calc(10px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);padding:5px 12px;border-radius:999px;background:var(--accent);color:var(--on-accent)!important;font-size:10px}
+.tfinger{position:fixed;left:0;top:0;width:0;height:0;opacity:0;pointer-events:none;transition:left .45s var(--ease),top .45s var(--ease),opacity .25s}
+.tfinger.on{opacity:1}
+.tfinger i{position:absolute;left:-17px;top:-17px;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.88);box-shadow:0 6px 18px rgba(0,0,0,.45),0 0 0 6px rgba(255,255,255,.22)}
+.tfinger i+i{display:none}
+.tfinger.tap i:first-child{animation:ttap 1.3s var(--ease) infinite}
+.tfinger.tap i:first-child::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:2px solid #fff;opacity:0;animation:tring 1.3s ease-out infinite}
+@keyframes ttap{0%,100%{transform:scale(1)}35%{transform:scale(.72)}55%{transform:scale(1)}}
+@keyframes tring{30%{opacity:0;transform:scale(.6)}40%{opacity:.9}100%{opacity:0;transform:scale(2.2)}}
+.tfinger.swipe i:first-child{animation:tswipe 1.7s var(--ease) infinite}
+@keyframes tswipe{0%{transform:translateX(70px);opacity:0}15%{opacity:1}75%{transform:translateX(-90px);opacity:1}100%{transform:translateX(-90px);opacity:0}}
+.tfinger.pull i:first-child{animation:tpullf 1.8s var(--ease) infinite}
+.tfinger.pinch i+i{display:block}
+.tfinger.pinch i:first-child{animation:tpin1 1.8s var(--ease) infinite}
+.tfinger.pinch i+i{animation:tpin2 1.8s var(--ease) infinite}
+@keyframes tpin1{0%,100%{transform:translate(-14px,-14px)}50%{transform:translate(-60px,-60px)}}
+@keyframes tpin2{0%,100%{transform:translate(14px,14px)}50%{transform:translate(60px,60px)}}
+.tfinger.drag i:first-child{animation:tdrag 2.6s var(--ease) infinite}
+@keyframes tdrag{0%{transform:translate(0,0) scale(1)}12%{transform:translate(0,0) scale(.8)}60%{transform:translate(110px,70px) scale(.8)}75%,100%{transform:translate(110px,70px) scale(1);opacity:.2}}
+.tpull{position:relative;height:96px;margin:6px 0 4px;border-radius:16px;background:var(--surface);border:1px solid var(--line);overflow:hidden}
+.tpull::before{content:'';position:absolute;left:14px;right:14px;top:26px;height:10px;border-radius:5px;background:var(--line-2);box-shadow:0 20px 0 var(--line),0 40px 0 var(--line)}
+.tpull i{position:absolute;left:50%;top:10px;width:26px;height:26px;margin-left:-13px;border-radius:50%;background:rgba(255,255,255,.9);box-shadow:0 4px 12px rgba(0,0,0,.4)}
+.tpull span{position:absolute;left:50%;top:-30px;margin-left:-15px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--bg-2);border:1px solid var(--line-2);color:var(--accent)}
+.tpull span svg{width:16px;height:16px}
+.tpull.go i{animation:tpullf 2s var(--ease) infinite}
+.tpull.go span{animation:tpulls 2s var(--ease) infinite}
+.tpull.go::before{animation:tpullc 2s var(--ease) infinite}
+@keyframes tpullf{0%{transform:translateY(0);opacity:0}10%{opacity:1}60%{transform:translateY(46px)}80%,100%{transform:translateY(46px);opacity:0}}
+@keyframes tpulls{0%,15%{transform:translateY(0) rotate(0)}60%{transform:translateY(40px) rotate(220deg)}85%{transform:translateY(40px) rotate(560deg)}100%{transform:translateY(0) rotate(560deg)}}
+@keyframes tpullc{0%,15%{transform:none}60%,85%{transform:translateY(22px)}100%{transform:none}}
+.twid{margin:6px 0 4px;padding:12px 14px;border-radius:20px;background:linear-gradient(315deg,#1A2346,#0C1226);border:1px solid rgba(200,210,240,.14);color:#ECEAE3}
+.tw-h{display:flex;justify-content:space-between;font:700 10px var(--f-mono);letter-spacing:.12em;color:#FFB547;margin-bottom:6px}
+.tw-h span{color:#ECEAE3}
+.tw-r{display:flex;align-items:center;gap:10px;padding:5px 0;font-size:13px;animation:twr .5s var(--ease) both;animation-delay:calc(var(--k) * 120ms + 200ms)}
+.tw-r em{flex:1;font-style:normal}
+.tw-r i{width:24px;height:24px;border-radius:50%;border:1.5px solid rgba(200,210,240,.3);display:grid;place-items:center;font:700 9px var(--f-mono);font-style:normal}
+.tw-r i.on{background:#46C99B;border-color:transparent;color:#0B1020;animation:twc .5s var(--spring) both;animation-delay:calc(var(--k) * 120ms + 700ms)}
+.tw-r:nth-child(4) i{animation:twtap 2.4s var(--ease) 1.4s infinite}
+@keyframes twr{0%{opacity:0;transform:translateX(-8px)}100%{opacity:1;transform:none}}
+@keyframes twc{0%{transform:scale(.3)}100%{transform:scale(1)}}
+@keyframes twtap{0%,40%{background:transparent}50%,100%{background:#46C99B;border-color:transparent}}
+.tprompt{position:fixed;z-index:80;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));width:min(460px,calc(100vw - 24px));display:grid;grid-template-columns:auto 1fr;gap:12px 14px;align-items:center;padding:16px 16px 12px;border-radius:24px;background:var(--bg-2);border:1px solid var(--line-2);box-shadow:0 30px 70px -20px rgba(0,0,0,.7);transform:translate(-50%,24px);opacity:0;transition:transform .55s var(--spring),opacity .35s}
+.tprompt.on{transform:translate(-50%,0);opacity:1}
+.tprompt .logo{width:40px;height:40px}
+.tprompt b{display:block;font-size:15.5px}
+.tprompt span{display:block;font-size:13px;color:var(--muted);line-height:1.45}
+.tp-a{grid-column:1/-1;display:flex;justify-content:flex-end;gap:8px}
+@media(min-width:821px){.tprompt{bottom:28px}}

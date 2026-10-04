@@ -1,0 +1,17 @@
+# never commit signing material
+*.jks
+*keypass*
+# build outputs and downloaded tools
+apkbuild/tools
+apkbuild/out/
+apkbuild/signed/
+apkbuild/classes/
+apkbuild/app.jar
+apkbuild/app/classes.dex
+apkbuild/app/build/
+*.apk
+*.idsig
+__pycache__/
+scripts/x-*.png
+ci/out/
+www/

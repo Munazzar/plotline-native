@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/w_root" android:background="@drawable/widget_bg" android:padding="16.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <TextView android:textSize="10.5sp" android:textStyle="bold" android:textColor="#ffffb547" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="GOAL PROGRESS" android:layout_weight="1.0" android:letterSpacing="0.14" />
+        <TextView android:textSize="11.0sp" android:textColor="#ff8f96ac" android:id="@id/w_sum" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="4 active" android:fontFamily="monospace" />
+    </LinearLayout>
+    <TextView android:textSize="13.0sp" android:textColor="#ff8f96ac" android:id="@id/w_empty" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:text="No active goals yet. Open Plotline to set one." />
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/w_row0" android:background="@drawable/widget_row" android:padding="8.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dip">
+        <FrameLayout android:layout_width="38.0dip" android:layout_height="38.0dip">
+            <ImageView android:id="@id/w_gr0" android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@drawable/widget_chk_off" />
+            <TextView android:textSize="10.0sp" android:textStyle="bold" android:textColor="#ff46c99b" android:gravity="center" android:id="@id/w_gp0" android:layout_width="fill_parent" android:layout_height="fill_parent" android:text="17%" android:fontFamily="monospace" />
+        </FrameLayout>
+        <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" android:layout_marginStart="10.0dip">
+            <TextView android:textSize="9.5sp" android:textStyle="bold" android:textColor="#ff46c99b" android:id="@id/w_ga0" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="HEALTH" android:letterSpacing="0.12" />
+            <TextView android:textSize="13.0sp" android:textStyle="bold" android:textColor="#ffeceae3" android:ellipsize="end" android:id="@id/w_gt0" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Run a 10K race" android:maxLines="1" />
+            <TextView android:textSize="11.0sp" android:textColor="#ff8f96ac" android:ellipsize="end" android:id="@id/w_gn0" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Next: Run 20 minutes, 3 times this week" android:maxLines="1" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/w_row1" android:background="@drawable/widget_row" android:padding="8.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="6.0dip">
+        <FrameLayout android:layout_width="38.0dip" android:layout_height="38.0dip">
+            <ImageView android:id="@id/w_gr1" android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@drawable/widget_chk_off" />
+            <TextView android:textSize="10.0sp" android:textStyle="bold" android:textColor="#ffff8c6b" android:gravity="center" android:id="@id/w_gp1" android:layout_width="fill_parent" android:layout_height="fill_parent" android:text="25%" android:fontFamily="monospace" />
+        </FrameLayout>
+        <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" android:layout_marginStart="10.0dip">
+            <TextView android:textSize="9.5sp" android:textStyle="bold" android:textColor="#ffff8c6b" android:id="@id/w_ga1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="FAMILY" android:letterSpacing="0.12" />
+            <TextView android:textSize="13.0sp" android:textStyle="bold" android:textColor="#ffeceae3" android:ellipsize="end" android:id="@id/w_gt1" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Weekly family adventure day" android:maxLines="1" />
+            <TextView android:textSize="11.0sp" android:textColor="#ff8f96ac" android:ellipsize="end" android:id="@id/w_gn1" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Next: Block Saturdays on the shared calendar" android:maxLines="1" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/w_row2" android:background="@drawable/widget_row" android:padding="8.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="6.0dip">
+        <FrameLayout android:layout_width="38.0dip" android:layout_height="38.0dip">
+            <ImageView android:id="@id/w_gr2" android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@drawable/widget_chk_off" />
+            <TextView android:textSize="10.0sp" android:textStyle="bold" android:textColor="#ffa9d14a" android:gravity="center" android:id="@id/w_gp2" android:layout_width="fill_parent" android:layout_height="fill_parent" android:text="40%" android:fontFamily="monospace" />
+        </FrameLayout>
+        <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" android:layout_marginStart="10.0dip">
+            <TextView android:textSize="9.5sp" android:textStyle="bold" android:textColor="#ffa9d14a" android:id="@id/w_ga2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="FINANCE" android:letterSpacing="0.12" />
+            <TextView android:textSize="13.0sp" android:textStyle="bold" android:textColor="#ffeceae3" android:ellipsize="end" android:id="@id/w_gt2" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Build a 3-month emergency fund" android:maxLines="1" />
+            <TextView android:textSize="11.0sp" android:textColor="#ff8f96ac" android:ellipsize="end" android:id="@id/w_gn2" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Next: Cancel two unused subscriptions" android:maxLines="1" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/w_row3" android:background="@drawable/widget_row" android:padding="8.0dip" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="6.0dip">
+        <FrameLayout android:layout_width="38.0dip" android:layout_height="38.0dip">
+            <ImageView android:id="@id/w_gr3" android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@drawable/widget_chk_off" />
+            <TextView android:textSize="10.0sp" android:textStyle="bold" android:textColor="#ffffb547" android:gravity="center" android:id="@id/w_gp3" android:layout_width="fill_parent" android:layout_height="fill_parent" android:text="0%" android:fontFamily="monospace" />
+        </FrameLayout>
+        <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" android:layout_marginStart="10.0dip">
+            <TextView android:textSize="9.5sp" android:textStyle="bold" android:textColor="#ffffb547" android:id="@id/w_ga3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:letterSpacing="0.12" />
+            <TextView android:textSize="13.0sp" android:textStyle="bold" android:textColor="#ffeceae3" android:ellipsize="end" android:id="@id/w_gt3" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="" android:maxLines="1" />
+            <TextView android:textSize="11.0sp" android:textColor="#ff8f96ac" android:ellipsize="end" android:id="@id/w_gn3" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Next: " android:maxLines="1" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

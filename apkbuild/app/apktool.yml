@@ -1,0 +1,25 @@
+!!brut.androlib.meta.MetaInfo
+apkFileName: plotline.apk
+compressionType: false
+doNotCompress:
+- resources.arsc
+- png
+- woff2
+isFrameworkApk: false
+packageInfo:
+  forcedPackageId: '127'
+  renameManifestPackage: null
+sdkInfo:
+  minSdkVersion: '29'
+  targetSdkVersion: '34'
+sharedLibrary: false
+sparseResources: false
+unknownFiles: {}
+usesFramework:
+  ids:
+  - 1
+  tag: null
+version: 2.10.0
+versionInfo:
+  versionCode: '61'
+  versionName: 2.0.9
