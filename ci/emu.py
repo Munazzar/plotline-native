@@ -37,7 +37,7 @@ def main():
     sh('shell', 'am', 'start', '-W', '-n', PKG + '/.MainActivity'); time.sleep(10)
     shot(OUT + '/native/00-first-run.png')
     sh('shell', 'am', 'force-stop', PKG)
-    sh('shell', 'run-as', PKG, 'sh', '-c', 'cat > files/state.json', inp=json.dumps(state).encode(), check=True)
+    sh('shell', 'run-as', PKG, 'sh', '-c', 'mkdir -p files && cat > files/state.json', inp=json.dumps(state).encode(), check=True)
     sh('logcat', '-c')
     sh('shell', 'am', 'start', '-W', '-n', PKG + '/.MainActivity'); time.sleep(14)
     shot(OUT + '/native/00-launch.png')
@@ -55,7 +55,9 @@ def main():
         # back to the top for the next route
         for _ in range(3): sh('shell', 'input', 'swipe', '540', '500', '540', '2000', '150')
     open(OUT + '/native/logcat.txt', 'wb').write(sh('logcat', '-d'))
-    errs = [l for l in open(OUT + '/native/logcat.txt', encoding='utf-8', errors='replace') if 'FATAL' in l or 'AndroidRuntime' in l or 'plotline' in l.lower() and (' E ' in l or 'Exception' in l)]
+    pid = sh('shell', 'pidof', PKG).decode().strip()
+    errs = [l for l in open(OUT + '/native/logcat.txt', encoding='utf-8', errors='replace')
+            if ('FATAL' in l or ' E AndroidRuntime' in l or (pid and f' {pid} ' in l and (' E ' in l or ' W ' in l and 'Exception' in l)) or 'PlotlineNative' in l or 'nshell' in l) and 'uiautomator' not in l]
     open(OUT + '/native/errors.txt', 'w').writelines(errs)
 
 
