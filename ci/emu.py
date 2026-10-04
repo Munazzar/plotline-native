@@ -27,6 +27,15 @@ def tree():
     return sh('shell', 'cat', '/sdcard/ui.xml').decode('utf-8', 'replace')
 
 
+def same(a, b):
+    """two screenshots look the same (ignores a ticking clock or a small animation)"""
+    try:
+        from PIL import Image, ImageChops; import io
+        x = Image.open(io.BytesIO(a)).convert('L').resize((108, 240)); y = Image.open(io.BytesIO(b)).convert('L').resize((108, 240))
+        h = ImageChops.difference(x, y).histogram(); return sum(h[12:]) < 60
+    except Exception: return a == b
+
+
 def tap(spec):
     """tap the first on-screen view whose text or content-description matches"""
     kind, arg = spec.split(':', 1)
@@ -61,12 +70,11 @@ def main():
         open(f'{OUT}/native/{name}.xml', 'w').write(tree())
         prev = None
         for k in range(8):
-            shot(f'{OUT}/native/{name}-{k}.png')
+            png = sh('exec-out', 'screencap', '-p')
+            if prev is not None and same(png, prev): break   # the page didn't move: we've reached the end
+            open(f'{OUT}/native/{name}-{k}.png', 'wb').write(png); prev = png
             # slow drag (no fling): 1470 px = 560 dp, the same step the web pages use
-            sh('shell', 'input', 'swipe', '540', '1900', '540', '430', '1800'); time.sleep(1.2)
-            cur = tree()
-            if cur == prev: break
-            prev = cur
+            sh('shell', 'input', 'swipe', '540', '1900', '540', '430', '1800'); time.sleep(1.0)
         # back to the top for the next route
         for _ in range(3): sh('shell', 'input', 'swipe', '540', '500', '540', '2000', '150')
     open(OUT + '/native/logcat.txt', 'wb').write(sh('logcat', '-d'))

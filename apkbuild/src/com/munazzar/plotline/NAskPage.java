@@ -60,7 +60,7 @@ final class NAskPage extends NPage {
     void composer() {
         /* web .ask-comp (phone): full width, frosted page colour behind it, scope pill then the .ask-row box */
         comp = NUi.col(c);
-        comp.setBackground(new android.graphics.drawable.GradientDrawable(android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM, new int[]{NTheme.alpha(NTheme.bg, 0), NTheme.alpha(NTheme.bg, .72f), NTheme.alpha(NTheme.bg, .92f)}));
+        comp.setBackground(new android.graphics.drawable.GradientDrawable(android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM, new int[]{NTheme.alpha(NTheme.bg, 0), NTheme.alpha(NTheme.bg, .93f), NTheme.alpha(NTheme.bg, .97f)}));
         LinearLayout sr = NUi.row(c);
         scope = NUi.body(c, "All time", 12.5f, NTheme.muted, 600);
         LinearLayout pill = NUi.row(c); pill.setPadding(NUi.dp(11), NUi.dp(5), NUi.dp(11), NUi.dp(5)); pill.setBackground(NUi.round(NTheme.alpha(NTheme.bg2, .8f), 99, NTheme.line));
