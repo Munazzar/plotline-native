@@ -138,6 +138,7 @@ abstract class NPage {
             return ar;
         }
         t.setTextSize(fit(t, 30, avail - aw - NUi.dp(4)));
+        r.setGravity(Gravity.TOP);   /* web .ph: the buttons sit at the top of a multi-line title */
         r.addView(t, NUi.lpw(0, -2, 1));
         for (View a : actions) { LinearLayout.LayoutParams l = NUi.lp(-2, -2); l.leftMargin = NUi.dp(NUi.narrow ? 6 : 8); r.addView(a, l); }
         body.addView(r);

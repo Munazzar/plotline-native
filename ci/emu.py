@@ -2,7 +2,7 @@
 # Installs the debuggable APK, gives it the same sample data the web build made (ci/out/state.json),
 # opens every scenario route and screenshots it page by page into ci/out/native/<name>-<k>.png.
 # Also saves the native view tree (uiautomator) per scenario and the app's logcat.
-import json, os, subprocess, sys, time
+import json, os, re, subprocess, sys, time
 sys.path.insert(0, os.path.dirname(__file__))
 from scenarios import scenarios
 
@@ -27,6 +27,18 @@ def tree():
     return sh('shell', 'cat', '/sdcard/ui.xml').decode('utf-8', 'replace')
 
 
+def tap(spec):
+    """tap the first on-screen view whose text or content-description matches"""
+    kind, arg = spec.split(':', 1)
+    xml = tree()
+    attr = 'text' if kind == 'text' else 'content-desc'
+    for m in re.finditer(r'<node [^>]*?' + attr + r'="([^"]*)"[^>]*?bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"', xml):
+        x1, y1, x2, y2 = map(int, m.groups()[1:])
+        if m.group(1) == arg and y2 < 2400 - 330:   # not the bottom tab bar
+            sh('shell', 'input', 'tap', str((x1 + x2) // 2), str((y1 + y2) // 2)); return True
+    print('native tap: nothing matches', spec); return False
+
+
 def main():
     os.makedirs(OUT + '/native', exist_ok=True)
     state = json.load(open(OUT + '/state.json'))
@@ -42,8 +54,10 @@ def main():
     sh('logcat', '-c')
     sh('shell', 'am', 'start', '-W', '-n', PKG + '/.MainActivity'); time.sleep(14)
     shot(OUT + '/native/00-launch.png')
-    for name, route in scenarios(state):
+    for name, route, steps in scenarios(state):
         sh('shell', 'am', 'start', '-n', PKG + '/.MainActivity', '--es', 'route', route); time.sleep(3.5)
+        for _web, nat in steps:
+            if nat: tap(nat); time.sleep(2)
         open(f'{OUT}/native/{name}.xml', 'w').write(tree())
         prev = None
         for k in range(8):

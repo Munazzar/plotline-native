@@ -67,6 +67,12 @@ final class NHabitScreen extends NPage {
     }
 
     View pill(String icon, String label, boolean on, View.OnClickListener l) {
+        if (label == null) {   /* icon-only: a round 40dp button */
+            NUi.Fix f = new NUi.Fix(c, NUi.dp(40), NUi.dp(40));
+            f.setBackground(NUi.ripple(NUi.round(on ? NUi.mix(NTheme.accent, .12f, NTheme.surface) : NTheme.surface, 99, on ? NTheme.alpha(NTheme.accent, .55f) : NTheme.line2), 99));
+            f.addView(NUi.icon(c, icon, 17, on ? NTheme.accent : NTheme.text), new android.widget.FrameLayout.LayoutParams(NUi.dp(17), NUi.dp(17), Gravity.CENTER));
+            f.setLayoutParams(NUi.lp(NUi.dp(40), NUi.dp(40))); NUi.tap(f, l); return f;
+        }
         LinearLayout p = NUi.row(c); p.setGravity(Gravity.CENTER);
         p.setPadding(NUi.dp(label == null ? 12 : 14), 0, NUi.dp(label == null ? 12 : 14), 0);
         p.setBackground(NUi.ripple(NUi.round(on ? NUi.mix(NTheme.accent, .12f, NTheme.surface) : NTheme.surface, 99, on ? NTheme.alpha(NTheme.accent, .55f) : NTheme.line2), 99));
@@ -133,15 +139,18 @@ final class NHabitScreen extends NPage {
         crumb.addView(NUi.ibtn(c, "back", new View.OnClickListener() { public void onClick(View v) { sh.pop(); } }));
         crumb.addView(new View(c), NUi.lpw(0, 1, 1));
         List<View> acts = new ArrayList<>();
-        acts.add(NUi.ibtn(c, "link", new View.OnClickListener() { public void onClick(View v) { new NForms(sh).threadsFor("habit", hid); } }));
+        acts.add(NUi.ibtn(c, "thread", new View.OnClickListener() { public void onClick(View v) { new NForms(sh).threadsFor("habit", hid); } }));
+        final boolean phone = c.getResources().getConfiguration().screenWidthDp <= 560;   /* web: crumb pills are icon-only on phones */
         if (active && !quit) {
             String bl = h.optBoolean("remind") ? (h.optString("time").isEmpty() ? "On" : NDates.fmtTime(h.optString("time"))) : "Off";
-            acts.add(pill("bell", bl, h.optBoolean("remind"), new View.OnClickListener() { public void onClick(View v) { NReminders.open(sh, "habit", h.optString("id")); } }));
+            acts.add(pill("bell", phone ? null : bl, h.optBoolean("remind"), new View.OnClickListener() { public void onClick(View v) { NReminders.open(sh, "habit", h.optString("id")); } }));
             JSONObject au = h.optJSONObject("auto"); boolean ao = au != null && !au.optString("type").isEmpty();
-            acts.add(pill("flame", ao ? "Auto" : null, ao, new View.OnClickListener() { public void onClick(View v) { NAutoEdit.open(sh, "habit", hid, null); } }));
+            acts.add(pill("flame", ao && !phone ? "Auto" : null, ao, new View.OnClickListener() { public void onClick(View v) { NAutoEdit.open(sh, "habit", hid, null); } }));
         }
         acts.add(NUi.ibtn(c, "edit", new View.OnClickListener() { public void onClick(View v) { F.habit(h); } }));
         acts.add(NUi.ibtn(c, "more", new View.OnClickListener() { public void onClick(View v) { more(h); } }));
+        acts.add(NUi.ibtn(c, "ai", new View.OnClickListener() { public void onClick(View v) { sh.ask("How am I doing with my habit “" + h.optString("title") + "”? When do I keep it, when do I slip, and what would help?"); } }));
+        acts.add(gear());
         for (View a : acts) { LinearLayout.LayoutParams l = new LinearLayout.LayoutParams(a.getLayoutParams()); l.leftMargin = NUi.dp(6); crumb.addView(a, l); }
         add(crumb);
 
@@ -225,7 +234,7 @@ final class NHabitScreen extends NPage {
             double[] sv = saved(h); int d = NHabits.cleanDays(h); int nx = 0; for (int m : NActs.MILES) if (m > d) { nx = m; break; }
             JSONArray sl = h.optJSONArray("slips"); int slips = 0; if (sl != null) for (int i = 0; i < sl.length(); i++) if (sl.optJSONObject(i) != null && sl.optJSONObject(i).optLong("t") >= h.optLong("start")) slips++;
             tiles(new String[][]{{String.valueOf(bestRun(h)), "d", "Best run"}, {h.optDouble("cost", 0) > 0 ? money(h, sv[0]) : String.valueOf(urgesOk(h)), "", h.optDouble("cost", 0) > 0 ? "Money saved" : "Urges beaten"},
-                {h.optDouble("mins", 0) > 0 ? hrs(sv[1]) : String.valueOf(slips), "", h.optDouble("mins", 0) > 0 ? "Time back" : "Slips"}, {nx > 0 ? NHabitsPage.mileName(nx) : "—", "", "Next milestone"}});
+                {h.optDouble("mins", 0) > 0 ? hrs(sv[1]) : String.valueOf(slips), "", h.optDouble("mins", 0) > 0 ? "Time back" : "Slips"}, {nx > 0 ? NHabitsPage.mileName(nx).split(" ")[0] : "—", nx > 0 ? NHabitsPage.mileName(nx).substring(NHabitsPage.mileName(nx).indexOf(' ') + 1) : "", "Next milestone"}});
             add(stH("Milestones", "current run")); miles(h, d, nx, col);
         } else if (quit) {
             int tn = NDates.today(); double tot = 0; int cnt = 0;

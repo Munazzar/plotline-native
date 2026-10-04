@@ -4,7 +4,7 @@
 import asyncio, json, os, sys
 from playwright.async_api import async_playwright
 sys.path.insert(0, os.path.dirname(__file__))
-from scenarios import scenarios
+from scenarios import scenarios, THREAD_JS
 
 URL = os.environ.get('WEB_URL', 'https://munazzar.github.io/plotline/')
 OUT = os.path.join(os.path.dirname(__file__), 'out')
@@ -39,11 +39,20 @@ async def main():
             await pg.wait_for_timeout(2000)
         await pg.evaluate("typeof closeSheet==='function'&&closeSheet()")
         await pg.wait_for_timeout(600)
+        await pg.evaluate(THREAD_JS); await pg.wait_for_timeout(300)
         open(OUT + '/web/version.txt', 'w').write(URL + '  APP_VER=' + str(await pg.evaluate("typeof APP_VER!=='undefined'?APP_VER:'?'")) + '\n')
         state = json.loads(await pg.evaluate("JSON.stringify(S)"))
         json.dump(state, open(OUT + '/state.json', 'w'))
-        for name, route in scenarios(state):
+        for name, route, steps in scenarios(state):
             await pg.evaluate(f"closeSheet&&closeSheet();go('{route}')"); await pg.wait_for_timeout(1400)
+            for web, _nat in steps:
+                try:
+                    kind, arg = web.split(':', 1)
+                    if kind == 'text': await pg.locator('#view').get_by_text(arg, exact=True).first.click(timeout=4000)
+                    elif kind == 'css': await pg.locator(arg).first.click(timeout=4000)
+                    else: await pg.evaluate(arg)
+                except Exception as e: print('web step failed', name, web, str(e)[:120])
+                await pg.wait_for_timeout(900)
             # reveal-on-scroll content: mark everything shown so screenshots match a scrolled-through page
             await pg.evaluate("document.querySelectorAll('.rv').forEach(x=>x.classList.add('in'))")
             open(f'{OUT}/web/{name}.txt', 'w').write(await pg.evaluate(OUTLINE))

@@ -126,7 +126,7 @@ final class NGoalSteps {
             it.addView(flip(bigFront(s, i, N, next), bigBack(s, i, N, next)), new LinearLayout.LayoutParams(-1, cardH));
             it.addView(stem(), new LinearLayout.LayoutParams(NUi.dp(2), NUi.dp(24)));
             it.addView(node(s.optBoolean("done"), false, 0, toggle(s)));
-            TextView lb = mono(s.optBoolean("done") ? "Done" : NDates.valid(s.optString("due")) ? NDates.dueShort(s.optString("due")) : "No date", 10.5f, NTheme.muted); lb.setPadding(0, NUi.dp(10), 0, 0); lb.setSingleLine(true); it.addView(lb);
+            TextView lb = mono(s.optBoolean("done") ? "Done" : NDates.valid(s.optString("due")) ? NDates.dueShort(s.optString("due")) : "No date", 10.5f, NTheme.muted); lb.setPadding(0, NUi.dp(10), 0, 0); lb.setSingleLine(true); lb.setGravity(Gravity.CENTER); it.addView(lb, new LinearLayout.LayoutParams(-1, -2));
             LinearLayout.LayoutParams l = new LinearLayout.LayoutParams(itemW, -2); l.rightMargin = gap; row.addView(it, l); nItems++;
         }
         for (final JSONObject[] k : subs()) {
@@ -144,7 +144,7 @@ final class NGoalSteps {
             it.addView(f, new LinearLayout.LayoutParams(-1, cardH));
             it.addView(stem(), new LinearLayout.LayoutParams(NUi.dp(2), NUi.dp(24)));
             it.addView(node(xd, true, p / 100f, new View.OnClickListener() { public void onClick(View v) { sh.push(new NGoalScreen(sh, x.optString("id"))); } }));
-            TextView lb = mono(NDates.valid(x.optString("targetDate")) ? "Target " + NDates.fmtDate(x.optString("targetDate")) : "Sub-goal", 10.5f, NTheme.muted); lb.setPadding(0, NUi.dp(10), 0, 0); lb.setSingleLine(true); it.addView(lb);
+            TextView lb = mono(NDates.valid(x.optString("targetDate")) ? "Target " + NDates.fmtDate(x.optString("targetDate")) : "Sub-goal", 10.5f, NTheme.muted); lb.setPadding(0, NUi.dp(10), 0, 0); lb.setSingleLine(true); lb.setGravity(Gravity.CENTER); it.addView(lb, new LinearLayout.LayoutParams(-1, -2));
             LinearLayout.LayoutParams l = new LinearLayout.LayoutParams(itemW, -2); l.rightMargin = gap; row.addView(it, l); nItems++;
         }
         for (int a = 0; a < 2; a++) {
@@ -158,9 +158,9 @@ final class NGoalSteps {
             LinearLayout.LayoutParams l = new LinearLayout.LayoutParams(itemW, -2); l.rightMargin = gap; row.addView(it, l); nItems++;
         }
         hs.addView(row);
-        final int total = nItems, startAt = startIdx;
+        final int total = nItems, startAt = startIdx, real = nItems - 2;   /* web hs-count leaves out the two "Add" cards */
         final TextView count = mono("", 10.5f, NTheme.muted); count.setGravity(Gravity.CENTER);
-        final Runnable upd = new Runnable() { public void run() { int i = Math.min(total - 1, Math.max(0, Math.round(hs.getScrollX() / (float) (itemW + gap)))); count.setText(String.format(java.util.Locale.US, "%02d / %02d", i + 1, total)); } };
+        final Runnable upd = new Runnable() { public void run() { int i = Math.min(total - 1, Math.max(0, Math.round(hs.getScrollX() / (float) (itemW + gap)))); count.setText(String.format(java.util.Locale.US, "%02d / %02d", Math.min(i + 1, Math.max(1, real)), real)); } };
         hs.setOnScrollChangeListener(new View.OnScrollChangeListener() { public void onScrollChange(View v, int x, int y, int ox, int oy) { upd.run(); } });
         hs.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, android.view.MotionEvent e) {

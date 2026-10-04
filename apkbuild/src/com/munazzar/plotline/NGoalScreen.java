@@ -26,12 +26,13 @@ final class NGoalScreen extends NPage {
         final NForms F = new NForms(sh);
         final String groute = "goal/" + g.optString("id"); final JSONObject gd = NMore.d("id", g.optString("id"), "k", "goal");
         header(null,
-            NUi.ibtn(c, "link", new View.OnClickListener() { public void onClick(View v) { new NForms(sh).threadsFor("goal", g.optString("id")); } }),
+            NUi.ibtn(c, "thread", new View.OnClickListener() { public void onClick(View v) { new NForms(sh).threadsFor("goal", g.optString("id")); } }),
             NUi.ibtn(c, "bell", new View.OnClickListener() { public void onClick(View v) { NReminders.open(sh, "goal", g.optString("id")); } }),
             NUi.ibtn(c, "pin", g.optBoolean("pinned"), new View.OnClickListener() { public void onClick(View v) { try { g.put("pinned", !g.optBoolean("pinned")); } catch (Exception ignored) { } sh.save(); } }),
             NUi.ibtn(c, "edit", new View.OnClickListener() { public void onClick(View v) { F.goal(g); } }),
+            NUi.ibtn(c, "more", new View.OnClickListener() { public void onClick(View v) { more(g); } }),
             NUi.ibtn(c, "ai", new View.OnClickListener() { public void onClick(View v) { sh.ask("How am I doing with my goal “" + g.optString("title") + "”? What’s working, what’s stuck, and what should I do next?"); } }),
-            NUi.ibtn(c, "more", new View.OnClickListener() { public void onClick(View v) { more(g); } }));
+            gear());
         int col = NTheme.areaCol(g.optString("area"));
         boolean done = "done".equals(g.optString("status"));
 
@@ -135,13 +136,13 @@ final class NGoalScreen extends NPage {
         }
 
         /* moments for this goal */
-        List<JSONObject> ents = NJournalPage.entries(st, g.optString("id"));
+        /* web: the goal's notes and "achieved" entries, newest first, at most 4, as journal cards */
+        List<JSONObject> ents = new java.util.ArrayList<>();
+        for (JSONObject e : NJournalPage.entries(st, g.optString("id"))) { String ty = e.optString("type", "note"); if ((ty.equals("note") || ty.equals("goal-done")) && ents.size() < 4) ents.add(e); }
         add(NUi.sectionHead(c, "Moments", "Add", new View.OnClickListener() { public void onClick(View v) { new NForms(sh).entry(null, g.optString("id"), null); } }));
         if (ents.isEmpty()) add(muted("Notes and photos about this goal. They also appear in your journal."));
         if (!ents.isEmpty()) {
-            LinearLayout eb = NBits.listBox(c);
-            for (int i = 0; i < Math.min(8, ents.size()); i++) { if (i > 0) eb.addView(NBits.divider(c)); eb.addView(NJournalPage.entryRow(sh, ents.get(i))); }
-            add(eb);
+            for (int i = 0; i < ents.size(); i++) add(NJCards.small(sh, ents.get(i)), i == 0 ? 0 : 10);
         }
     }
 

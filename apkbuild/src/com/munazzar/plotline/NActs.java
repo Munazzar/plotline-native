@@ -187,12 +187,10 @@ final class NActs {
         return l;
     }
 
+    /* web: S.entries of type "step" from the last 7 days (rolling, not the calendar week) */
     static int stepsDoneThisWeek(NStore st) {
-        int ws = NDates.wkStart(NDates.today()); int n = 0;
-        for (JSONObject g : NStore.list(st.arr("goals"))) {
-            JSONArray s = g.optJSONArray("steps"); if (s == null) continue;
-            for (int i = 0; i < s.length(); i++) { JSONObject x = s.optJSONObject(i); if (x != null && x.optBoolean("done") && x.optLong("doneAt", 0) > 0 && NDates.dnum(NDates.ymd(x.optLong("doneAt"))) >= ws) n++; }
-        }
+        long since = System.currentTimeMillis() - 7 * 86400000L; int n = 0;
+        for (JSONObject e : NStore.list(st.arr("entries"))) if ("step".equals(e.optString("type")) && e.optLong("t") > since) n++;
         return n;
     }
 }
