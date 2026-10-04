@@ -345,8 +345,8 @@ final class NCalPage extends NPage {
         tx.addView(s);
         if (i.k == K_STEP && i.o != null && !i.o.optString("note").isEmpty()) { String nt = i.o.optString("note"); TextView n = NUi.text(c, nt.length() > 140 ? nt.substring(0, 139) + "…" : nt, 12.5f, NTheme.muted); n.setLineSpacing(0, 1.2f); n.setPadding(0, NUi.dp(5), 0, 0); tx.addView(n); }
         r.addView(tx, new LinearLayout.LayoutParams(0, -2, 1));
-        String tm = i.time.isEmpty() ? (late && !i.done && (i.k == K_DAY || i.k == K_STEP) ? "Late" : "") : NDates.fmtTime(i.time);
-        if (!tm.isEmpty()) { TextView d = NUi.text(c, tm, 11, late && !i.done && (i.k == K_DAY || i.k == K_STEP) ? PINK : NTheme.muted); d.setTypeface(NFont.mono(500)); d.setPadding(NUi.dp(8), NUi.dp(4), 0, 0); r.addView(d); }
+        String tm = i.time.isEmpty() ? (late && !i.done && (i.k == K_DAY || i.k == K_STEP) ? "LATE" : "") : NDates.fmtTime(i.time);
+        if (!tm.isEmpty()) { TextView d = NUi.text(c, tm, 11, late && !i.done && (i.k == K_DAY || i.k == K_STEP) ? PINK : NTheme.muted); d.setTypeface(NFont.mono(500)); d.setLetterSpacing(.05f); d.setPadding(NUi.dp(8), NUi.dp(4), 0, 0); r.addView(d); }
         NUi.tap(r, new View.OnClickListener() { public void onClick(View v) { open(i); } });
         return r;
     }

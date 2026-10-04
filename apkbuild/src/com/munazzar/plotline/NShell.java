@@ -188,6 +188,28 @@ final class NShell implements NStore.Listener {
 
     int classicTab = 4;
 
+    /* web nav highlight for detail routes: goal→Goals, habit→Habits, day→Calendar, activity→Home, ai→Ask,
+       thread(s)→Journal; Settings highlights nothing */
+    int navPage(NPage p) {
+        if (p instanceof NGoalScreen) return 3; if (p instanceof NHabitScreen) return 1; if (p instanceof NDayScreen) return 2;
+        if (p instanceof NActivityScreen) return 0; if (p instanceof NAiPlan) return 6; if (p instanceof NThreadScreen) return 5;
+        if (p instanceof NSettings) return -1;
+        return pager.page;
+    }
+    void syncNav() {
+        if (classic || tabs.isEmpty()) return;
+        int pg = stack.isEmpty() ? pager.page : navPage(stack.get(stack.size() - 1));
+        final int t = pg < 0 ? -1 : tabOfPage(pg);
+        for (int i = 0; i < tabs.size(); i++) {
+            LinearLayout v = (LinearLayout) tabs.get(i);
+            ((NIcon) ((ImageView) v.getChildAt(0)).getDrawable()).setColor(i == t ? NTheme.accent : NTheme.muted);
+            ((TextView) v.getChildAt(1)).setTextColor(i == t ? NTheme.text : NTheme.muted);
+            ((TextView) v.getChildAt(1)).setTypeface(NFont.body(i == t ? 700 : 500));
+        }
+        tabInd.animate().alpha(t < 0 ? 0f : 1f).setDuration(160).start();
+        if (t >= 0) { final View tv = tabs.get(t); tabbar.post(new Runnable() { public void run() { tabInd.animate().translationX(tv.getLeft()).setDuration(260).setInterpolator(NUi.EASE).start(); } }); }
+    }
+
     void tab(int i) {
         if (a.lockShown) return;
         String p = TABS[i][2];
@@ -255,6 +277,7 @@ final class NShell implements NStore.Listener {
         v.setBackgroundColor(NTheme.bg);
         stackLayer.addView(v, new FrameLayout.LayoutParams(-1, -1));
         stack.add(p);
+        syncNav();
         if (focus) buildFnav();
         v.setTranslationX(root.getWidth() > 0 ? root.getWidth() : 1000); v.setAlpha(1f);
         v.animate().translationX(0).setDuration(340).setInterpolator(NUi.EASE).start();
@@ -274,6 +297,7 @@ final class NShell implements NStore.Listener {
         under.animate().translationX(0).alpha(1f).setDuration(280).setInterpolator(NUi.EASE).start();
         if (stack.isEmpty()) { NPage cur = pages[pager.page]; if (cur.stale) cur.refresh(); }
         else { NPage t = stack.get(stack.size() - 1); t.refresh(); }
+        syncNav();
         if (focus) buildFnav();
     }
 
@@ -281,6 +305,7 @@ final class NShell implements NStore.Listener {
         for (NPage p : stack) stackLayer.removeView(p.view());
         stack.clear(); pager.setTranslationX(0); pager.setAlpha(1f);
         NPage cur = pages[pager.page]; if (cur.stale) cur.refresh();
+        syncNav();
     }
 
     /* swipe from the left edge to go back, like a native stack */

@@ -27,7 +27,7 @@ final class NGoalsPage extends NPage {
         String an = "All areas"; for (int i = 0; i < NGen.AREA_ID.length; i++) if (NGen.AREA_ID[i].equals(area)) an = NGen.AREA_NAME[i];
         LinearLayout sel = NUi.row(c); sel.setPadding(NUi.dp(14), 0, NUi.dp(12), 0); sel.setBackground(NUi.ripple(NUi.round(NTheme.surface, 15, NTheme.line), 15));
         sel.addView(NUi.body(c, an, 14, NTheme.text, 600));
-        View dn = NUi.icon(c, "down", 14, NTheme.muted); dn.setPadding(NUi.dp(10), 0, 0, 0); sel.addView(dn);
+        LinearLayout.LayoutParams dnl = NUi.lp(NUi.dp(16), NUi.dp(16)); dnl.leftMargin = NUi.dp(10); sel.addView(NUi.icon(c, "chev", 16, NTheme.muted), dnl);
         NUi.tap(sel, new View.OnClickListener() { public void onClick(View v) {
             android.widget.PopupMenu pm = new android.widget.PopupMenu(c, v);
             pm.getMenu().add(0, 0, 0, "All areas");
@@ -55,14 +55,16 @@ final class NGoalsPage extends NPage {
         for (JSONObject g : all) {
             String s = g.optString("status", "active"), hz = g.optString("horizon", "month");
             boolean ok = filter.equals("done") ? s.equals("done") : s.equals("active") && (filter.equals("active") || (filter.equals("short") ? (hz.equals("week") || hz.equals("month") || hz.equals("quarter")) : !(hz.equals("week") || hz.equals("month") || hz.equals("quarter"))));
-            if (ok && !q.isEmpty() && !(g.optString("title") + " " + g.optString("why")).toLowerCase().contains(q.toLowerCase())) ok = false;
+            if (ok && !q.isEmpty()) { StringBuilder hay = new StringBuilder(g.optString("title") + " " + g.optString("why")); org.json.JSONArray ss = g.optJSONArray("steps"); for (int k = 0; ss != null && k < ss.length(); k++) { JSONObject x = ss.optJSONObject(k); if (x != null) hay.append(' ').append(x.optString("title")); } if (!hay.toString().toLowerCase().contains(q.toLowerCase())) ok = false; }
             if (ok && (area.isEmpty() || NTheme.areaKey(g.optString("area")).equals(area))) l.add(g);
         }
+        /* web filteredGoals sort (priority, pinned, start date) then treeOrder (each goal followed by its sub-goals) */
         Collections.sort(l, new Comparator<JSONObject>() { public int compare(JSONObject a, JSONObject b) {
-            int p = (b.optBoolean("pinned") ? 1 : 0) - (a.optBoolean("pinned") ? 1 : 0); if (p != 0) return p;
             int q = a.optInt("priority", 2) - b.optInt("priority", 2); if (q != 0) return q;
-            return Long.compare(b.optLong("createdAt"), a.optLong("createdAt"));
+            int p = (b.optBoolean("pinned") ? 1 : 0) - (a.optBoolean("pinned") ? 1 : 0); if (p != 0) return p;
+            return Integer.compare(NDates.valid(a.optString("startDate")) ? NDates.dnum(a.optString("startDate")) : 0, NDates.valid(b.optString("startDate")) ? NDates.dnum(b.optString("startDate")) : 0);
         } });
+        l = treeOrder(l);
         if (l.isEmpty()) {
             View e = NBits.empty(c, filter.equals("done") ? "Nothing achieved yet" : "No goals here", filter.equals("done") ? "Finished goals land here." : "Tap + to add a goal, or plan one with AI.");
             NUi.tap(e, new View.OnClickListener() { public void onClick(View v) { F.goal(null); } });
@@ -79,6 +81,18 @@ final class NGoalsPage extends NPage {
         }
         LinearLayout.LayoutParams gl = NUi.mt(14); gl.leftMargin = gl.rightMargin = -NUi.dp(5);
         body.addView(g, gl);
+    }
+
+    static List<JSONObject> treeOrder(List<JSONObject> l) {
+        java.util.Set<String> ids = new java.util.HashSet<>(), seen = new java.util.HashSet<>(); for (JSONObject g : l) ids.add(g.optString("id"));
+        List<JSONObject> out = new java.util.ArrayList<>();
+        for (JSONObject g : l) { String par = NStore.s(g, "parent"); if (par.isEmpty() || !ids.contains(par)) walk(g, l, seen, out); }
+        for (JSONObject g : l) walk(g, l, seen, out);
+        return out;
+    }
+    static void walk(JSONObject g, List<JSONObject> l, java.util.Set<String> seen, List<JSONObject> out) {
+        if (!seen.add(g.optString("id"))) return; out.add(g);
+        for (JSONObject x : l) if (g.optString("id").equals(NStore.s(x, "parent"))) walk(x, l, seen, out);
     }
 
     String layout() { JSONObject l = st.settings().optJSONObject("layout"); return l != null && "h".equals(l.optString("goals")) ? "h" : "grid"; }

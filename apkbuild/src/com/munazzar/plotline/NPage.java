@@ -91,7 +91,9 @@ abstract class NPage {
     static void unclip(View v) {
         /* a scroller inside a page must still clip what it scrolls (the day grid drew its hours over the whole card) */
         if (v instanceof android.widget.ScrollView) { v.setOutlineProvider(v.getBackground() != null ? android.view.ViewOutlineProvider.BACKGROUND : android.view.ViewOutlineProvider.BOUNDS); v.setClipToOutline(true); return; }
-        if (!(v instanceof ViewGroup) || v instanceof android.widget.ScrollView || v instanceof android.widget.HorizontalScrollView || v instanceof NPager) return;
+        NCard.hostHalo(v);
+        if (!(v instanceof ViewGroup) || v instanceof android.widget.ScrollView || v instanceof NPager) return;
+        if (v instanceof android.widget.HorizontalScrollView) { ((ViewGroup) v).setClipChildren(false); unclip(((ViewGroup) v).getChildAt(0)); return; }
         ((ViewGroup) v).setClipChildren(false);
         for (int i = 0; i < ((ViewGroup) v).getChildCount(); i++) unclip(((ViewGroup) v).getChildAt(i));
     }
@@ -156,8 +158,9 @@ abstract class NPage {
     View gear() {
         LinearLayout g = NUi.row(c);
         if (sh.focus) return g;   /* web hides .fsb and .gearb in full screen */
-        g.addView(NUi.ibtn(c, "full", new View.OnClickListener() { public void onClick(View v) { sh.focusMode(!sh.focus); } }));
-        LinearLayout.LayoutParams l = NUi.lp(-2, -2); l.leftMargin = NUi.dp(NUi.narrow ? 6 : 8);
+        boolean fs = !(back && c.getResources().getConfiguration().screenWidthDp <= 560);   /* web: .crumb .fsb hidden on phones */
+        if (fs) g.addView(NUi.ibtn(c, "full", new View.OnClickListener() { public void onClick(View v) { sh.focusMode(!sh.focus); } }));
+        LinearLayout.LayoutParams l = NUi.lp(-2, -2); l.leftMargin = fs ? NUi.dp(NUi.narrow ? 6 : 8) : 0;
         g.addView(NUi.ibtn(c, "settings", new View.OnClickListener() { public void onClick(View v) { sh.openSettings(); } }), l);
         return g;
     }

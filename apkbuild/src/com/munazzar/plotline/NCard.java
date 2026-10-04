@@ -10,6 +10,7 @@ import android.graphics.RadialGradient;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
+import android.view.View;
 
 /* The web's "Card style" (settings.cards): solid · glow · neon · aurora · glass · index, drawn for a tinted card. */
 final class NCard extends Drawable {
@@ -94,7 +95,7 @@ final class NCard extends Drawable {
 
     @Override public void draw(Canvas cv) {
         RectF b = new RectF(getBounds()); float w = b.width(), h = b.height();
-        if (halo) haloGlow(cv, b);
+        if (halo && !overlaid) haloGlow(cv, b);
         clip.reset(); clip.addRoundRect(b, r, r, Path.Direction.CW);
         cv.save(); cv.clipPath(clip);
         p.setStyle(Paint.Style.FILL);
@@ -136,6 +137,39 @@ final class NCard extends Drawable {
             rf.set(b.left + sw / 2, b.top + sw / 2, b.right - sw / 2, b.bottom - sw / 2);
             cv.drawRoundRect(rf, r - sw / 2, r - sw / 2, p);
         }
+    }
+
+    /* A background drawable can't paint outside its view (its render node clips to its bounds), so the glow was
+       cut into a square. The halo is drawn by the view's overlay instead, which may spill past the view. */
+    boolean overlaid;
+    static void hostHalo(final View v) {
+        if (!(v.getBackground() instanceof NCard)) {
+            if (v.getBackground() instanceof android.graphics.drawable.RippleDrawable) {
+                android.graphics.drawable.RippleDrawable rd = (android.graphics.drawable.RippleDrawable) v.getBackground();
+                for (int i = 0; i < rd.getNumberOfLayers(); i++) if (rd.getDrawable(i) instanceof NCard) { host(v, (NCard) rd.getDrawable(i)); return; }
+            }
+            return;
+        }
+        host(v, (NCard) v.getBackground());
+    }
+    static void host(final View v, final NCard d) {
+        if (!d.halo || d.overlaid || v.getTag(0x7f0f1a10) != null) return;
+        d.overlaid = true; d.invalidateSelf();
+        final android.graphics.drawable.Drawable glow = new android.graphics.drawable.Drawable() {
+            final Path out = new Path(); final RectF rb = new RectF();
+            @Override public void draw(Canvas cv) {
+                rb.set(0, 0, v.getWidth(), v.getHeight());
+                out.reset(); out.addRoundRect(rb, d.r, d.r, Path.Direction.CW);
+                cv.save(); cv.clipOutPath(out); d.haloGlow(cv, rb); cv.restore();
+                if (NTheme.haloPulse) invalidateSelf();
+            }
+            @Override public void setAlpha(int a) { } @Override public void setColorFilter(ColorFilter f) { }
+            @Override public int getOpacity() { return PixelFormat.TRANSLUCENT; }
+        };
+        v.setTag(0x7f0f1a10, glow);
+        glow.setBounds(0, 0, v.getWidth(), v.getHeight());
+        v.getOverlay().add(glow);
+        v.addOnLayoutChangeListener(new View.OnLayoutChangeListener() { public void onLayoutChange(View x, int l, int t, int r, int b, int ol, int ot, int or, int ob) { glow.setBounds(0, 0, r - l, b - t); } });
     }
 
     /* the web's .tint.halo: a 2px ring plus a soft glow around the card (wider when "Bright halo") */

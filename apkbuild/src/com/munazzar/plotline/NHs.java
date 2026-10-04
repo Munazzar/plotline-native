@@ -33,7 +33,12 @@ final class NHs {
             float s = Math.min(getWidth(), getHeight()), cx = getWidth() / 2f, cy = getHeight() / 2f, r = NUi.dp(14) - NUi.dp(1);
             r = Math.min(r, s / 2 - NUi.dp(6));
             p.setStyle(Paint.Style.FILL); p.setShader(null);
-            p.setColor(NTheme.alpha(col, on ? .55f : .45f)); p.setMaskFilter(new android.graphics.BlurMaskFilter(NUi.dp(on ? 10 : 5), android.graphics.BlurMaskFilter.Blur.OUTER)); cv.drawCircle(cx, cy, r, p); p.setMaskFilter(null);
+            /* web .done .node: box-shadow 0 0 12px c, 0 0 32px c 55%; open node 0 0 12px -3px c 75% */
+            if (on) {
+                p.setColor(NTheme.alpha(col, .55f)); p.setMaskFilter(new android.graphics.BlurMaskFilter(NUi.dp(16), android.graphics.BlurMaskFilter.Blur.OUTER)); cv.drawCircle(cx, cy, r, p);
+                p.setColor(col); p.setMaskFilter(new android.graphics.BlurMaskFilter(NUi.dp(6), android.graphics.BlurMaskFilter.Blur.OUTER)); cv.drawCircle(cx, cy, r, p);
+            } else { p.setColor(NTheme.alpha(col, .45f)); p.setMaskFilter(new android.graphics.BlurMaskFilter(NUi.dp(5), android.graphics.BlurMaskFilter.Blur.OUTER)); cv.drawCircle(cx, cy, r, p); }
+            p.setMaskFilter(null);
             if (on) p.setShader(new RadialGradient(cx - r * .24f, cy - r * .36f, r * 1.4f, new int[]{0xFFFFFFFF, col, NUi.mix(col, .55f, 0xFF000000)}, new float[]{0, .44f, 1}, Shader.TileMode.CLAMP));
             else p.setShader(new RadialGradient(cx, cy, r, new int[]{NUi.mix(col, .22f, NTheme.bg), NTheme.bg}, new float[]{0, .72f}, Shader.TileMode.CLAMP));
             cv.drawCircle(cx, cy, r, p); p.setShader(null);
@@ -76,8 +81,9 @@ final class NHs {
         int screenW = c.getResources().getDisplayMetrics().widthPixels;
         final int pad = Math.max(0, (screenW - W) / 2 - gap);
         final Snap hs = new Snap(c); hs.setHorizontalScrollBarEnabled(false); hs.setClipToPadding(false); hs.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        hs.setPadding(0, NUi.dp(34), 0, NUi.dp(10));   /* web .hs padding:34px 0 10px */
         hs.step = W + gap; hs.pad = pad;
-        final int lineY = cardH + NUi.dp(26) + node / 2;
+        final int lineY = cardH + NUi.dp(26) + node / 2;   /* inside the row (the scroller's top padding is outside it) */
         /* the dashed line and the glowing fill behind the nodes */
         final int[] fillTo = {0};
         final LinearLayout row = new LinearLayout(c) {
@@ -102,8 +108,8 @@ final class NHs {
             it.addView(gt, new LinearLayout.LayoutParams(W, cardH));
             View stem = new View(c); stem.setBackground(new android.graphics.drawable.GradientDrawable(android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM, new int[]{NTheme.alpha(x.col, .85f), 0}));
             LinearLayout.LayoutParams sl = new LinearLayout.LayoutParams(NUi.dp(2), NUi.dp(24)); sl.topMargin = NUi.dp(2); it.addView(stem, sl);
-            it.addView(new Node(c, x.col, x.done), new LinearLayout.LayoutParams(node + NUi.dp(16), node + NUi.dp(16)));
-            ((LinearLayout.LayoutParams) it.getChildAt(2).getLayoutParams()).topMargin = -NUi.dp(8); ((LinearLayout.LayoutParams) it.getChildAt(2).getLayoutParams()).bottomMargin = -NUi.dp(8);
+            it.addView(new Node(c, x.col, x.done), new LinearLayout.LayoutParams(node + NUi.dp(40), node + NUi.dp(40)));
+            ((LinearLayout.LayoutParams) it.getChildAt(2).getLayoutParams()).topMargin = -NUi.dp(20); ((LinearLayout.LayoutParams) it.getChildAt(2).getLayoutParams()).bottomMargin = -NUi.dp(20);
             TextView lb = NBits.meta(c, x.label == null ? "" : x.label.toUpperCase(), NTheme.muted); lb.setGravity(Gravity.CENTER); lb.setSingleLine(true); lb.setPadding(0, NUi.dp(10), 0, 0);
             it.addView(lb, new LinearLayout.LayoutParams(W, -2));
             LinearLayout.LayoutParams il = new LinearLayout.LayoutParams(W, -2); il.rightMargin = gap;

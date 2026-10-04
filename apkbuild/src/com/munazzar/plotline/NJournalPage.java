@@ -100,21 +100,14 @@ final class NJournalPage extends NPage {
         weekBar(ra, rb, l);
         add(NBits.seg(c, new String[][]{{"high", "Highlights"}, {"mine", "My moments"}, {"goals", "Goals"}, {"habits", "Habits"}, {"steps", "Steps"}, {"all", "All"}}, jf, new NBits.Pick() { public void on(String k) { try { st.settings().put("jFilter", k); } catch (Exception ignored) { } sh.save(); refresh(); } }), 12);
         if (l.isEmpty()) {
-            LinearLayout em = NUi.col(c); em.setGravity(Gravity.CENTER_HORIZONTAL); em.setPadding(NUi.dp(12), NUi.dp(40), NUi.dp(12), NUi.dp(40));
-            LinearLayout acts = NUi.row(c); acts.setGravity(Gravity.CENTER);
             if (!all.isEmpty()) {
-                TextView p = muted("Nothing in these 7 days" + (jf.equals("all") ? "" : " for this filter") + "."); p.setGravity(Gravity.CENTER); em.addView(p);
-                if (before != null) { final String bd = NDates.ymd(before.optLong("t")); acts.addView(NUi.btn(c, "Go to " + NDates.dayName(bd), false, new View.OnClickListener() { public void onClick(View v) { jumpTo(bd); } })); }
-                LinearLayout.LayoutParams al = NUi.lp(-2, -2); al.leftMargin = acts.getChildCount() > 0 ? NUi.dp(10) : 0;
-                if (JW > 0) acts.addView(NUi.btn(c, "Back to this week", false, new View.OnClickListener() { public void onClick(View v) { week(-JW); } }), al);
-                else acts.addView(NUi.btn(c, "✎ Write", true, new View.OnClickListener() { public void onClick(View v) { F.entry(null); } }), al);
-            } else {
-                TextView h = NUi.title(c, "Your story starts here", 22); h.setGravity(Gravity.CENTER); em.addView(h);
-                TextView p = muted("Goals you set and reach, notes and photos land on this line."); p.setGravity(Gravity.CENTER); p.setPadding(0, NUi.dp(8), 0, 0); em.addView(p);
-                acts.addView(NUi.btn(c, "Add a moment", true, new View.OnClickListener() { public void onClick(View v) { F.entry(null); } }));
-            }
-            em.addView(acts, NUi.mt(16));
-            add(em, 6); return;
+                View go = null;
+                if (before != null) { final String bd = NDates.ymd(before.optLong("t")); go = NUi.btn(c, "Go to " + NDates.dayName(bd), false, new View.OnClickListener() { public void onClick(View v) { jumpTo(bd); } }); }
+                View second = JW > 0 ? NUi.btn(c, "Back to this week", false, new View.OnClickListener() { public void onClick(View v) { week(-JW); } })
+                    : NBits.ibtnText(c, "edit", "Write", true, new View.OnClickListener() { public void onClick(View v) { F.entry(null); } });
+                add(NBits.empty(c, null, "Nothing in these 7 days" + (jf.equals("all") ? "" : " for this filter") + ".", go, second), 0);
+            } else add(NBits.empty(c, "Your story starts here", "Goals you set and reach, notes and photos land on this line.", NBits.ibtnText(c, "camera", "Add a moment", true, new View.OnClickListener() { public void onClick(View v) { F.entry(null); } })), 0);
+            return;
         }
         if (jlayout().equals("h")) {
             List<NHs.Item> items = new ArrayList<>();
@@ -277,18 +270,10 @@ final class NJournalPage extends NPage {
         for (JSONObject t : all) { boolean d = "done".equals(t.optString("status")); if (!d) open++; if (thrFilter.equals("all") || (thrFilter.equals("done") == d)) l.add(t); }
         if (!all.isEmpty()) add(NBits.seg(c, new String[][]{{"open", "Active · " + open}, {"done", "Done"}, {"all", "All"}}, thrFilter, new NBits.Pick() { public void on(String k) { thrFilter = k; refresh(); } }), 12);
         if (l.isEmpty()) {
-            LinearLayout em = NUi.col(c); em.setGravity(Gravity.CENTER_HORIZONTAL); em.setPadding(NUi.dp(12), NUi.dp(40), NUi.dp(12), NUi.dp(40));
-            View b;
-            if (!all.isEmpty()) {
-                TextView p = muted("Nothing here."); p.setGravity(Gravity.CENTER); em.addView(p);
-                b = NUi.btn(c, "Show all threads", false, new View.OnClickListener() { public void onClick(View v) { thrFilter = "all"; refresh(); } });
-            } else {
-                TextView h = NUi.title(c, "Think out loud, one step at a time", 22); h.setGravity(Gravity.CENTER); em.addView(h);
-                TextView p = muted("A thread is a running log for an idea, a project or anything you’re working through. Add a line whenever something changes. Link it to a goal or habit only if you want to."); p.setGravity(Gravity.CENTER); p.setPadding(0, NUi.dp(8), 0, 0); em.addView(p);
-                b = NUi.btn(c, "＋ Start a thread", true, new View.OnClickListener() { public void onClick(View v) { F.thread(null); } });
-            }
-            em.addView(b, NUi.mt(16)); ((LinearLayout.LayoutParams) b.getLayoutParams()).gravity = Gravity.CENTER_HORIZONTAL;
-            add(em, 6); return;
+            if (!all.isEmpty()) add(NBits.empty(c, null, "Nothing here.", NUi.btn(c, "Show all threads", false, new View.OnClickListener() { public void onClick(View v) { thrFilter = "all"; refresh(); } })), 0);
+            else add(NBits.empty(c, "Think out loud, one step at a time", "A thread is a running log for an idea, a project or anything you’re working through. Add a line whenever something changes. Link it to a goal or habit only if you want to.",
+                NBits.ibtnText(c, "plus", "Start a thread", true, new View.OnClickListener() { public void onClick(View v) { F.thread(null); } })), 0);
+            return;
         }
         if (jlayout().equals("h")) {
             List<NHs.Item> items = new ArrayList<>();

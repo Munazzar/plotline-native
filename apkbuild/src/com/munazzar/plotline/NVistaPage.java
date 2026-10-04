@@ -61,7 +61,7 @@ final class NVistaPage extends NPage {
         LinearLayout.LayoutParams l1 = NUi.lp(-2, -2); l1.leftMargin = NUi.dp(8);
         r1.addView(NUi.ibtn(c, "target", new View.OnClickListener() { public void onClick(View v) { jumpToday(true); } }), l1);
         LinearLayout.LayoutParams l2 = NUi.lp(-2, -2); l2.leftMargin = NUi.dp(8);
-        r1.addView(NUi.ibtn(c, open.isEmpty() ? "down" : "up", !open.isEmpty(), new View.OnClickListener() { public void onClick(View v) {
+        r1.addView(NUi.ibtn(c, open.isEmpty() ? "vexpand" : "vcollapse", !open.isEmpty(), new View.OnClickListener() { public void onClick(View v) {
             if (!open.isEmpty()) open.clear(); else for (JSONObject g : NStore.list(st.arr("goals"))) open.add(g.optString("id"));
             draw = false; refresh();
         } }), l2);

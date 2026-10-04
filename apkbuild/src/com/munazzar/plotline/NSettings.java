@@ -163,24 +163,42 @@ final class NSettings extends NPage {
     void hub() {
         header("Settings");
         TextView sb = NBits.meta(c, "EVERYTHING IN ONE PLACE, ONE AREA AT A TIME", NTheme.muted); sb.setTextSize(10.5f); add(sb, 8);
-        LinearLayout box = NBits.listBox(c);
+        /* web .shub: one card per area (gap 8, radius 20), accent icon on a bg-2 tile, title 15/650, one-line sub, chevron */
         for (int i = 0; i < SECS.length; i++) {
             final String[] x = SECS[i];
-            if (i > 0) box.addView(NBits.divider(c));
-            LinearLayout r = NUi.row(c); r.setPadding(NUi.dp(16), NUi.dp(14), NUi.dp(12), NUi.dp(14));
-            android.widget.ImageView ic = NUi.icon(c, x[2], 20, NTheme.text);
-            LinearLayout ib = new LinearLayout(c); ib.setGravity(Gravity.CENTER); ib.setBackground(NUi.round(NTheme.surface2, 13, 0)); ib.addView(ic, NUi.lp(NUi.dp(20), NUi.dp(20)));
-            r.addView(ib, NUi.lp(NUi.dp(42), NUi.dp(42)));
-            LinearLayout tx = NUi.col(c); tx.setPadding(NUi.dp(14), 0, NUi.dp(8), 0);
-            tx.addView(NUi.body(c, x[1], 16.5f, NTheme.text, 700));
             boolean warn = x[0].equals("account") && "auth".equals(obj("sync").optString("err"));
-            TextView sub = NUi.ell(NUi.text(c, sub(x[0]), 13, warn ? NTheme.LATE : NTheme.muted), 2); tx.addView(sub, NUi.mt(2));
-            r.addView(tx, NUi.lpw(0, -2, 1));
-            r.addView(NUi.icon(c, "next", 18, NTheme.muted), NUi.lp(NUi.dp(18), NUi.dp(18)));
+            LinearLayout r = NUi.row(c); r.setGravity(Gravity.CENTER_VERTICAL); r.setPadding(NUi.dp(16), NUi.dp(14), NUi.dp(16), NUi.dp(14));
+            r.setBackground(NUi.ripple(NUi.round(NTheme.surface, 20, warn ? NTheme.alpha(0xFFFF7A7A, .5f) : NTheme.line), 20));
+            android.widget.ImageView ic = NUi.icon(c, x[2], 19, NTheme.accent);
+            LinearLayout ib = new LinearLayout(c); ib.setGravity(Gravity.CENTER); ib.setBackground(NUi.round(NTheme.bg2, 12, 0)); ib.addView(ic, NUi.lp(NUi.dp(19), NUi.dp(19)));
+            r.addView(ib, NUi.lp(NUi.dp(38), NUi.dp(38)));
+            LinearLayout tx = NUi.col(c);
+            tx.addView(NUi.body(c, x[1], 15, NTheme.text, 600));
+            TextView sub = NUi.ell(NUi.text(c, sub(x[0]), 12.5f, warn ? 0xFFFF9A9A : NTheme.muted), 1); tx.addView(sub, NUi.mt(2));
+            LinearLayout.LayoutParams tl = NUi.lpw(0, -2, 1); tl.leftMargin = NUi.dp(14); tl.rightMargin = NUi.dp(14); r.addView(tx, tl);
+            r.addView(NUi.icon(c, "next", 16, NTheme.muted), NUi.lp(NUi.dp(16), NUi.dp(16)));
             NUi.tap(r, new View.OnClickListener() { public void onClick(View v) { sh.push(new NSettings(sh, x[0])); } });
-            box.addView(r);
+            add(r, i == 0 ? 18 : 8);
         }
-        add(box, 18);
+        /* footer: version · Privacy policy · Take the tour · Setup checklist */
+        android.text.SpannableStringBuilder f = new android.text.SpannableStringBuilder("Plotline " + ver() + " · ");
+        link(f, "Privacy policy", new Runnable() { public void run() {
+            try { sh.a.startActivity(new android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse("https://munazzar.github.io/plotline/privacy.html"))); } catch (Exception ignored) { }
+        } });
+        f.append(" · "); link(f, "Take the tour", new Runnable() { public void run() { NTour.start(sh); } });
+        f.append(" · "); link(f, "Setup checklist", new Runnable() { public void run() { new NWelcome(sh).setup(); } });
+        TextView ft = NUi.text(c, f, 13, NTheme.muted); ft.setMovementMethod(android.text.method.LinkMovementMethod.getInstance()); ft.setHighlightColor(0); ft.setLineSpacing(0, 1.3f);
+        add(ft, 18);
+    }
+
+    String ver() { try { return sh.a.getPackageManager().getPackageInfo(sh.a.getPackageName(), 0).versionName; } catch (Exception e) { return ""; } }
+
+    void link(android.text.SpannableStringBuilder sb, String t, final Runnable r) {
+        int a = sb.length(); sb.append(t);
+        sb.setSpan(new android.text.style.ClickableSpan() {
+            @Override public void onClick(View v) { r.run(); }
+            @Override public void updateDrawState(android.text.TextPaint tp) { tp.setColor(NTheme.accent); tp.setUnderlineText(false); tp.setFakeBoldText(true); tp.setTextSize(NUi.sp(12)); }
+        }, a, sb.length(), 0);
     }
 
     /* ---------- You & sync ---------- */

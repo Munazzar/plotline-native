@@ -41,7 +41,9 @@ final class NDayScreen extends NPage {
         List<View> acts = new ArrayList<>();
         acts.add(NUi.ibtn(c, "back", new View.OnClickListener() { public void onClick(View v) { go(-1); } }));
         acts.add(NUi.ibtn(c, "cal", new View.OnClickListener() { public void onClick(View v) { pick(); } }));
-        if (ds.compareTo(td) < 0) acts.add(NUi.ibtn(c, "next", new View.OnClickListener() { public void onClick(View v) { go(1); } }));
+        View nx = NUi.ibtn(c, "next", new View.OnClickListener() { public void onClick(View v) { go(1); } });
+        if (ds.compareTo(td) >= 0) { nx.setAlpha(.35f); nx.setEnabled(false); nx.setClickable(false); }
+        acts.add(nx);
         acts.add(gear());
         header(rel == 0 ? "Today" : rel == -1 ? "Yesterday" : NDates.weekday(ds), acts.toArray(new View[0]));
         add(NUi.label(c, NDates.longDateYear(ds) + (rel < -1 ? " · " + (-rel) + " days ago" : ""), NTheme.muted), 8);
@@ -74,8 +76,9 @@ final class NDayScreen extends NPage {
         if (sum.getChildCount() > 0) add(NBits.hscroll(c, sum), 16);
 
         /* habits */
-        add(NUi.sectionHead(c, "Habits", null, null));
-        if (r[0] > 0) { TextView k = NUi.label(c, r[1] + " of " + r[0] + " kept", NTheme.muted); k.setPadding(0, 0, 0, NUi.dp(8)); add(k, -6); }
+        LinearLayout hh = NUi.sectionHead(c, "Habits", null, null); hh.setPadding(0, NUi.dp(34), 0, NUi.dp(14));
+        if (r[0] > 0) hh.addView(NUi.label(c, r[1] + " of " + r[0] + " kept", NTheme.muted));
+        add(hh);
         List<JSONObject> hs = new ArrayList<>();
         int k0 = NDates.dnum(ds);
         for (JSONObject h : NStore.list(habits)) {
@@ -85,9 +88,8 @@ final class NDayScreen extends NPage {
         }
         if (hs.isEmpty()) add(muted("No habits were due on this day."));
         else {
-            LinearLayout box = NBits.listBox(c);
-            for (int i = 0; i < hs.size(); i++) { if (i > 0) box.addView(NBits.divider(c)); box.addView(habitRow(hs.get(i), fut)); }
-            add(box);
+            /* web .dy-hl: one card per habit, 8 apart */
+            for (int i = 0; i < hs.size(); i++) add(habitRow(hs.get(i), fut), i == 0 ? 0 : 8);
         }
         if (fut) add(muted("This day hasn’t happened yet."), 8);
 
@@ -96,18 +98,18 @@ final class NDayScreen extends NPage {
 
         /* goals for the day */
         if (!dg.isEmpty() || !fut) {
-            add(NUi.sectionHead(c, "Goals for the day", "Add", new View.OnClickListener() { public void onClick(View v) { new NForms(sh).dayGoal(ds); } }));
+            add(NUi.sectionHead(c, "Goals for the day", null, null));
             if (dg.isEmpty()) add(muted("No goals were set for this day."));
             else {
+                /* web: .li rows — check, title (struck when done), time; an edit button */
                 LinearLayout box = NBits.listBox(c);
                 for (int i = 0; i < dg.size(); i++) {
                     final JSONObject x = dg.get(i);
                     if (i > 0) box.addView(NBits.divider(c));
                     View chk = NBits.check(c, x.optBoolean("done"), NTheme.accent, new View.OnClickListener() { public void onClick(View v) { NActs.toggleDay(x); sh.save(); } });
-                    JSONObject g = st.find("goals", NStore.s(x, "goalId"));
-                    String sub = (x.optString("time").isEmpty() ? "" : NDates.fmtTime(x.optString("time"))) + (g != null ? (x.optString("time").isEmpty() ? "" : " · ") + g.optString("title") : "");
-                    LinearLayout row = NBits.row(c, chk, x.optString("title"), sub, NTheme.muted, null, x.optBoolean("done"));
-                    NUi.tap(row, new View.OnClickListener() { public void onClick(View v) { new NForms(sh).dayGoal(ds, x); } });
+                    View ed = NBits.sbtn(c, "edit", new View.OnClickListener() { public void onClick(View v) { new NForms(sh).dayGoal(ds, x); } });
+                    ed.setLayoutParams(NUi.lp(NUi.dp(38), NUi.dp(38)));
+                    LinearLayout row = NBits.li(c, chk, x.optString("title"), false, 0, x.optString("time").isEmpty() ? "" : NDates.fmtTime(x.optString("time")), 15, ed);
                     box.addView(row);
                 }
                 add(box);
@@ -181,8 +183,14 @@ final class NDayScreen extends NPage {
     }
 
     void chip(LinearLayout row, String e, String v, String l) {
+        /* web .dy-c: 10/14 padding, radius 16, line-2 border, min 84 wide; emoji 18, value body 700 17, label 11.5 muted */
+        LinearLayout t = NUi.col(c); t.setPadding(NUi.dp(14), NUi.dp(10), NUi.dp(14), NUi.dp(10)); t.setMinimumWidth(NUi.dp(84));
+        t.setBackground(NUi.round(NTheme.surface, 16, NTheme.line2));
+        t.addView(NUi.text(c, e, 18, NTheme.text));
+        t.addView(NUi.body(c, v, 17, NTheme.text, 700));
+        t.addView(NUi.text(c, l, 11.5f, NTheme.muted));
         LinearLayout.LayoutParams p = NUi.lp(-2, -2); p.rightMargin = NUi.dp(8);
-        row.addView(NBits.chipStat(c, e, v, l), p);
+        row.addView(t, p);
     }
 
     void pick() {
@@ -197,14 +205,15 @@ final class NDayScreen extends NPage {
 
     /* ---- one habit on this day ---- */
     View habitRow(final JSONObject h, final boolean fut) {
+        /* web .dy-h: a card (radius 18, line-2 border; the habit colour when done), row padding 8/10/8/4,
+           plain emoji 22, title 15 bold, status 12.5 muted, chevron, then the controls */
         LinearLayout wrap = NUi.col(c);
-        LinearLayout r = NUi.row(c);
-        r.setPadding(NUi.dp(14), NUi.dp(10), NUi.dp(12), NUi.dp(10));
-        TextView ic = NUi.text(c, NHabits.icon(h), 20, NTheme.text); ic.setGravity(Gravity.CENTER);
-        ic.setBackground(NUi.round(NTheme.alpha(NTheme.areaCol(h.optString("area")), .18f), 12, 0));
-        r.addView(ic, NUi.lp(NUi.dp(40), NUi.dp(40)));
-        LinearLayout mid = NUi.col(c); mid.setPadding(NUi.dp(12), 0, NUi.dp(8), 0);
-        mid.addView(NUi.ell(NUi.body(c, h.optString("title"), 16, NTheme.text, 700), 2));
+        LinearLayout r = NUi.row(c); r.setGravity(Gravity.CENTER_VERTICAL);
+        r.setPadding(NUi.dp(10), NUi.dp(12), NUi.dp(10), NUi.dp(12));
+        TextView ic = NUi.text(c, NHabits.icon(h), 22, NTheme.text); ic.setGravity(Gravity.CENTER);
+        r.addView(ic);
+        LinearLayout mid = NUi.col(c); mid.setPadding(NUi.dp(10), 0, NUi.dp(8), 0);
+        mid.addView(NUi.body(c, h.optString("title"), 15, NTheme.text, 700));
         final int v = NHabits.val(h, ds), n = NHabits.target(h);
         final boolean dn = NHabits.done(h, ds), sk = NHabits.skip(h, ds), pz = NHabits.paused(h, ds), quit = NHabits.kind(h).equals("quit");
         String st1; int stCol = NTheme.muted;
@@ -216,8 +225,8 @@ final class NDayScreen extends NPage {
         } else if (quit) {
             int sl = slipsOn(h).size();
             st1 = sl > 0 ? sl + " slip" + (sl > 1 ? "s" : "") : "Clean";
-            TextView pill = NUi.body(c, sl > 0 ? "Slip" : "Clean", 13, sl > 0 ? NTheme.LATE : NTheme.text, 700);
-            pill.setPadding(NUi.dp(12), NUi.dp(6), NUi.dp(12), NUi.dp(6)); pill.setBackground(NUi.round(NTheme.alpha(sl > 0 ? NTheme.LATE : NTheme.accent, .16f), 99, 0));
+            TextView pill = NUi.body(c, sl > 0 ? "Slip" : "Clean", 11.5f, NTheme.text, 700);
+            pill.setPadding(NUi.dp(10), NUi.dp(5), NUi.dp(10), NUi.dp(5)); pill.setBackground(NUi.round(NTheme.alpha(sl > 0 ? 0xFFD9534F : 0xFF4FAF7A, .22f), 99, 0));
             ctl.addView(pill);
         } else {
             st1 = pz ? "Paused" : sk ? "Rest day" : n > 1 ? v + " of " + n + (h.optString("unit").isEmpty() ? "" : " " + h.optString("unit")) : dn ? "Done" : "Not done";
@@ -227,7 +236,7 @@ final class NDayScreen extends NPage {
                     LinearLayout.LayoutParams l = NUi.lp(NUi.dp(36), NUi.dp(36)); l.leftMargin = NUi.dp(6);
                     ctl.addView(NBits.sbtn(c, "plus", new View.OnClickListener() { public void onClick(View x) { adj(h, 1); } }), l);
                 }
-                LinearLayout.LayoutParams l = NUi.lp(NUi.dp(40), NUi.dp(40)); l.leftMargin = NUi.dp(8);
+                LinearLayout.LayoutParams l = NUi.lp(NUi.dp(44), NUi.dp(44)); l.leftMargin = NUi.dp(6);
                 ctl.addView(NBits.check(c, dn, NTheme.areaCol(h.optString("area")), new View.OnClickListener() { public void onClick(View x) {
                     NHabits.setVal(h, ds, v >= n ? 0 : n);
                     if (v < n) NActs.milestone(st, h);
@@ -246,10 +255,10 @@ final class NDayScreen extends NPage {
             JSONArray ups = t.optJSONArray("ups"); for (int k = 0; ups != null && k < ups.length(); k++) { JSONObject u = ups.optJSONObject(k); if (u != null && !NStore.isDel(u) && NDates.ymd(u.optLong("t")).equals(ds)) htu.add(new JSONObject[]{t, u}); }
         }
         String extra = (hn.isEmpty() ? "" : " · 🔔 " + hn.size()) + (hr.isEmpty() ? "" : " · 👏 " + hr.size()) + (he.isEmpty() ? "" : " · 📓 " + he.size()) + (htu.isEmpty() ? "" : " · 🧵 " + htu.size());
-        mid.addView(NUi.ell(NUi.text(c, st1 + extra, 13, stCol), 1), NUi.mt(2));
+        mid.addView(NUi.ell(NUi.text(c, st1 + extra, 12.5f, stCol), 1));
         r.addView(mid, NUi.lpw(0, -2, 1));
-        final View chev = NUi.icon(c, "down", 16, NTheme.muted); chev.setRotation(DAYX.contains(hid) ? 180 : 0);
-        LinearLayout.LayoutParams cvl = NUi.lp(NUi.dp(16), NUi.dp(16)); cvl.rightMargin = NUi.dp(8); r.addView(chev, cvl);
+        final View chev = NUi.icon(c, "chev", 18, NTheme.text); chev.setAlpha(.55f); chev.setRotation(DAYX.contains(hid) ? 180 : 0);
+        LinearLayout.LayoutParams cvl = NUi.lp(NUi.dp(18), NUi.dp(18)); cvl.rightMargin = NUi.dp(6); r.addView(chev, cvl);
         r.addView(ctl);
         wrap.addView(r);
         final LinearLayout hb = NUi.col(c); hb.setPadding(NUi.dp(66), 0, NUi.dp(14), NUi.dp(10));
@@ -306,6 +315,8 @@ final class NDayScreen extends NPage {
         if (!hr.isEmpty()) { hb.addView(sub("Cheers")); hb.addView(cheers(hr)); }
         if (!he.isEmpty()) { hb.addView(sub("Journal")); for (final JSONObject e : he) hb.addView(entBtn((NStore.s(e, "mood").isEmpty() ? "" : NStore.s(e, "mood") + " ") + NForms.trunc(!e.optString("title").isEmpty() ? e.optString("title") : e.optString("text", "Entry"), 80), NDates.fmtClock(e.optLong("t")), new View.OnClickListener() { public void onClick(View v) { NEng.viewEntry(sh, e.optString("id")); } })); }
         if (!htu.isEmpty()) { hb.addView(sub("Thread updates")); for (final JSONObject[] tu : htu) hb.addView(entBtn(NForms.tagEmoji(tu[1].optString("k")) + " " + NForms.trunc(tu[1].optString("x"), 80), NForms.trunc(tu[0].optString("title"), 30) + " · " + NDates.fmtClock(tu[1].optLong("t")), new View.OnClickListener() { public void onClick(View v) { sh.push(new NThreadScreen(sh, tu[0].optString("id"))); } })); }
+        int hc = NTheme.areaCol(h.optString("area"));
+        wrap.setBackground(NUi.round(NTheme.surface, 18, NHabits.done(h, ds) ? NUi.mix(hc, .45f, NTheme.line2) : NTheme.line2));
         return wrap;
     }
 

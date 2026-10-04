@@ -269,14 +269,31 @@ final class NBits {
         return r;
     }
 
-    static View empty(Context c, String title, String sub) {
+    /* web .empty: dashed 1.5px box (radius 28, padding 52/24), big display h3 (max 16ch), muted text, centred actions */
+    static View empty(Context c, String title, String sub, View... acts) {
         LinearLayout l = NUi.col(c);
         l.setGravity(Gravity.CENTER_HORIZONTAL);
-        l.setBackground(NUi.round(0, 22, NTheme.line2));
-        l.setPadding(NUi.dp(20), NUi.dp(26), NUi.dp(20), NUi.dp(26));
-        TextView t = NUi.body(c, title, 16, NTheme.text, 700); t.setGravity(Gravity.CENTER); l.addView(t);
-        if (sub != null) { TextView s = NUi.text(c, sub, 14, NTheme.muted); s.setGravity(Gravity.CENTER); s.setPadding(0, NUi.dp(6), 0, 0); l.addView(s); }
+        l.setBackground(NUi.dashed(0, 28, NTheme.line2, 1.5f));
+        l.setPadding(NUi.dp(24), NUi.dp(52), NUi.dp(24), NUi.dp(52));
+        if (title != null) {
+            TextView t = NUi.title(c, title, 34); t.setGravity(Gravity.CENTER); t.setLineSpacing(0, .95f);
+            t.setMaxWidth(Math.round(t.getPaint().measureText("0") * 16));
+            LinearLayout.LayoutParams tl = NUi.lp(-2, -2); tl.bottomMargin = NUi.dp(12); l.addView(t, tl);
+        }
+        if (sub != null) { TextView s = NUi.text(c, sub, 15, NTheme.muted); s.setGravity(Gravity.CENTER); s.setLineSpacing(0, 1.3f); s.setMaxWidth(NUi.dp(420)); l.addView(s, NUi.lp(-2, -2)); }
+        if (acts.length > 0) {
+            NFlow f = new NFlow(c, 10, 10); f.center = true;
+            for (View v : acts) if (v != null) f.addView(v);
+            l.addView(f, NUi.mt(20));
+        }
         return l;
+    }
+
+    /* .btn with a leading icon (web ${ic(x)}Label) */
+    static TextView ibtnText(Context c, String icon, String label, boolean primary, View.OnClickListener l) {
+        TextView t = NUi.btn(c, label, primary, l);
+        if (icon != null) { t.setCompoundDrawablesRelative(NUi.iconD(icon, 18, primary ? NTheme.onAccent : NTheme.text), null, null, null); t.setCompoundDrawablePadding(NUi.dp(8)); }
+        return t;
     }
 
     /* colourful goal card (grid tile) */

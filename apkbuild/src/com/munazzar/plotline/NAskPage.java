@@ -58,27 +58,28 @@ final class NAskPage extends NPage {
 
     /* ---- composer, pinned above the tab bar ---- */
     void composer() {
+        /* web .ask-comp (phone): full width, frosted page colour behind it, scope pill then the .ask-row box */
         comp = NUi.col(c);
-        comp.setBackground(NUi.round(NTheme.bg2, 26, NTheme.line2));
-        comp.setPadding(NUi.dp(12), NUi.dp(10), NUi.dp(10), NUi.dp(10));
+        comp.setBackground(new android.graphics.drawable.GradientDrawable(android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM, new int[]{NTheme.alpha(NTheme.bg, 0), NTheme.alpha(NTheme.bg, .72f), NTheme.alpha(NTheme.bg, .92f)}));
         LinearLayout sr = NUi.row(c);
         scope = NUi.body(c, "All time", 12.5f, NTheme.muted, 600);
-        LinearLayout pill = NUi.row(c); pill.setPadding(NUi.dp(10), NUi.dp(6), NUi.dp(12), NUi.dp(6)); pill.setBackground(NUi.round(NTheme.surface, 99, NTheme.line));
-        pill.addView(NUi.icon(c, "search", 14, NTheme.muted), NUi.lp(NUi.dp(14), NUi.dp(14)));
+        LinearLayout pill = NUi.row(c); pill.setPadding(NUi.dp(11), NUi.dp(5), NUi.dp(11), NUi.dp(5)); pill.setBackground(NUi.round(NTheme.alpha(NTheme.bg2, .8f), 99, NTheme.line));
+        pill.addView(NUi.icon(c, "search", 12, NTheme.muted), NUi.lp(NUi.dp(12), NUi.dp(12)));
         scope.setPadding(NUi.dp(6), 0, 0, 0); pill.addView(scope);
         NUi.tap(pill, new View.OnClickListener() { public void onClick(View v) { NEng.askScope(sh, new Runnable() { public void run() { sig = ""; } }); } });
-        sr.addView(pill); comp.addView(sr);
-        LinearLayout row = NUi.row(c); row.setPadding(0, NUi.dp(8), 0, 0); row.setGravity(Gravity.BOTTOM);
+        LinearLayout.LayoutParams pl = NUi.lp(-2, -2); pl.leftMargin = NUi.dp(6); pl.bottomMargin = NUi.dp(7); sr.addView(pill, pl); comp.addView(sr);
+        LinearLayout row = NUi.row(c); row.setGravity(Gravity.BOTTOM);
+        row.setPadding(NUi.dp(16), NUi.dp(7), NUi.dp(7), NUi.dp(7)); row.setBackground(NUi.round(NTheme.alpha(NTheme.bg2, .88f), 24, NTheme.line2));
         in = new EditText(c); in.setHint("Ask anything about your life…"); in.setHintTextColor(NTheme.alpha(NTheme.muted, .9f)); in.setTextColor(NTheme.text); in.setTextSize(16); in.setTypeface(NFont.body(500));
-        in.setBackground(null); in.setMaxLines(5); in.setMinHeight(NUi.dp(44)); in.setPadding(NUi.dp(6), NUi.dp(10), NUi.dp(6), NUi.dp(10));
+        in.setBackground(null); in.setMaxLines(5); in.setMinHeight(NUi.dp(40)); in.setPadding(0, NUi.dp(9), 0, NUi.dp(9));
         in.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE | android.text.InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         row.addView(in, NUi.lpw(0, -2, 1));
         NVoice.attach(c, in);
-        go = new FrameLayout(c); go.setBackground(NUi.ripple(NUi.oval(NTheme.accent, 0, 0), 99));
-        goIcon = NUi.icon(c, "up", 20, NTheme.onAccent); go.addView(goIcon, new FrameLayout.LayoutParams(NUi.dp(20), NUi.dp(20), Gravity.CENTER));
+        go = new FrameLayout(c); go.setBackground(NUi.ripple(NUi.round(NTheme.accent, 15, 0), 15));
+        goIcon = NUi.icon(c, "up", 20, NTheme.bg); go.addView(goIcon, new FrameLayout.LayoutParams(NUi.dp(20), NUi.dp(20), Gravity.CENTER));
         View st = new View(c); st.setBackground(NUi.round(NTheme.onAccent, 3, 0)); stopIcon = st; st.setVisibility(View.GONE); go.addView(st, new FrameLayout.LayoutParams(NUi.dp(14), NUi.dp(14), Gravity.CENTER));
         NUi.tap(go, new View.OnClickListener() { public void onClick(View v) { send(); } });
-        row.addView(go, NUi.lp(NUi.dp(44), NUi.dp(44)));
+        LinearLayout.LayoutParams gl = NUi.lp(NUi.dp(42), NUi.dp(42)); gl.leftMargin = NUi.dp(8); row.addView(go, gl);
         comp.addView(row);
         FrameLayout.LayoutParams l = new FrameLayout.LayoutParams(-1, -2, Gravity.BOTTOM);
         frame.addView(comp, l);
@@ -89,9 +90,11 @@ final class NAskPage extends NPage {
         super.pad();
         if (comp == null) return;
         FrameLayout.LayoutParams l = (FrameLayout.LayoutParams) comp.getLayoutParams();
-        l.leftMargin = l.rightMargin = NUi.dp(12); l.bottomMargin = sh.kb > 0 ? NUi.dp(8) : sh.bot + NUi.dp(84);
+        l.leftMargin = l.rightMargin = 0; l.bottomMargin = 0;
+        int gut = NUi.dp(sh.wide() ? 32 : 16);
+        comp.setPadding(gut, NUi.dp(26), gut, sh.kb > 0 ? NUi.dp(8) : sh.bot + NUi.dp(100));
         comp.setLayoutParams(l);
-        if (body != null) body.setPadding(body.getPaddingLeft(), body.getPaddingTop(), body.getPaddingRight(), (sh.kb > 0 ? 0 : sh.bot + NUi.dp(84)) + NUi.dp(130));
+        if (body != null) body.setPadding(body.getPaddingLeft(), body.getPaddingTop(), body.getPaddingRight(), (sh.kb > 0 ? NUi.dp(130) : sh.bot + NUi.dp(230)));
     }
 
     void sync(JSONObject o) {
@@ -134,29 +137,46 @@ final class NAskPage extends NPage {
 
     void intro() {
         LinearLayout hero = NUi.col(c); hero.setGravity(Gravity.CENTER_HORIZONTAL); hero.setPadding(0, NUi.dp(18), 0, NUi.dp(6));
-        FrameLayout orb = new FrameLayout(c); orb.setBackground(NUi.round(NUi.mix(NTheme.accent, .18f, NTheme.surface), 32, NTheme.alpha(NTheme.accent, .5f)));
+        /* web .ask-orb (phone): 56px, radius 20, accent radial wash, accent border and glow */
+        FrameLayout orb = new FrameLayout(c) {
+            final android.graphics.Paint gp = new android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG);
+            { setWillNotDraw(false); setLayerType(LAYER_TYPE_SOFTWARE, null); }
+            @Override protected void onDraw(android.graphics.Canvas cv) {
+                float w = getWidth(), h = getHeight(), r = NUi.dp(20); android.graphics.RectF rb = new android.graphics.RectF(0, 0, w, h);
+                gp.setColor(NTheme.alpha(NTheme.accent, .45f)); gp.setMaskFilter(new android.graphics.BlurMaskFilter(NUi.dp(18), android.graphics.BlurMaskFilter.Blur.OUTER)); cv.drawRoundRect(rb, r, r, gp); gp.setMaskFilter(null);
+                gp.setShader(new android.graphics.RadialGradient(w * .3f, h * .25f, w, NUi.mix(NTheme.accent, .34f, NTheme.bg), NUi.mix(NTheme.accent, .06f, NTheme.surface), android.graphics.Shader.TileMode.CLAMP)); cv.drawRoundRect(rb, r, r, gp); gp.setShader(null);
+                gp.setStyle(android.graphics.Paint.Style.STROKE); gp.setStrokeWidth(Math.max(1, NUi.dp(1))); gp.setColor(NTheme.alpha(NTheme.accent, .4f)); cv.drawRoundRect(new android.graphics.RectF(.5f, .5f, w - .5f, h - .5f), r, r, gp); gp.setStyle(android.graphics.Paint.Style.FILL);
+                super.onDraw(cv);
+            }
+        };
         orb.addView(NUi.icon(c, "ai", 30, NTheme.accent), new FrameLayout.LayoutParams(NUi.dp(30), NUi.dp(30), Gravity.CENTER));
-        hero.addView(orb, NUi.lp(NUi.dp(64), NUi.dp(64)));
+        hero.addView(orb, NUi.lp(NUi.dp(56), NUi.dp(56)));
         String nm = d.optString("name"); int h = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY);
         String gr = h < 5 ? "Still up" : h < 12 ? "Good morning" : h < 17 ? "Good afternoon" : "Good evening";
         TextView t = NUi.title(c, gr + (nm.isEmpty() ? "" : ", " + nm) + ".", 28); t.setGravity(Gravity.CENTER); hero.addView(t, NUi.mt(14));
-        TextView sb = NUi.text(c, "Ask anything about your goals, habits and journal. Answers come from your own notes.", 14.5f, NTheme.muted); sb.setGravity(Gravity.CENTER); sb.setLineSpacing(0, 1.2f); hero.addView(sb, NUi.mt(8));
+        TextView sb = NUi.text(c, "Ask anything about your goals, habits and journal. Answers come from your own notes" + ("local".equals(d.optString("eng")) ? ", on this device" : "") + ".", 14.5f, NTheme.muted); sb.setGravity(Gravity.CENTER); sb.setLineSpacing(0, 1.2f); hero.addView(sb, NUi.mt(8));
         add(hero, 8);
 
         View plan = NHome.aip(sh, "ask");
         add(plan, 0); ((LinearLayout.LayoutParams) plan.getLayoutParams()).bottomMargin = NUi.dp(18);
 
+        /* web .ask-sugs on phones: two columns, gap 8 */
         JSONArray sg = d.optJSONArray("sugs"), id = d.optJSONArray("ideas");
-        LinearLayout box = NUi.col(c);
+        android.widget.GridLayout box = new android.widget.GridLayout(c); box.setColumnCount(2);
+        java.util.List<View> cells = new java.util.ArrayList<>();
         for (int i = 0; sg != null && i < sg.length(); i++) {
             final JSONObject x = sg.optJSONObject(i);
-            box.addView(sug(x.optString("n"), x.optString("d"), false, new View.OnClickListener() { public void onClick(View v) { sh.run("askPre", NMore.d("k", x.optString("k"))); sig = ""; scrollDown = true; } }), NUi.mt(i == 0 ? 0 : 8));
+            cells.add(sug(x.optString("n"), x.optString("d"), false, new View.OnClickListener() { public void onClick(View v) { sh.run("askPre", NMore.d("k", x.optString("k"))); sig = ""; scrollDown = true; } }));
         }
         for (int i = 0; id != null && i < id.length(); i++) {
             final String q = id.optString(i);
-            box.addView(sug(q, "From your plan", true, new View.OnClickListener() { public void onClick(View v) { ask(q); } }), NUi.mt(8));
+            cells.add(sug(q, "From your plan", true, new View.OnClickListener() { public void onClick(View v) { ask(q); } }));
         }
-        add(box, 14);
+        for (View v : cells) {
+            android.widget.GridLayout.LayoutParams l = new android.widget.GridLayout.LayoutParams(android.widget.GridLayout.spec(android.widget.GridLayout.UNDEFINED, android.widget.GridLayout.FILL), android.widget.GridLayout.spec(android.widget.GridLayout.UNDEFINED, 1f));
+            l.width = 0; l.setMargins(NUi.dp(4), NUi.dp(4), NUi.dp(4), NUi.dp(4)); box.addView(v, l);
+        }
+        LinearLayout.LayoutParams bl = NUi.mt(4); bl.leftMargin = bl.rightMargin = -NUi.dp(4); body.addView(box, bl);
 
         JSONArray st = d.optJSONArray("stats");
         if (st != null && st.length() > 0) {
@@ -177,10 +197,11 @@ final class NAskPage extends NPage {
     }
 
     View sug(String t, String sub, boolean idea, View.OnClickListener l) {
-        LinearLayout r = NUi.col(c); r.setPadding(NUi.dp(16), NUi.dp(13), NUi.dp(16), NUi.dp(13));
-        r.setBackground(NUi.ripple(NUi.round(NTheme.surface, 18, NTheme.line), 18));
-        r.addView(NUi.body(c, t, 15, NTheme.text, 700));
-        r.addView(NUi.text(c, sub, 12.5f, NTheme.muted), NUi.mt(2));
+        /* web .ask-sug (phone): padding 12/13, radius 16, b 13.5/650, small 12 muted; ideas dashed with accent small */
+        LinearLayout r = NUi.col(c); r.setPadding(NUi.dp(13), NUi.dp(12), NUi.dp(13), NUi.dp(12));
+        r.setBackground(NUi.ripple(idea ? NUi.dashed(NTheme.surface, 16, NTheme.line, 1) : NUi.round(NTheme.surface, 16, NTheme.line), 16));
+        TextView tb = NUi.body(c, t, 13.5f, NTheme.text, 600); tb.setLineSpacing(0, 1.2f); r.addView(tb);
+        r.addView(NUi.text(c, sub, 12, idea ? NTheme.accent : NTheme.muted), NUi.mt(4));
         NUi.tap(r, l); return r;
     }
 

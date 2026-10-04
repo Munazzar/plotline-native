@@ -208,7 +208,7 @@ final class NHome extends NPage {
             NUi.tap(mb, new View.OnClickListener() { public void onClick(View v) { sh.push(new NAiPlan(sh, "new")); } });
             card.addView(mb, NUi.lpw(0, -2, 1));
             LinearLayout.LayoutParams xl = NUi.lp(-2, -2); xl.leftMargin = NUi.dp(6);
-            card.addView(NUi.ibtn(c, "down", new View.OnClickListener() { public void onClick(View v) { try { st.settings().put("aipHide", false); } catch (Exception ignored) { } sh.save(); } }), xl);
+            card.addView(NUi.ibtn(c, "chev", new View.OnClickListener() { public void onClick(View v) { try { st.settings().put("aipHide", false); } catch (Exception ignored) { } sh.save(); } }), xl);
             return card;
         }
         card.setPadding(NUi.dp(18), NUi.dp(18), NUi.dp(18), NUi.dp(18)); card.setGravity(Gravity.TOP);

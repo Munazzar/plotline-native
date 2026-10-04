@@ -132,6 +132,13 @@ final class NRoad extends View {
         if (chapters) chapterBands(cv, sx);
         for (int i = 0; i < goals.size(); i++) laneDraw(cv, i, sx);
         todayLine(cv);
+        /* the name pills sit above the NOW line, like the web's HTML labels over the SVG */
+        for (int i = 0; i < goals.size(); i++) {
+            JSONObject g = goals.get(i); if (single && goals.size() <= 1) break;
+            cv.save(); cv.translate(0, top[i]);
+            chip(cv, g, i, sx, span(g), NActs.pct(st, g) / 100f, isOpen(g), NTheme.areaCol(g.optString("area")), top[i]);
+            cv.restore();
+        }
         if (reveal < 1f) postInvalidateOnAnimation();
     }
 
@@ -235,7 +242,6 @@ final class NRoad extends View {
             halo(cv, xp, shy, 24, col); p.setStyle(Paint.Style.FILL); p.setColor(NTheme.alpha(col, .45f)); cv.drawCircle(xp, shy, 10, p);
             p.setColor(0xFFFFFFFF); cv.drawCircle(xp, shy, 6, p);
         }
-        if (!single || goals.size() > 1) chip(cv, g, i, sx, sp, pr, open, col, y0);
         cv.restore();
     }
 
@@ -272,7 +278,7 @@ final class NRoad extends View {
         TextPaint mp = new TextPaint(Paint.ANTI_ALIAS_FLAG); mp.setTypeface(NFont.mono(500)); mp.setTextSize(9.5f); mp.setColor(NTheme.muted); mp.setLetterSpacing(.05f);
         float w = Math.max(tp.measureText(t), mp.measureText(sub.toUpperCase())) + 7 + 28 + 10 + 14 + (open ? 44 : 0);
         float cx = sx + GUT, cy = 6; RectF r = new RectF(cx, cy, cx + Math.min(w, maxT + 80), cy + 40);
-        p.setStyle(Paint.Style.FILL); p.setColor(NTheme.alpha(NTheme.bg, .75f)); cv.drawRoundRect(r, 20, 20, p);
+        p.setStyle(Paint.Style.FILL); p.setColor(NTheme.alpha(NTheme.bg, .9f)); cv.drawRoundRect(r, 20, 20, p);
         p.setStyle(Paint.Style.STROKE); p.setStrokeWidth(1); p.setColor(open ? NTheme.alpha(col, .45f) : NTheme.line); cv.drawRoundRect(r, 20, 20, p);
         float rcx = cx + 7 + 14, rcy = cy + 20; RectF ar = new RectF(rcx - 10, rcy - 10, rcx + 10, rcy + 10);
         p.setStrokeWidth(3.5f); p.setStrokeCap(Paint.Cap.ROUND); p.setColor(NTheme.alpha(col, .22f)); cv.drawCircle(rcx, rcy, 10, p);
