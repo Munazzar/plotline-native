@@ -37,7 +37,8 @@ def main():
     sh('shell', 'am', 'start', '-W', '-n', PKG + '/.MainActivity'); time.sleep(10)
     shot(OUT + '/native/00-first-run.png')
     sh('shell', 'am', 'force-stop', PKG)
-    sh('shell', 'run-as', PKG, 'sh', '-c', 'mkdir -p files && cat > files/state.json', inp=json.dumps(state).encode(), check=True)
+    sh('shell', f"run-as {PKG} sh -c 'mkdir -p files; cat > files/state.json'", inp=json.dumps(state).encode(), check=True)
+    print('seeded', sh('shell', f"run-as {PKG} ls -la files").decode())
     sh('logcat', '-c')
     sh('shell', 'am', 'start', '-W', '-n', PKG + '/.MainActivity'); time.sleep(14)
     shot(OUT + '/native/00-launch.png')
@@ -57,7 +58,7 @@ def main():
     open(OUT + '/native/logcat.txt', 'wb').write(sh('logcat', '-d'))
     pid = sh('shell', 'pidof', PKG).decode().strip()
     errs = [l for l in open(OUT + '/native/logcat.txt', encoding='utf-8', errors='replace')
-            if ('FATAL' in l or ' E AndroidRuntime' in l or (pid and f' {pid} ' in l and (' E ' in l or ' W ' in l and 'Exception' in l)) or 'PlotlineNative' in l or 'nshell' in l) and 'uiautomator' not in l]
+            if ('FATAL' in l or ' E AndroidRuntime' in l or (pid and f' {pid} ' in l and (' E ' in l or ' W ' in l and 'Exception' in l)) or 'PlotlineNative' in l or 'nshell' in l or ('CONSOLE' in l and ('Error' in l or 'Uncaught' in l))) and 'uiautomator' not in l]
     open(OUT + '/native/errors.txt', 'w').writelines(errs)
 
 

@@ -39,6 +39,7 @@ async def main():
             await pg.wait_for_timeout(2000)
         await pg.evaluate("typeof closeSheet==='function'&&closeSheet()")
         await pg.wait_for_timeout(600)
+        open(OUT + '/web/version.txt', 'w').write(URL + '  APP_VER=' + str(await pg.evaluate("typeof APP_VER!=='undefined'?APP_VER:'?'")) + '\n')
         state = json.loads(await pg.evaluate("JSON.stringify(S)"))
         json.dump(state, open(OUT + '/state.json', 'w'))
         for name, route in scenarios(state):
