@@ -1,0 +1,53 @@
+36-habits-vista: page offset 29dp, 16 texts matched, mean |diff| 51.8dp
+
+  diff   dx    dy    dw    dh   web(x,y,w,h fs)            text
+   559    71  -559   -33    -6   (61,808,159,20 13.5b)  Family time, phones away
+    31     3   -31  -245     1   (31,389,354,16 10.5)  SEP 7 – TODAY
+    28    28   -23  -127   -16   (121,297,151,30 12.0)  126 done in 30 days
+    25     6   -25     5     1   (31,345,51,28 12.0b)  Week
+    25    11   -25     5     1   (82,345,56,28 12.0b)  Month
+    25    16   -25     5     1   (138,345,72,28 12.0b)  3 months
+    25    20   -25     5     1   (210,345,44,28 12.0b)  Year
+    14     0    14     5    -0   (16,24,158,35 40.0b)  HABITS
+    13     0    13    -1    -1   (16,98,380,16 10.5)  0 OF 5 DONE TODAY · 2 BEING BROKEN
+    12    -1    12    -2     1   (21,149,68,34 13.5b)  Today
+    12    -3    12    -0     1   (89,149,61,34 13.5b)  Vista
+    12    -3    12    -0     1   (150,149,60,34 13.5b)  Build
+    12    -3    12    -0     1   (210,149,64,34 13.5b)  Break
+    12    -3    12    -1     1   (274,149,84,34 13.5b)  Routines
+    12    -4    12   -50     1   (358,149,92,34 13.5b)  Templates
+    12     5   -12    63     4   (121,236,188,13 10.5)  KEPT THIS WEEK · 26 OF 33
+
+on the web but not found on native (first screen):
+   (52,267) <b.> 79%
+   (121,261) <span.hv-chip> 21 Family time, phones a…
+   (150,303) <b.> 126
+   (61,458) <b.> Drink water
+   (308,462) <small.> days
+   (348,460) <i.> 90%
+   (61,528) <b.> Read before bed
+   (308,532) <small.> days
+   (348,530) <i.> 90%
+   (61,598) <b.> Exercise
+   (301,602) <small.> weeks
+   (348,600) <i.> 75%
+   (61,668) <b.> Pray on time
+   (316,672) <small.> day
+   (348,670) <i.> 86%
+   (61,738) <b.> Morning routine
+   (308,742) <small.> days
+   (348,740) <i.> 90%
+   (301,812) <small.> days
+   (341,810) <i.> 100%
+   (61,878) <b.> No added sugar
+   (315,882) <small.> days free
+
+on native only:
+   (173,311)  done in 30 days
+   (30,851) Home
+   (83,852) Habits
+   (132,852) Calendar
+   (192,852) Goals
+   (248,852) Vista
+   (296,852) Journal
+   (358,852) Ask

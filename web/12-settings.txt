@@ -1,0 +1,31 @@
+header.ph
+    h1 "Settings"
+    div.data "Everything in one place, one area at a time"
+  a.shub-r
+      b "You & sync"
+      small "Not syncing · connect Google Drive"
+  a.shub-r
+      b "Look & feel"
+      small "Midnight theme"
+  a.shub-r
+      b "Notifications"
+      small "5 of 5 kinds on"
+  a.shub-r
+      b "Privacy & lock"
+      small "Off · anyone with this device can open Plotline"
+  a.shub-r
+      b "Automations"
+      small "In the Android app"
+  a.shub-r
+      b "Sharing"
+      small "Needs Google sync first"
+  a.shub-r
+      b "AI & voice"
+      small "On-device AI · voice needs your OK"
+  a.shub-r
+      b "Your data"
+      small "Backup, import, sample data"
+p.small.muted.shub-f "Plotline 2.0.10 · · ·"
+  a.link "Privacy policy"
+  button.link @tourGo "Take the tour"
+  button.link @setupOpen "Setup checklist"

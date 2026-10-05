@@ -1,0 +1,22 @@
+43-settings-account: page offset 20dp, 6 texts matched, mean |diff| 28.5dp
+
+  diff   dx    dy    dw    dh   web(x,y,w,h fs)            text
+    54    -1   -54   -19     0   (39,499,334,24 24.0b)  YOU
+    51    -1   -51   -29     0   (39,391,214,46 14.5b)  Connect Google Drive
+    21     0    21    -1    -1   (16,145,380,16 10.5)  NOT SYNCING · CONNECT GOOGLE DRIVE
+    20    -1    20   -19     0   (39,214,334,24 24.0b)  SYNC
+    12     0    12    13    19   (16,82,366,35 40.0b)  YOU & SYNC
+    12    -0   -12     1   -65   (39,250,334,121 13.0)  Keep your phone and the web app in step through a private, h
+
+on the web but not found on native (first screen):
+   (39,523) <button.btn> Take the tour
+   (39,583) <label.> YOUR NAME
+
+on native only:
+   (30,851) Home
+   (84,852) Habits
+   (132,852) Calendar
+   (192,852) Goals
+   (248,852) Vista
+   (296,852) Journal
+   (358,852) Ask

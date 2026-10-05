@@ -1,0 +1,311 @@
+header.ph.cph
+    h1 "Calendar"
+    div.data "Day goals, steps and targets together · 1 of 16 done"
+  div.ph-r
+    button.ibtn @addDay [Add a goal for Today]
+    button.ibtn.fsb @focusMode [Full screen]
+    a.ibtn.mob.gearb [Settings]
+  div.seg-c
+    button @calView "Day"
+    button @calView "Week"
+    button.on @calView "Month"
+  button.btn @calToday "Today"
+section.cal-card.rv.in
+    h2 "October 2026"
+      button.ibtn.sm @calStep [Previous]
+      button.ibtn.sm @calStep [Next]
+      span "Sun"
+      span "Mon"
+      span "Tue"
+      span "Wed"
+      span "Thu"
+      span "Fri"
+      span "Sat"
+      button.cd.out @calPick [Sunday, September 27, habits 4 of 5]
+          span.cd-n "27"
+        span.cd-chips
+      button.cd.out @calPick [Monday, September 28, habits 5 of 5]
+          span.cd-n "28"
+        span.cd-chips
+      button.cd.out @calPick [Tuesday, September 29, habits 4 of 4]
+          span.cd-n "29"
+        span.cd-chips
+      button.cd.out @calPick [Wednesday, September 30, habits 5 of 5]
+          span.cd-n "30"
+        span.cd-chips
+      button.cd @calPick [Thursday, October 1, habits 3 of 4]
+          span.cd-n "1"
+        span.cd-chips
+      button.cd @calPick [Friday, October 2, habits 5 of 5]
+          span.cd-n "2"
+        span.cd-chips
+      button.cd @calPick [Saturday, October 3, habits 4 of 5]
+          span.cd-n "3"
+        span.cd-chips
+      button.cd.late @calPick [Sunday, October 4, 2 planned, habits 5 of 5]
+          span.cd-n "4"
+        span.cd-chips
+          em "Clear the email inbox"
+          em "Block Saturdays on the shared calendar"
+      button.cd.now.pk @calPick [Monday, October 5, 4 planned, habits 0 of 5]
+          span.cd-n "5"
+        span.cd-chips
+          em "Call mom after work"
+          em.d "Drink 8 glasses of water"
+          em.more "+2 more"
+      button.cd @calPick [Tuesday, October 6]
+          span.cd-n "6"
+        span.cd-chips
+      button.cd @calPick [Wednesday, October 7, 2 planned]
+          span.cd-n "7"
+        span.cd-chips
+          em "Run 20 minutes, 3 times this week"
+          em "Pay the credit card bill"
+      button.cd @calPick [Thursday, October 8]
+          span.cd-n "8"
+        span.cd-chips
+      button.cd @calPick [Friday, October 9, 1 planned]
+          span.cd-n "9"
+        span.cd-chips
+          em "Read 20 pages every night for a week"
+      button.cd @calPick [Saturday, October 10, 2 planned]
+          span.cd-n "10"
+        span.cd-chips
+          em "Pack the lake picnic"
+          em "Plan the first trip to the lake"
+      button.cd @calPick [Sunday, October 11, 2 planned]
+          span.cd-n "11"
+        span.cd-chips
+          em "Prep lunches for the week"
+          em "Wake 30 minutes earlier for a week"
+      button.cd @calPick [Monday, October 12, 1 planned]
+          span.cd-n "12"
+        span.cd-chips
+          em "Pick the certification and book an exam date"
+      button.cd @calPick [Tuesday, October 13]
+          span.cd-n "13"
+        span.cd-chips
+      button.cd @calPick [Wednesday, October 14]
+          span.cd-n "14"
+        span.cd-chips
+      button.cd @calPick [Thursday, October 15]
+          span.cd-n "15"
+        span.cd-chips
+      button.cd @calPick [Friday, October 16]
+          span.cd-n "16"
+        span.cd-chips
+      button.cd @calPick [Saturday, October 17]
+          span.cd-n "17"
+        span.cd-chips
+      button.cd @calPick [Sunday, October 18]
+          span.cd-n "18"
+        span.cd-chips
+      button.cd @calPick [Monday, October 19]
+          span.cd-n "19"
+        span.cd-chips
+      button.cd @calPick [Tuesday, October 20]
+          span.cd-n "20"
+        span.cd-chips
+      button.cd @calPick [Wednesday, October 21]
+          span.cd-n "21"
+        span.cd-chips
+      button.cd @calPick [Thursday, October 22]
+          span.cd-n "22"
+        span.cd-chips
+      button.cd @calPick [Friday, October 23]
+          span.cd-n "23"
+        span.cd-chips
+      button.cd @calPick [Saturday, October 24]
+          span.cd-n "24"
+        span.cd-chips
+      button.cd @calPick [Sunday, October 25]
+          span.cd-n "25"
+        span.cd-chips
+      button.cd @calPick [Monday, October 26, 1 planned]
+          span.cd-n "26"
+        span.cd-chips
+          em "Run 5K without stopping"
+      button.cd @calPick [Tuesday, October 27]
+          span.cd-n "27"
+        span.cd-chips
+      button.cd @calPick [Wednesday, October 28]
+          span.cd-n "28"
+        span.cd-chips
+      button.cd @calPick [Thursday, October 29]
+          span.cd-n "29"
+        span.cd-chips
+      button.cd @calPick [Friday, October 30]
+          span.cd-n "30"
+        span.cd-chips
+      button.cd @calPick [Saturday, October 31, 1 planned]
+          span.cd-n "31"
+        span.cd-chips
+          em "Print favourite photos into a small album"
+          b "Monday, Oct 5"
+          span.data "Today · 4 planned · habits 0 of 5"
+          button.ibtn.sm @addDay [Add for this day]
+          button.ibtn.sm @calView [Open day view]
+        div.agr.k-day @editDay
+          button.chk @toggleDay [Mark done: Call mom after work]
+            div.t "Call mom after work"
+              span.kd "Day goal"
+          div.data.agt "6:00 PM"
+        div.agr.k-day.d @editDay
+          button.chk.on @toggleDay [Mark not done: Drink 8 glasses of water]
+            div.t "Drink 8 glasses of water"
+              span.kd "Day goal"
+          div.data.agt
+        div.agr.k-day @editDay
+          button.chk @toggleDay [Mark done: 45 minutes on the study guide]
+            div.t "45 minutes on the study guide"
+              span.kd "Day goal"
+              span.ell "Earn a professional certification"
+          div.data.agt
+        div.agr.k-step @editStep
+          button.chk @toggleStep [Mark done: Cancel two unused subscriptions]
+            div.t "Cancel two unused subscriptions"
+              span.kd "Step"
+              span.ell "Build a 3-month emergency fund"
+          div.data.agt
+        button.cpk-h @hDay "Drink water"
+          span "💧"
+        button.cpk-h @hDay "Read before bed"
+          span "📖"
+        button.cpk-h @hDay "Exercise"
+          span "💪"
+        button.cpk-h @hDay "Pray on time"
+          span "🙏"
+        button.cpk-h @hDay "Morning routine"
+          span "☀️"
+section.rv.in
+  div.st-h
+    h3 "This month"
+    button.link @addDay "Add for Today"
+    section.ag
+        b "4"
+          div.ag-w "Yesterday"
+        span.data "2 items"
+        div.agr.k-day @editDay
+          button.chk @toggleDay [Mark done: Clear the email inbox]
+            div.t "Clear the email inbox"
+              span.kd "Day goal"
+          div.data.agt.late "Late"
+        div.agr.k-step @editStep
+          button.chk @toggleStep [Mark done: Block Saturdays on the shared calendar]
+            div.t "Block Saturdays on the shared calendar"
+              span.kd "Step"
+              span.ell "Weekly family adventure day"
+          div.data.agt.late "Late"
+    section.ag.pk.now
+        b "5"
+          div.ag-w "Today"
+        span.data "4 items"
+        div.agr.k-day @editDay
+          button.chk @toggleDay [Mark done: Call mom after work]
+            div.t "Call mom after work"
+              span.kd "Day goal"
+          div.data.agt "6:00 PM"
+        div.agr.k-day.d @editDay
+          button.chk.on @toggleDay [Mark not done: Drink 8 glasses of water]
+            div.t "Drink 8 glasses of water"
+              span.kd "Day goal"
+          div.data.agt
+        div.agr.k-day @editDay
+          button.chk @toggleDay [Mark done: 45 minutes on the study guide]
+            div.t "45 minutes on the study guide"
+              span.kd "Day goal"
+              span.ell "Earn a professional certification"
+          div.data.agt
+        div.agr.k-step @editStep
+          button.chk @toggleStep [Mark done: Cancel two unused subscriptions]
+            div.t "Cancel two unused subscriptions"
+              span.kd "Step"
+              span.ell "Build a 3-month emergency fund"
+          div.data.agt
+    section.ag
+        b "7"
+          div.ag-w "Wed, Oct 7"
+        span.data "2 items"
+        div.agr.k-step @editStep
+          button.chk @toggleStep [Mark done: Run 20 minutes, 3 times this week]
+            div.t "Run 20 minutes, 3 times this week"
+              span.kd "Step"
+              span.ell "Run a 10K race"
+          div.data.agt "7:00 AM"
+        div.agr.k-day @editDay
+          button.chk @toggleDay [Mark done: Pay the credit card bill]
+            div.t "Pay the credit card bill"
+              span.kd "Day goal"
+              span.ell "Build a 3-month emergency fund"
+          div.data.agt "9:00 AM"
+    section.ag
+        b "9"
+          div.ag-w "Fri, Oct 9"
+        span.data "1 item"
+        div.agr.k-step @editStep
+          button.chk @toggleStep [Mark done: Read 20 pages every night for a week]
+            div.t "Read 20 pages every night for a week"
+              span.kd "Step"
+              span.ell "Read 12 books this year"
+          div.data.agt
+    section.ag
+        b "10"
+          div.ag-w "Sat, Oct 10"
+        span.data "2 items"
+        div.agr.k-day @editDay
+          button.chk @toggleDay [Mark done: Pack the lake picnic]
+            div.t "Pack the lake picnic"
+              span.kd "Day goal"
+              span.ell "Weekly family adventure day"
+          div.data.agt
+        div.agr.k-step @editStep
+          button.chk @toggleStep [Mark done: Plan the first trip to the lake]
+            div.t "Plan the first trip to the lake"
+              span.kd "Step"
+              span.ell "Weekly family adventure day"
+          div.data.agt
+    section.ag
+        b "11"
+          div.ag-w "Sun, Oct 11"
+        span.data "2 items"
+        div.agr.k-day @editDay
+          button.chk @toggleDay [Mark done: Prep lunches for the week]
+            div.t "Prep lunches for the week"
+              span.kd "Day goal"
+          div.data.agt
+        div.agr.k-step @editStep
+          button.chk @toggleStep [Mark done: Wake 30 minutes earlier for a week]
+            div.t "Wake 30 minutes earlier for a week"
+              span.kd "Step"
+              span.ell "Build a calm morning routine"
+          div.data.agt
+    section.ag
+        b "12"
+          div.ag-w "Mon, Oct 12"
+        span.data "1 item"
+        div.agr.k-step @editStep
+          button.chk @toggleStep [Mark done: Pick the certification and book an exam date]
+            div.t "Pick the certification and book an exam date"
+              span.kd "Step"
+              span.ell "Earn a professional certification"
+          div.data.agt
+    section.ag
+        b "26"
+          div.ag-w "Mon, Oct 26"
+        span.data "1 item"
+        div.agr.k-step @editStep
+          button.chk @toggleStep [Mark done: Run 5K without stopping]
+            div.t "Run 5K without stopping"
+              span.kd "Step"
+              span.ell "Run a 10K race"
+          div.data.agt
+    section.ag
+        b "31"
+          div.ag-w "Sat, Oct 31"
+        span.data "1 item"
+        div.agr.k-step @editStep
+          button.chk @toggleStep [Mark done: Print favourite photos into a small album]
+            div.t "Print favourite photos into a small album"
+              span.kd "Step"
+              span.ell "Weekly family adventure day"
+          div.data.agt

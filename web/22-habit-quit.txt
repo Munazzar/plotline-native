@@ -1,0 +1,206 @@
+    a.ibtn [Back to habits]
+    div.ph-r
+      button.ibtn.thr-b @thrFrom [Threads]
+      button.ibtn @editHabit [Edit habit]
+      button.ibtn @habitMenu [More]
+      button.ibtn @askAbout [Ask AI about this]
+      a.ibtn.mob.gearb [Settings]
+  section.hero.tint.hhero
+    div.data "Breaking · Health"
+    h1 "No added sugar"
+      span.hh-ic "🍬"
+    p.why "Steady energy through the afternoon."
+      b "9"
+      small "days"
+      span.hms "14:24:50"
+      button.btn.ink @urge "I have an urge"
+      button.btn.inkline @slip "Log a slip"
+      b "16"
+        small "d"
+      span.data "Best run"
+      b "$75"
+      span.data "Money saved"
+      b "1"
+      span.data "Slips"
+      b "2"
+        small "weeks"
+      span.data "Next milestone"
+  section.rv.in
+    div.st-h
+      h3 "Milestones"
+      span.data "current run"
+        b "1 day"
+        b "3 days"
+        b "1 week"
+        b "2 weeks"
+        b "3 weeks"
+        b "1 month"
+        b "2 months"
+        b "3 months"
+        b "6 months"
+        b "1 year"
+        b "2 years"
+        b "3 years"
+  section.rv.in
+    div.st-h
+      h3 "History"
+    div.panel
+          span "Jun"
+          span "Jul"
+          span "Aug"
+          span "Sep"
+          span "Oct"
+          button.n [May 24]
+          button.n [May 25]
+          button.n [May 26]
+          button.n [May 27]
+          button.n [May 28]
+          button.n [May 29]
+          button.n [May 30]
+          button.n [May 31]
+          button.n [Jun 1]
+          button.n [Jun 2]
+          button.n [Jun 3]
+          button.n [Jun 4]
+          button.n [Jun 5]
+          button.n [Jun 6]
+          button.n [Jun 7]
+          button.n [Jun 8]
+          button.n [Jun 9]
+          button.n [Jun 10]
+          button.n [Jun 11]
+          button.n [Jun 12]
+          button.n [Jun 13]
+          button.n [Jun 14]
+          button.n [Jun 15]
+          button.n [Jun 16]
+          button.n [Jun 17]
+          button.n [Jun 18]
+          button.n [Jun 19]
+          button.n [Jun 20]
+          button.n [Jun 21]
+          button.n [Jun 22]
+          button.n [Jun 23]
+          button.n [Jun 24]
+          button.n [Jun 25]
+          button.n [Jun 26]
+          button.n [Jun 27]
+          button.n [Jun 28]
+          button.n [Jun 29]
+          button.n [Jun 30]
+          button.n [Jul 1]
+          button.n [Jul 2]
+          button.n [Jul 3]
+          button.n [Jul 4]
+          button.n [Jul 5]
+          button.n [Jul 6]
+          button.n [Jul 7]
+          button.n [Jul 8]
+          button.n [Jul 9]
+          button.n [Jul 10]
+          button.n [Jul 11]
+          button.n [Jul 12]
+          button.n [Jul 13]
+          button.n [Jul 14]
+          button.n [Jul 15]
+          button.n [Jul 16]
+          button.n [Jul 17]
+          button.n [Jul 18]
+          button.n [Jul 19]
+          button.n [Jul 20]
+          button.n [Jul 21]
+          button.n [Jul 22]
+          button.n [Jul 23]
+          button.n [Jul 24]
+          button.n [Jul 25]
+          button.n [Jul 26]
+          button.n [Jul 27]
+          button.n [Jul 28]
+          button.n [Jul 29]
+          button.n [Jul 30]
+          button.n [Jul 31]
+          button.n [Aug 1]
+          button.n [Aug 2]
+          button.n [Aug 3]
+          button.n [Aug 4]
+          button.n [Aug 5]
+          button.n [Aug 6]
+          button.n [Aug 7]
+          button.n [Aug 8]
+          button.n [Aug 9]
+          button.n [Aug 10]
+          button.n [Aug 11]
+          button.n [Aug 12]
+          button.n [Aug 13]
+          button.n [Aug 14]
+          button.n [Aug 15]
+          button.n [Aug 16]
+          button.n [Aug 17]
+          button.n [Aug 18]
+          button.n [Aug 19]
+          button.n [Aug 20]
+          button.n [Aug 21]
+          button.n [Aug 22]
+          button.n [Aug 23]
+          button.n [Aug 24]
+          button.n [Aug 25]
+          button.n [Aug 26]
+          button.n [Aug 27]
+          button.n [Aug 28]
+          button.n [Aug 29]
+          button.n [Aug 30]
+          button.n [Aug 31]
+          button.n [Sep 1]
+          button.n [Sep 2]
+          button.n [Sep 3]
+          button.n [Sep 4]
+          button.n [Sep 5]
+          button.n [Sep 6]
+          button.n [Sep 7]
+          button.n [Sep 8]
+          button.d [Sep 9]
+          button.d [Sep 10]
+          button.d [Sep 11]
+          button.d [Sep 12]
+          button.d [Sep 13]
+          button.d [Sep 14]
+          button.d [Sep 15]
+          button.d [Sep 16]
+          button.d [Sep 17]
+          button.d [Sep 18]
+          button.d [Sep 19]
+          button.d [Sep 20]
+          button.d [Sep 21]
+          button.d [Sep 22]
+          button.d [Sep 23]
+          button.d [Sep 24]
+          button.x [Sep 25]
+          button.d [Sep 26]
+          button.d [Sep 27]
+          button.d [Sep 28]
+          button.d [Sep 29]
+          button.d [Sep 30]
+          button.d [Oct 1]
+          button.d [Oct 2]
+          button.d [Oct 3]
+          button.d [Oct 4]
+          button.d.now [Oct 5]
+          button.f [Oct 6]
+          button.f [Oct 7]
+          button.f [Oct 8]
+          button.f [Oct 9]
+          button.f [Oct 10]
+        div.hleg.data
+          span "Free"
+          span "Some"
+          span "Slip"
+      b "When the urge hits"
+      div.small.muted "Have fruit or a cup of tea instead"
+  section.rv.in
+    div.st-h
+      h3 "Slips"
+      span.data "1"
+    div.list
+      div.li
+          div.t "Fri, Sep 25 · 1:17 PM"
+          div.s "Stress · Office birthday cake"

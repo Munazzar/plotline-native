@@ -1,0 +1,16 @@
+06-map: page offset 36dp, 4 texts matched, mean |diff| 8.8dp
+
+  diff   dx    dy    dw    dh   web(x,y,w,h fs)            text
+    25    -0   -25     2    -1   (46,748,53,16 10.5)  SPACING
+     6     0     6     5    -0   (16,24,266,35 40.0b)  VISTA
+     3    -3     0    -3     1   (104,99,59,34 13.5b)  Map
+     1    -1     0    -2     1   (21,99,83,34 13.5b)  Timeline
+
+on native only:
+   (30,851) Home
+   (84,852) Habits
+   (132,852) Calendar
+   (192,852) Goals
+   (247,852) Vista
+   (295,852) Journal
+   (357,852) Ask

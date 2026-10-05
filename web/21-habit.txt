@@ -1,0 +1,206 @@
+    a.ibtn [Back to habits]
+    div.ph-r
+      button.ibtn.thr-b @thrFrom [Threads]
+      button.bell.pill @remEdit [Reminder: Off]
+      button.ibtn @editHabit [Edit habit]
+      button.ibtn @habitMenu [More]
+      button.ibtn @askAbout [Ask AI about this]
+      a.ibtn.mob.gearb [Settings]
+  section.hero.tint.hhero
+    div.data "Building · Health · Every day"
+    h1 "Drink water"
+      span.hh-ic "💧"
+    p.hcue "After each meal, I will drink water (8 glasses)."
+        div.data "Strength 94%"
+      div.hero-pct "3"
+        small "d"
+      button.ibtn @hAdj [One less]
+        b "3"
+        span "of 8 glasses today"
+      button.ibtn @hAdj [One more]
+      b "3"
+        small "d"
+      span.data "Current streak"
+      b "8"
+        small "d"
+      span.data "Best streak"
+      b "94"
+        small "%"
+      span.data "Strength"
+      b "90"
+        small "%"
+      span.data "Last 30 days"
+  section.rv.in
+    div.st-h
+      h3 "Becoming automatic"
+      span.data "day 50"
+    div.panel
+      p.small.muted "New habits take about two months to feel automatic, on average, and th"
+  section.rv.in
+    div.st-h
+      h3 "History"
+      span.data "tap a day to change it"
+    div.panel
+          span "Jun"
+          span "Jul"
+          span "Aug"
+          span "Sep"
+          span "Oct"
+          button.n @hDaySheet [May 24]
+          button.n @hDaySheet [May 25]
+          button.n @hDaySheet [May 26]
+          button.n @hDaySheet [May 27]
+          button.n @hDaySheet [May 28]
+          button.n @hDaySheet [May 29]
+          button.n @hDaySheet [May 30]
+          button.n @hDaySheet [May 31]
+          button.n @hDaySheet [Jun 1]
+          button.n @hDaySheet [Jun 2]
+          button.n @hDaySheet [Jun 3]
+          button.n @hDaySheet [Jun 4]
+          button.n @hDaySheet [Jun 5]
+          button.n @hDaySheet [Jun 6]
+          button.n @hDaySheet [Jun 7]
+          button.n @hDaySheet [Jun 8]
+          button.n @hDaySheet [Jun 9]
+          button.n @hDaySheet [Jun 10]
+          button.n @hDaySheet [Jun 11]
+          button.n @hDaySheet [Jun 12]
+          button.n @hDaySheet [Jun 13]
+          button.n @hDaySheet [Jun 14]
+          button.n @hDaySheet [Jun 15]
+          button.n @hDaySheet [Jun 16]
+          button.n @hDaySheet [Jun 17]
+          button.n @hDaySheet [Jun 18]
+          button.n @hDaySheet [Jun 19]
+          button.n @hDaySheet [Jun 20]
+          button.n @hDaySheet [Jun 21]
+          button.n @hDaySheet [Jun 22]
+          button.n @hDaySheet [Jun 23]
+          button.n @hDaySheet [Jun 24]
+          button.n @hDaySheet [Jun 25]
+          button.n @hDaySheet [Jun 26]
+          button.n @hDaySheet [Jun 27]
+          button.n @hDaySheet [Jun 28]
+          button.n @hDaySheet [Jun 29]
+          button.n @hDaySheet [Jun 30]
+          button.n @hDaySheet [Jul 1]
+          button.n @hDaySheet [Jul 2]
+          button.n @hDaySheet [Jul 3]
+          button.n @hDaySheet [Jul 4]
+          button.n @hDaySheet [Jul 5]
+          button.n @hDaySheet [Jul 6]
+          button.n @hDaySheet [Jul 7]
+          button.n @hDaySheet [Jul 8]
+          button.n @hDaySheet [Jul 9]
+          button.n @hDaySheet [Jul 10]
+          button.n @hDaySheet [Jul 11]
+          button.n @hDaySheet [Jul 12]
+          button.n @hDaySheet [Jul 13]
+          button.n @hDaySheet [Jul 14]
+          button.n @hDaySheet [Jul 15]
+          button.n @hDaySheet [Jul 16]
+          button.n @hDaySheet [Jul 17]
+          button.n @hDaySheet [Jul 18]
+          button.n @hDaySheet [Jul 19]
+          button.n @hDaySheet [Jul 20]
+          button.n @hDaySheet [Jul 21]
+          button.n @hDaySheet [Jul 22]
+          button.n @hDaySheet [Jul 23]
+          button.n @hDaySheet [Jul 24]
+          button.n @hDaySheet [Jul 25]
+          button.n @hDaySheet [Jul 26]
+          button.n @hDaySheet [Jul 27]
+          button.n @hDaySheet [Jul 28]
+          button.n @hDaySheet [Jul 29]
+          button.n @hDaySheet [Jul 30]
+          button.n @hDaySheet [Jul 31]
+          button.n @hDaySheet [Aug 1]
+          button.n @hDaySheet [Aug 2]
+          button.n @hDaySheet [Aug 3]
+          button.n @hDaySheet [Aug 4]
+          button.n @hDaySheet [Aug 5]
+          button.n @hDaySheet [Aug 6]
+          button.n @hDaySheet [Aug 7]
+          button.n @hDaySheet [Aug 8]
+          button.n @hDaySheet [Aug 9]
+          button.n @hDaySheet [Aug 10]
+          button.n @hDaySheet [Aug 11]
+          button.n @hDaySheet [Aug 12]
+          button.n @hDaySheet [Aug 13]
+          button.n @hDaySheet [Aug 14]
+          button.n @hDaySheet [Aug 15]
+          button.n @hDaySheet [Aug 16]
+          button.p @hDaySheet [Aug 17]
+          button.d @hDaySheet [Aug 18]
+          button.d @hDaySheet [Aug 19]
+          button.d @hDaySheet [Aug 20]
+          button.d @hDaySheet [Aug 21]
+          button.d @hDaySheet [Aug 22]
+          button.d @hDaySheet [Aug 23]
+          button.d @hDaySheet [Aug 24]
+          button.d @hDaySheet [Aug 25]
+          button.p @hDaySheet [Aug 26]
+          button.d @hDaySheet [Aug 27]
+          button.d @hDaySheet [Aug 28]
+          button.d @hDaySheet [Aug 29]
+          button.d @hDaySheet [Aug 30]
+          button.d @hDaySheet [Aug 31]
+          button.d @hDaySheet [Sep 1]
+          button.d @hDaySheet [Sep 2]
+          button.d @hDaySheet [Sep 3]
+          button.p @hDaySheet [Sep 4]
+          button.d @hDaySheet [Sep 5]
+          button.d @hDaySheet [Sep 6]
+          button.d @hDaySheet [Sep 7]
+          button.d @hDaySheet [Sep 8]
+          button.d @hDaySheet [Sep 9]
+          button.d @hDaySheet [Sep 10]
+          button.d @hDaySheet [Sep 11]
+          button.d @hDaySheet [Sep 12]
+          button.p @hDaySheet [Sep 13]
+          button.d @hDaySheet [Sep 14]
+          button.d @hDaySheet [Sep 15]
+          button.d @hDaySheet [Sep 16]
+          button.d @hDaySheet [Sep 17]
+          button.d @hDaySheet [Sep 18]
+          button.d @hDaySheet [Sep 19]
+          button.d @hDaySheet [Sep 20]
+          button.d @hDaySheet [Sep 21]
+          button.p @hDaySheet [Sep 22]
+          button.d @hDaySheet [Sep 23]
+          button.d @hDaySheet [Sep 24]
+          button.d @hDaySheet [Sep 25]
+          button.d @hDaySheet [Sep 26]
+          button.d @hDaySheet [Sep 27]
+          button.d @hDaySheet [Sep 28]
+          button.d @hDaySheet [Sep 29]
+          button.d @hDaySheet [Sep 30]
+          button.p @hDaySheet [Oct 1]
+          button.d @hDaySheet [Oct 2]
+          button.d @hDaySheet [Oct 3]
+          button.d @hDaySheet [Oct 4]
+          button.p.now @hDaySheet [Oct 5]
+          button.f [Oct 6]
+          button.f [Oct 7]
+          button.f [Oct 8]
+          button.f [Oct 9]
+          button.f [Oct 10]
+        div.hleg.data
+          span "Done"
+          span "Partly"
+          span "Missed"
+          span "Rest day"
+  section.rv.in
+    div.st-h
+      h3 "By weekday"
+      span.data "last 12 weeks"
+    div.panel
+          span "Su"
+          span "Mo"
+          span "Tu"
+          span "We"
+          span "Th"
+          span "Fr"
+          span "Sa"
+      p.small.muted "Steady across the week."

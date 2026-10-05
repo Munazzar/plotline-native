@@ -1,0 +1,110 @@
+header.ph.cph
+    h1 "Calendar"
+    div.data "Day goals, steps and targets together · 1 of 4 done"
+  div.ph-r
+    button.ibtn @addDay [Add a goal for Today]
+    button.ibtn.fsb @focusMode [Full screen]
+    a.ibtn.mob.gearb [Settings]
+  div.seg-c
+    button.on @calView "Day"
+    button @calView "Week"
+    button @calView "Month"
+  button.btn @calToday "Today"
+section.cal-card.rv.in
+    h2 "October 2026"
+      button.ibtn.sm @calStep [Previous]
+      button.ibtn.sm @calStep [Next]
+        div.data "Monday · today"
+        div.cdh-n "Oct 5"
+        div.data "4 planned · 1 of 4 done"
+      button.ds @calPick
+        span.data "Fri"
+        b "2"
+      button.ds @calPick
+        span.data "Sat"
+        b "3"
+      button.ds @calPick
+        span.data "Sun"
+        b "4"
+      button.ds.pk.now @calPick
+        span.data "Mon"
+        b "5"
+      button.ds @calPick
+        span.data "Tue"
+        b "6"
+      button.ds @calPick
+        span.data "Wed"
+        b "7"
+      button.ds @calPick
+        span.data "Thu"
+        b "8"
+      span.data "Anytime"
+      button.cchip.k-day.d @editDay
+        b "Drink 8 glasses of water"
+      button.cchip.k-day @editDay
+        b "45 minutes on the study guide"
+      button.cchip.k-step @editStep
+        b "Cancel two unused subscriptions"
+      span.data "1 scheduled"
+        button.ibtn.sm @calZoom [Zoom out]
+        span.data "100%"
+        button.ibtn.sm @calZoom [Zoom in]
+      div.tg-body @calSlot
+          span "12 AM"
+          span "1 AM"
+          span "2 AM"
+          span "3 AM"
+          span "4 AM"
+          span "5 AM"
+          span "6 AM"
+          span "7 AM"
+          span "8 AM"
+          span "9 AM"
+          span "10 AM"
+          span "11 AM"
+          span "12 PM"
+          span "1 PM"
+          span "2 PM"
+          span "3 PM"
+          span "4 PM"
+          span "5 PM"
+          span "6 PM"
+          span "7 PM"
+          span "8 PM"
+          span "9 PM"
+          span "10 PM"
+          span "11 PM"
+        div.tev.k-day @editDay
+          button.chk @toggleDay [Mark done: Call mom after work]
+            b "Call mom after work"
+            span.tm "6:00 PM – 6:30 PM"
+section.rv.in
+  div.st-h
+    h3 "Plan for the day"
+    button.link @addDay "Add for Today"
+    section.ag.now
+        b "5"
+          div.ag-w "Today"
+        span.data "4 items"
+        div.agr.k-day @editDay
+          button.chk @toggleDay [Mark done: Call mom after work]
+            div.t "Call mom after work"
+              span.kd "Day goal"
+          div.data.agt "6:00 PM"
+        div.agr.k-day.d @editDay
+          button.chk.on @toggleDay [Mark not done: Drink 8 glasses of water]
+            div.t "Drink 8 glasses of water"
+              span.kd "Day goal"
+          div.data.agt
+        div.agr.k-day @editDay
+          button.chk @toggleDay [Mark done: 45 minutes on the study guide]
+            div.t "45 minutes on the study guide"
+              span.kd "Day goal"
+              span.ell "Earn a professional certification"
+          div.data.agt
+        div.agr.k-step @editStep
+          button.chk @toggleStep [Mark done: Cancel two unused subscriptions]
+            div.t "Cancel two unused subscriptions"
+              span.kd "Step"
+              span.ell "Build a 3-month emergency fund"
+          div.data.agt

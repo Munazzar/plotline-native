@@ -1,0 +1,113 @@
+header.ph
+    h1 "Goals"
+    div.data "6 active · 0 achieved · pinch the cards to see more"
+  div.ph-r
+    button.ibtn. @toggleSearch [Search]
+    button.ibtn @newGoal [New goal]
+    button.ibtn.fsb @focusMode [Full screen]
+    a.ibtn.mob.gearb [Settings]
+  div.seg-c
+    button.on @filt "Active"
+    button @filt "Short-term"
+    button @filt "Long-term"
+    button @filt "Achieved"
+    select.sel [Life area]
+      option "All areas"
+      option "Health"
+      option "Career"
+      option "Family"
+      option "Faith"
+      option "Finance"
+      option "Learning"
+      option "Personal"
+    div.seg-c.ico
+      button @layout [Grid]
+      button.on @layout [Carousel]
+      span.hs-line
+        div.hs-card
+          div.fc. @flip [Run a 10K race. Show details]
+                  span.data "Health · 3 mo"
+                    span.nbadge "01"
+                div.fc-t "Run a 10K race"
+                div.fc-p.data "17% · 1 of 6"
+                  span "Run a 10K race"
+                  div.data "Next step"
+                  div.nx "Run 20 minutes, 3 times this week"
+                  span "Due"
+                  span.due. "In 2d"
+                  button.btn.pri.sm @open "Open"
+                  button.ibtn.sm.on @pin [Unpin]
+        div.hs-lab.data "Target Dec 24"
+        div.hs-card
+          div.fc. @flip [Build a 3-month emergency fund. Show details]
+                  span.data "Finance · Year"
+                    span.nbadge "02"
+                div.fc-t "Build a 3-month emergency fund"
+                div.fc-p.data "40% · 2 of 5"
+                  span "Build a 3-month emergency fund"
+                  div.data "Next step"
+                  div.nx "Cancel two unused subscriptions"
+                  span "Due"
+                  span.due.soon "Today"
+                  button.btn.pri.sm @open "Open"
+                  button.ibtn.sm. @pin [Pin to Today]
+        div.hs-lab.data "This year"
+        div.hs-card
+          div.fc. @flip [Weekly family adventure day. Show details]
+                  span.data "Family · Month"
+                    span.nbadge "03"
+                div.fc-t "Weekly family adventure day"
+                div.fc-p.data "25% · 1 of 4"
+                  span "Weekly family adventure day"
+                  div.data "Next step"
+                  div.nx "Block Saturdays on the shared calendar"
+                  span "Due"
+                  span.due.over "1d late"
+                  button.btn.pri.sm @open "Open"
+                  button.ibtn.sm.on @pin [Unpin]
+        div.hs-lab.data "This month"
+        div.hs-card
+          div.fc. @flip [Earn a professional certification. Show details]
+                  span.data "Career · Year"
+                    span.nbadge "04"
+                div.fc-t "Earn a professional certification"
+                div.fc-p.data "0% · 0 of 4"
+                  span "Earn a professional certification"
+                  div.data "Next step"
+                  div.nx "Pick the certification and book an exam date"
+                  span "Due"
+                  span.due. "Oct 12"
+                  button.btn.pri.sm @open "Open"
+                  button.ibtn.sm. @pin [Pin to Today]
+        div.hs-lab.data "This year"
+        div.hs-card
+          div.fc. @flip [Build a calm morning routine. Show details]
+                  span.data "Faith · 1–5 yr"
+                    span.nbadge "05"
+                div.fc-t "Build a calm morning routine"
+                div.fc-p.data "0% · 0 of 2"
+                  span "Build a calm morning routine"
+                  div.data "Next step"
+                  div.nx "Wake 30 minutes earlier for a week"
+                  span "Due"
+                  span.due. "In 6d"
+                  button.btn.pri.sm @open "Open"
+                  button.ibtn.sm. @pin [Pin to Today]
+        div.hs-lab.data "1–5 years"
+        div.hs-card
+          div.fc. @flip [Read 12 books this year. Show details]
+                  span.data "Learning · Year"
+                    span.nbadge "06"
+                div.fc-t "Read 12 books this year"
+                div.fc-p.data "50% · 2 of 4"
+                  span "Read 12 books this year"
+                  div.data "Next step"
+                  div.nx "Read 20 pages every night for a week"
+                  span "Due"
+                  span.due. "In 4d"
+                  button.btn.pri.sm @open "Open"
+                  button.ibtn.sm. @pin [Pin to Today]
+        div.hs-lab.data "This year"
+    button.ibtn.sm @hsNav [Previous]
+    span.data.hs-count "01 / 06"
+    button.ibtn.sm @hsNav [Next]

@@ -1,0 +1,29 @@
+08-threads: page offset 43dp, 11 texts matched, mean |diff| 9.2dp
+
+  diff   dx    dy    dw    dh   web(x,y,w,h fs)            text
+    24    -1   -24   274    11   (187,695,38,16 10.5)  TODAY
+    20    -0   -20    14     1   (168,748,76,16 10.5)  01 / 01
+    20    -0   -20     1     3   (73,287,267,16 10.5)  1 H AGO
+    17    -0   -17     1    -0   (73,366,267,36 41.2b)  GARAGE GYM IDEA
+    16    -0   -16     1    -0   (73,466,267,59 21.4)  First workout there this morning, felt great
+     2    -2     1    -1     1   (97,91,79,34 13.5b)  Threads
+     1    -1     1    -1     1   (21,91,76,34 13.5b)  Journal
+     0    -0     0     2     1   (21,149,83,34 13.5b)  Active · 1
+     0     0     0    -1     1   (104,149,62,34 13.5b)  Done
+     0     0     0    -0     1   (166,149,45,34 13.5b)  All
+     0     0     0     5    -0   (16,24,214,35 40.0b)  JOURNAL
+
+on the web but not found on native (first screen):
+   (73,265) <span.data> 💭 THOUGHT · 3 UPDATES
+   (73,589) <span.jg> 🎯 Run a 10K race
+
+on native only:
+   (72,290) &#128173; THOUGHT · 3 UPDATES
+   (72,617) &#127919; Run a 10K race
+   (30,851) Home
+   (84,852) Habits
+   (132,852) Calendar
+   (192,852) Goals
+   (248,852) Vista
+   (296,852) Journal
+   (357,852) Ask

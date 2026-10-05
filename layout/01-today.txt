@@ -1,0 +1,47 @@
+01-today: page offset 50dp, 23 texts matched, mean |diff| 35.7dp
+
+  diff   dx    dy    dw    dh   web(x,y,w,h fs)            text
+   549  -203   549   -63   -29   (560,238,81,42 13.5b)  💬 Ask
+    97    42   -97   -25   -11   (16,893,56,24 24.0b)  HABITS
+    21     0    21    -1    -1   (16,202,380,16 10.5)  6 STEPS DONE THIS WEEK · 1 LATE · 6 ACTIVE GOALS
+    18     0    18    -3    -0   (16,238,131,42 13.5b)  ✨ Plan with AI
+    18    -7    18    -3    -0   (250,238,92,42 13.5b)  ✅ Habit
+    18   -10    18   -36    -0   (350,238,92,42 13.5b)  ✍️ Write
+    12    12     2    -2    -1   (281,592,53,16 10.5)  6:00 PM
+    11    -1   -11    77     3   (131,389,168,22 14.0b)  See everything for today ›
+    11     3   -11   -21    -8   (33,35,205,42 14.0)  You’re exploring with sample data.
+    11     0   -11    -2     0   (248,37,91,38 13.5b)  Remove it
+    10    10    -5   -48   -22   (287,343,88,38 13.5b)  Done
+    10    -1   -10    -0    -4   (79,817,58,20 13.0)  Yesterday
+     8     1    -8     9    -4   (272,796,105,38 12.0b)  Move to today
+     6    -1    -6    -7    -3   (79,794,179,22 15.0b)  Clear the email inbox
+     6    -6     3     8    -1   (178,478,45,16 10.5)  1 OF 3
+     4    -1    -4   102    -1   (131,319,143,16 10.5)  YOUR DAY · 11% DONE
+     3    -0     3     1    -3   (79,643,298,22 15.0b)  Drink 8 glasses of water
+     3    -0    -3     1    -2   (17,749,378,33 10.5)  STILL OPEN FROM EARLIER
+     2    -1     2    15    -3   (79,588,188,22 15.0b)  Call mom after work
+     2    -1     2    13    -3   (79,695,255,22 15.0b)  45 minutes on the study guide
+     1    -1    -1    -3    -4   (94,717,185,20 13.0)  Earn a professional certification
+     1    -1     0     4    -3   (340,480,56,21 14.0b)  Calendar
+     0     0     0    -4    -2   (16,474,120,24 24.0b)  TODAY’S GOALS
+
+on the web but not found on native (first screen):
+   (16,104) <h1.> STILL UP, M
+   (155,238) <button.hmq-b> 🎯 Goal
+   (450,238) <button.hmq-b> 🧵 Thread
+   (649,238) <button.hmq-b> 📅 Today in full
+   (66,350) <b.> 1/9
+   (131,353) <span.ell> Next: 💧 Drink water
+   (114,897) <span.data> 0 OF 5
+   (337,899) <a.link> All habits
+
+on native only:
+   (16,141) GOOD NIGHT, M
+   (152,306) &#127919;  Goal
+   (130,398) Next: &#128167; Drink water
+   (36,576) Add a goal for today…
+   (30,851) Home
+   (130,852) Calendar
+   (192,852) Goals
+   (246,852) Vista
+   (295,852) Journal

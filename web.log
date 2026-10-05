@@ -1,0 +1,16 @@
+web step failed 61-today-done css:#view .btn.pri[data-act=hTap] Locator.click: Timeout 4000ms exceeded.
+Call log:
+  - waiting for locator("#view .btn.pri[data-act=hTap]").first
+    - l
+web step failed 62-settings-fold css:#view .fold>h3 Locator.click: Timeout 4000ms exceeded.
+Call log:
+  - waiting for locator("#view .fold>h3").first
+    - locator resolved
+web step failed 63-step-flip css:#view .hs-item.cur .sc-front Locator.click: Timeout 4000ms exceeded.
+Call log:
+  - waiting for locator("#view .hs-item.cur .sc-front").first
+    - lo
+web step failed 59-fullscreen css:#view .fsb Locator.click: Timeout 4000ms exceeded.
+Call log:
+  - waiting for locator("#view .fsb").first
+    - locator resolved to 

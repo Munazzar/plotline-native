@@ -1,0 +1,46 @@
+# Layout differences (dp; native minus web, after the page offset)
+
+- **01-today** mean 35.7dp · missing 8 · worst: "💬 Ask" +549/-203, "HABITS" -97/+42, "6 STEPS DONE THIS WEEK ·" +21/+0
+- **02-habits** mean 11.6dp · missing 2 · worst: "Morning routine" -26/-1, "0 of 3 this week" -24/-1, "0 OF 2" -21/-1
+- **03-cal** mean 6.5dp · missing 2 · worst: "DAY GOAL" -22/-1, "Earn a professional cert" -22/+5, "Call mom after work" -21/-0
+- **04-goals** mean 2.0dp · missing 36 · worst: —
+- **05-vista** mean 3.6dp · missing 27 · worst: "Years" +0/+10
+- **06-map** mean 8.8dp · missing 0 · worst: "SPACING" -25/-0, "VISTA" +6/+0
+- **07-journal** mean 20.2dp · missing 21 · worst: "WED, SEP 30" -25/-116, "FRI, OCT 2" -25/-1, "01 / 02" -20/-0
+- **08-threads** mean 9.2dp · missing 2 · worst: "TODAY" -24/-1, "01 / 01" -20/-0, "1 H AGO" -20/-0
+- **09-ask** mean 20.2dp · missing 1 · worst: "STILL UP, M." +40/-0, "ASK" +36/+0, "Ask anything about your " +33/-0
+- **10-day** mean 15.4dp · missing 18 · worst: "Clean" -13/+91, "Clean" +7/-81, "GOALS FOR THE DAY" -74/+47
+- **11-activity** mean 24.7dp · missing 2 · worst: "Steps, sleep, workouts, " -25/+25, "ACTIVITY" +25/+0
+- **12-settings** mean 17.2dp · missing 5 · worst: "Plotline 2.0.10 · Privac" -36/+0, "EVERYTHING IN ONE PLACE," +35/+0, "Backup, import, sample d" -32/-0
+- **20-goal** mean 19.0dp · missing 89 · worst: "DUE IN 2 DAYS · 7:00 AM" -64/-1, "RUN 20 MINUTES, 3 TIMES " -64/-0, "HEALTH · 3 MONTHS · HIGH" +22/-0
+- **21-habit** mean 6.1dp · missing 1 · worst: "STRENGTH 94%" +21/-1, "of 8 glasses today" +18/-6, "HISTORY" -16/+0
+- **22-habit-quit** mean 4.4dp · missing 3 · worst: "BREAKING · HEALTH" +16/-0, "Steady energy through th" +15/-0, "I have an urge" +14/+6
+- **23-thread** mean 81.7dp · missing 9 · worst: "SAT, OCT 3" +386/-41, "First workout there this" -121/-0, "GARAGE GYM IDEA" +41/+0
+- **30-cal-week** mean 4.5dp · missing 2 · worst: "Today" +5/+13, "FRI" -9/-1, "Read 20 pages every nigh" -9/+0
+- **31-cal-day** mean 2.9dp · missing 7 · worst: "Today" +3/+13, "1 SCHEDULED" -6/-1, "100%" -6/+4
+- **32-cal-month** mean 6.5dp · missing 2 · worst: "DAY GOAL" -22/-1, "Earn a professional cert" -22/+5, "Call mom after work" -21/-0
+- **33-habits-build** mean 53.6dp · missing 11 · worst: "Drink water8 GLASSES" +593/-15, "8 glasses a day" -49/-1, "BUILD A HABIT" -44/+0
+- **34-habits-break** mean 5.8dp · missing 3 · worst: "SINCE YOUR LAST SLIP" -15/-1, "NO ADDED SUGAR" -15/+0, "Quit smoking" -14/-1
+- **35-habits-routines** mean 18.8dp · missing 0 · worst: "5 steps" -34/-1, "HABITS" +30/+0, "Deep work start" -30/-1
+- **36-habits-vista** mean 51.8dp · missing 22 · worst: "Family time, phones away" -559/+71, "SEP 7 – TODAY" -31/+3, "126 done in 30 days" -23/+28
+- **37-habits-today** mean 91.1dp · missing 23 · worst: "Vista" -62/+120, "HABITS" +62/+3
+- **38-goals-carousel** mean 14.9dp · missing 55 · worst: "THIS YEAR" -12/-124, "HEALTH · 3 MO" -14/-8, "TARGET DEC 24" -12/-1
+- **39-goals-grid** mean 2.2dp · missing 36 · worst: —
+- **40-settings-look** mean 6.2dp · missing 0 · worst: "LIGHT" -15/-0, "Daylight" -14/-2, "Paper" -14/-8
+- **41-settings-notif** mean 12.4dp · missing 13 · worst: "Add due steps to calenda" -50/-1
+- **42-settings-data** mean 27.0dp · missing 1 · worst: "Erase everything" -60/+170, "BACKUP, IMPORT, SAMPLE D" +11/+0, "YOUR DATA" +10/-0
+- **43-settings-account** mean 28.5dp · missing 2 · worst: "YOU" -54/-1, "Connect Google Drive" -51/-1, "NOT SYNCING · CONNECT GO" +21/+0
+- **44-goal-path** mean 9.1dp · missing 13 · worst: "HEALTH · 3 MONTHS · HIGH" +22/-0, "RUN 5K WITHOUT STOPPING" -20/+4, "DUE OCT 26" -20/+4
+- **45-goal-timeline** mean 9.3dp · missing 19 · worst: "HEALTH · 3 MONTHS · HIGH" +22/-0, "RUN A 10K RACE" +16/-0, "Edit" -15/-1
+- **46-goal-cards** mean 19.0dp · missing 89 · worst: "DUE IN 2 DAYS · 7:00 AM" -64/-1, "RUN 20 MINUTES, 3 TIMES " -64/-0, "HEALTH · 3 MONTHS · HIGH" +22/-0
+- **50-sheet-newgoal** mean 4.5dp · missing 0 · worst: "FIRST STEPS · ONE PER LI" -12/+0, "NEW GOAL" +10/+0, "TARGET DATE" -9/+0
+- **51-sheet-newhabit** mean 2.6dp · missing 0 · worst: "NEW" +6/+0
+- **52-sheet-write** mean 4.1dp · missing 9 · worst: "Anxious" +0/-14
+- **54-journal-timeline** mean 73.8dp · missing 13 · worst: "GOAL SET · FRI, OCT 2 · " +194/+212, "BUILD A CALM MORNING ROU" +49/+212, "GOAL SET · WED, SEP 30 ·" +42/-205
+- **55-threads-timeline** mean 27.3dp · missing 6 · worst: "GARAGE GYM IDEA" +114/-0, "3 UPDATES · RUN A 10K RA" +108/-0, "TODAY" -20/+0
+- **56-journal-cards** mean 23.8dp · missing 25 · worst: "FRI, OCT 2" -25/+152, "Journal" +17/-1, "Threads" +17/-2
+- **59-fullscreen** mean 169.0dp · missing 13 · worst: "💬 Ask" +998/-203, "✨ Plan with AI" +843/+76, "Calendar" +767/-210
+- **60-picker-horizon** mean 4.5dp · missing 0 · worst: "FIRST STEPS · ONE PER LI" -12/+0, "NEW GOAL" +10/+0, "TARGET DATE" -9/+0
+- **61-today-done** mean 35.7dp · missing 8 · worst: "💬 Ask" +549/-203, "HABITS" -97/+41, "6 STEPS DONE THIS WEEK ·" +21/+0
+- **62-settings-fold** mean 3.3dp · missing 15 · worst: "LOOK & FEEL" -8/+0
+- **63-step-flip** mean 19.0dp · missing 89 · worst: "DUE IN 2 DAYS · 7:00 AM" -64/-1, "RUN 20 MINUTES, 3 TIMES " -64/-0, "HEALTH · 3 MONTHS · HIGH" +22/-0

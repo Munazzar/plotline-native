@@ -1,0 +1,83 @@
+header.ph
+    h1 "Habits"
+    div.data "0 of 5 done today · 2 being broken"
+  div.ph-r
+    button.ibtn @hcalT [Calendar]
+    button.ibtn @newHabit [New habit]
+    button.ibtn.fsb @focusMode [Full screen]
+    a.ibtn.mob.gearb [Settings]
+  div.seg-c.fade-r
+    button @hView "Today"
+    button.on @hView "Vista"
+    button @hView "Build"
+    button @hView "Break"
+    button @hView "Routines"
+    button @hView "Templates"
+section.hvista.rv.in
+      b "79"
+        small "%"
+      span.data "Kept this week · 26 of 33"
+      div.hv-chips
+        span.hv-chip "Family time, phones a…"
+          b "21"
+        span.hv-chip "done in 30 days"
+          b "126"
+      button @hvSpan "Week"
+      button.on @hvSpan "Month"
+      button @hvSpan "3 months"
+      button @hvSpan "Year"
+    span.data "Sep 7 – today"
+        button.hv-name @openHabit
+          span.hv-ic "💧"
+          b "Drink water"
+          b "3"
+          small "days"
+          i "90%"
+        button.hv-name @openHabit
+          span.hv-ic "📖"
+          b "Read before bed"
+          b "11"
+          small "days"
+          i "90%"
+        button.hv-name @openHabit
+          span.hv-ic "💪"
+          b "Exercise"
+          b "0"
+          small "weeks"
+          i "75%"
+        button.hv-name @openHabit
+          span.hv-ic "🙏"
+          b "Pray on time"
+          b "1"
+          small "day"
+          i "86%"
+        button.hv-name @openHabit
+          span.hv-ic "☀️"
+          b "Morning routine"
+          b "7"
+          small "days"
+          i "90%"
+        button.hv-name @openHabit
+          span.hv-ic "👨‍👩‍👧"
+          b "Family time, phones away"
+          b "21"
+          small "days"
+          i "100%"
+        button.hv-name @openHabit
+          span.hv-ic "🍬"
+          b "No added sugar"
+          b "9"
+          small "days free"
+        button.hv-name @openHabit
+          span.hv-ic "📱"
+          b "Less social media"
+          b "5"
+          small "days on track"
+  div.hv-leg.data
+    span "Done"
+    span "Streak"
+    span "Missed"
+    span "Rest"
+    span "Slip"
+      b.sl "×"
+    span "Due today, tap to log"

@@ -1,0 +1,49 @@
+05-vista: page offset 42dp, 8 texts matched, mean |diff| 3.6dp
+
+  diff   dx    dy    dw    dh   web(x,y,w,h fs)            text
+    10    10     0     5     1   (155,149,57,34 13.5b)  Years
+     6     6     0     4     1   (84,149,71,34 13.5b)  Months
+     6    -6     0     7     1   (290,149,62,34 13.5b)  Active
+     5     5     1     5     1   (96,94,51,34 13.5b)  Map
+     1    -1     1     6     1   (21,94,75,34 13.5b)  Timeline
+     1    -1     0     7     1   (21,149,63,34 13.5b)  Weeks
+     0     0     0     5    -0   (16,24,158,35 40.0b)  VISTA
+     0     0     0     6     1   (352,149,39,34 13.5b)  All
+
+on the web but not found on native (first screen):
+   (-336,220) <span.fl-tk > AUG 2026
+   (-119,220) <span.fl-tk > SEP
+   (139,220) <span.fl-tk > OCT
+   (308,220) <span.fl-tk > NOV
+   (518,220) <span.fl-tk > DEC
+   (735,220) <span.fl-tk yr> JAN 2027
+   (952,220) <span.fl-tk > FEB
+   (1148,220) <span.fl-tk > MAR
+   (1365,220) <span.fl-tk > APR
+   (1575,220) <span.fl-tk > MAY
+   (1792,220) <span.fl-tk > JUN
+   (2002,220) <span.fl-tk > JUL
+   (2219,220) <span.fl-tk > AUG
+   (2436,220) <span.fl-tk > SEP
+   (62,265) <b.> READ 12 BOOKS THIS YEAR
+   (62,284) <span.data> 50% · SEP 5 → JAN 3, 2027
+   (62,363) <b.> BUILD A 3-MONTH EMERGENCY FUND
+   (62,382) <span.data> 40% · SEP 15 → AUG 31, 2027
+   (62,461) <b.> RUN A 10K RACE
+   (62,480) <span.data> 17% · SEP 23 → DEC 24
+   (62,559) <b.> WEEKLY FAMILY ADVENTURE DAY
+   (62,578) <span.data> 25% · SEP 26 → OCT 31
+   (62,657) <b.> EARN A PROFESSIONAL CERTIFICATION
+   (62,676) <span.data> 0% · SEP 30 → FEB 2, 2027
+   (62,755) <b.> BUILD A CALM MORNING ROUTINE
+   (62,774) <span.data> 0% · OCT 2 → NOV 2
+   (99,216) <span.> NOW
+
+on native only:
+   (30,851) Home
+   (84,852) Habits
+   (132,852) Calendar
+   (192,852) Goals
+   (247,852) Vista
+   (295,852) Journal
+   (357,852) Ask

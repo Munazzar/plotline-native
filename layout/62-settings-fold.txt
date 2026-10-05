@@ -1,0 +1,40 @@
+62-settings-fold: page offset 40dp, 3 texts matched, mean |diff| 3.3dp
+
+  diff   dx    dy    dw    dh   web(x,y,w,h fs)            text
+     8     0    -8    13    19   (16,82,366,35 40.0b)  LOOK & FEEL
+     1     0     1    -1    -1   (16,145,380,16 10.5)  MIDNIGHT THEME
+     1    -1     0   -19     0   (39,214,334,24 24.0b)  THEME
+
+on the web but not found on native (first screen):
+   (39,254) <div.data tgl> DARK
+   (46,356) <div.n> Midnight
+   (160,356) <div.n> Black
+   (275,356) <div.n> Plum
+   (46,469) <div.n> Graphite
+   (160,469) <div.n> Nordic
+   (275,469) <div.n> Forest
+   (46,583) <div.n> Deep sea
+   (160,583) <div.n> Mocha
+   (275,583) <div.n> Neon
+   (46,697) <div.n> Liquid Glass
+   (39,744) <div.data tgl> LIGHT
+   (46,845) <div.n> Daylight
+   (178,845) <div.n> Paper
+   (284,845) <div.n> Mint
+
+on native only:
+   (38,336) COLOURS & BACKGROUND
+   (38,418) START PAGE
+   (38,501) HOME PAGE
+   (38,583) ANIMATIONS
+   (38,665) FONTS
+   (38,747) CARD STYLE
+   (38,830) CARD BACKGROUND
+   (38,912) HALO
+   (31,852) Home
+   (84,852) Habits
+   (130,852) Calendar
+   (191,851) Goals
+   (246,852) Vista
+   (296,852) Journal
+   (357,852) Ask

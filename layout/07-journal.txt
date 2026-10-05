@@ -1,0 +1,48 @@
+07-journal: page offset 27dp, 13 texts matched, mean |diff| 20.2dp
+
+  diff   dx    dy    dw    dh   web(x,y,w,h fs)            text
+   116  -116   -25   -67    11   (496,778,83,16 10.5)  WED, SEP 30
+    25    -1   -25   237    11   (168,778,75,16 10.5)  FRI, OCT 2
+    20    -0   -20    14     1   (168,831,76,16 10.5)  01 / 02
+    19    -1   -19     9    -1   (73,348,223,32 10.5)  GOAL SET · FRI, OCT 2 · 3:41 AM
+    19    -0   -19     1    -1   (73,572,267,119 43.3b)  BUILD A CALM MORNING ROUTINE
+    17    -1    17    -1     1   (21,91,76,34 13.5b)  Journal
+    17    -2    17    -1     1   (97,91,79,34 13.5b)  Threads
+    16     0    16     5    -0   (16,24,160,35 40.0b)  JOURNAL
+     4    -4     0     0     1   (288,232,69,34 13.5b)  Habits
+     4    -4     0   -22     1   (357,232,64,34 13.5b)  Steps
+     3    -3     0    -1     1   (224,232,64,34 13.5b)  Goals
+     1    -1     0     0     1   (21,232,92,34 13.5b)  Highlights
+     1    -1     0    -3     1   (113,232,111,34 13.5b)  My moments
+
+on the web but not found on native (first screen):
+   (421,232) <button.> All
+   (73,346) <div.data> GOAL SET · FRI, OCT 2 · 3:41 AM
+   (73,368) <h4.> BUILD A CALM MORNING ROUTINE
+   (289,406) <span.> Progress
+   (306,434) <span.> Steps
+   (73,434) <span.> 0 of 2
+   (312,463) <span.> Next
+   (73,463) <span.> Wake 30 minutes earlier for…
+   (209,498) <button.btn inkline sm> View
+   (73,498) <button.btn inkline sm> Open goal
+   (421,367) <span.data> GOAL SET · WED, SEP 30 · 3:41 AM
+   (421,570) <div.jt-big> EARN A PROFESSIONAL CERTIFICATION
+   (421,364) <div.data> GOAL SET · WED, SEP 30 · 3:41 AM
+   (421,384) <h4.> EARN A PROFESSIONAL CERTIFICATION
+   (611,438) <span.> Progress
+   (626,464) <span.> Steps
+   (421,466) <span.> 0 of 4
+   (632,490) <span.> Next
+   (421,491) <span.> Pick the certification and …
+   (540,522) <button.btn inkline sm> View
+   (421,523) <button.btn inkline sm> Open goal
+
+on native only:
+   (30,851) Home
+   (84,852) Habits
+   (132,852) Calendar
+   (192,852) Goals
+   (248,852) Vista
+   (296,852) Journal
+   (357,852) Ask

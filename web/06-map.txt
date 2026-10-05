@@ -1,0 +1,14 @@
+header.ph
+    h1 "Vista"
+      div.seg-c
+        button @vistaGo "Timeline"
+        button.on @vistaGo "Map"
+  div.ph-r
+    button.ibtn.fsb @focusMode [Full screen]
+    a.ibtn.mob.gearb [Settings]
+    button.ibtn @fit [Fit everything]
+    button.ibtn @zoom [Zoom in]
+    button.ibtn @zoom [Zoom out]
+    span.data "Spacing"
+    input [Spacing between goals]
+    button.ibtn.sm @mapReset [Reset layout]

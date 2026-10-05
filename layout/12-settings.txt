@@ -1,0 +1,38 @@
+12-settings: page offset 64dp, 17 texts matched, mean |diff| 17.2dp
+
+  diff   dx    dy    dw    dh   web(x,y,w,h fs)            text
+    36     0   -36    -1    -5   (16,793,380,20 13.0)  Plotline 2.0.10 · Privacy policy · Take the tour · Setup che
+    35     0    35    -1    -1   (16,87,380,16 10.5)  EVERYTHING IN ONE PLACE, ONE AREA AT A TIME
+    32    -0   -32     1    -4   (85,741,264,19 12.5)  Backup, import, sample data
+    28    -0   -28     1    -4   (85,717,264,22 15.0b)  Your data
+    26     0    26    13    19   (16,24,366,35 40.0b)  SETTINGS
+    21    -0    21     1    -4   (85,148,264,22 15.0b)  You & sync
+    21    -0   -21     1    -4   (85,635,264,22 15.0b)  AI & voice
+    18    -0   -18     1    -4   (85,579,264,19 12.5)  Needs Google sync first
+    17    -0    17     1    -4   (85,172,264,19 12.5)  Not syncing · connect Google Drive
+    14    -0    14     1    -4   (85,229,264,22 15.0b)  Look & feel
+    14    -0   -14     1    -4   (85,554,264,22 15.0b)  Sharing
+    10    -0    10     1    -4   (85,254,264,19 12.5)  Midnight theme
+     7    -0    -7     1    -4   (85,473,264,22 15.0b)  Automations
+     7    -0     7     1    -4   (85,310,264,22 15.0b)  Notifications
+     4    -0    -4     1    -4   (85,416,264,19 12.5)  Off · anyone with this device can open Plotline
+     3    -0     3     1    -4   (85,335,264,19 12.5)  5 of 5 kinds on
+     0    -0     0     1    -4   (85,392,264,22 15.0b)  Privacy & lock
+
+on the web but not found on native (first screen):
+   (85,497) <small.> In the Android app
+   (85,660) <small.> On-device AI · voice needs your OK
+   (106,794) <a.link> Privacy policy
+   (193,794) <button.link> Take the tour
+   (275,794) <button.link> Setup checklist
+
+on native only:
+   (84,552) Off · set up with ⚡ on a habit or step
+   (84,701) On-device AI · voice on this phone
+   (30,851) Home
+   (84,852) Habits
+   (132,852) Calendar
+   (192,852) Goals
+   (248,852) Vista
+   (296,852) Journal
+   (358,852) Ask

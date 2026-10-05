@@ -1,0 +1,40 @@
+built 1136238
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+jar2dex app.jar -> app/classes.dex
+call com.android.dx.command.Main.main[--dex, --no-strict, --output=/home/runner/work/plotline-native/plotline-native/apkbuild/app/classes.dex, /home/runner/work/plotline-native/plotline-native/apkbuild/app.jar]
+I: Using Apktool 2.10.0 with 4 thread(s).
+I: Copying /tmp/plotline-dbg classes.dex file...
+I: Checking whether resources has changed...
+I: Building resources...
+I: Copying libs... (/lib)
+I: Building apk file...
+I: Copying unknown files/dir...
+I: Built apk into: plotline-unsigned.apk
+source:
+	/home/runner/work/plotline-native/plotline-native/apkbuild
+zipalign location: BUILT_IN 
+	/tmp/uapksigner-10708614151888135663/linux-zipalign-33_0_214133299604700885563.tmp
+keystore:
+	[0] 161a0018 /tmp/temp_2967132053957986778_debug.keystore (DEBUG_EMBEDDED)
+
+01. plotline-unsigned.apk
+
+	SIGN
+	file: /home/runner/work/plotline-native/plotline-native/apkbuild/plotline-unsigned.apk (10.59 MiB)
+	checksum: 4b7aca85b422ba0fa06096ab819f30b0057d0e146756c3add92f9c87beca15e (sha256)
+	- zipalign success
+	- sign success
+
+	VERIFY
+	file: /home/runner/work/plotline-native/plotline-native/apkbuild/signed/plotline-aligned-debugSigned.apk (10.61 MiB)
+	checksum: b824c6da83573ea179a38c577b154e8f9f286d479715e85ea0dc663abec51733 (sha256)
+	- zipalign verified
+	- signature verified [v3]
+		Subject: CN=Android Debug, OU=Android, O=US, L=US, ST=US, C=US
+		SHA256: 1e08a903aef9c3a721510b64ec764d01d3d094eb954161b62544ea8f187b5953 / SHA256withRSA
+		Expires: Thu Mar 10 20:10:05 UTC 2044
+
+[Mon Oct 05 03:41:14 UTC 2026][v1.3.0]
+Successfully processed 1 APKs and 0 errors in 0.55 seconds.
+Built out/Plotline-2.0.10.apk and out/plotline-web.zip

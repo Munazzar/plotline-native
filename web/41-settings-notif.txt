@@ -1,0 +1,36 @@
+  a.ibtn [Back to settings]
+header.ph
+    h1 "Notifications"
+    div.data "5 of 5 kinds on"
+  section.panel.rv.in
+    h3 "Reminders"
+        p.small.muted "Set reminders and focus timers on any step, and check-ins on any goal."
+          button.btn @icsAll "Add due steps to calendar"
+        p.small.muted "Notifications are blocked in this browser’s settings."
+  section.panel.rv.in
+    h3 "Notifications"
+        p.small.muted "Notifications with replies and Done buttons need the Android app. Here"
+        div.nlist
+            span "Habit reminders"
+              small "At the time set on each habit"
+            input
+            span "Evening wrap-up"
+              small "One list of habits still open"
+            input
+            span "Wrap-up time"
+            input
+            span "Step reminders"
+              small "Steps with a reminder"
+            input
+            span "Day goals"
+              small "Day goals with a time"
+            input
+            span "Goal check-ins"
+              small "Daily or weekly, set on each goal"
+            input
+            span "Milestones"
+              small "Clean-time wins on habits you’re breaking"
+            input
+            span "Quiet hours"
+              small "No reminders overnight"
+            input

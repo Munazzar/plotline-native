@@ -1,0 +1,24 @@
+42-settings-data: page offset 30dp, 8 texts matched, mean |diff| 27.0dp
+
+  diff   dx    dy    dw    dh   web(x,y,w,h fs)            text
+   170   170   -60    -7     0   (39,480,155,46 14.5b)  Erase everything
+    11     0    11    -1    -1   (16,145,380,16 10.5)  BACKUP, IMPORT, SAMPLE DATA
+    10    -0    10     1     0   (39,214,334,24 24.0b)  YOUR DATA
+    10   -10    -2    -7     0   (189,368,141,46 14.5b)  Import backup
+     8    -0     8     1    -4   (39,252,334,40 13.0)  Everything is stored on this device. Export a backup before 
+     4    -1    -4    -2     0   (39,424,172,46 14.5b)  Import MQC journal
+     2     0     2    13    19   (16,82,366,35 40.0b)  YOUR DATA
+     2    -1    -2    -7     0   (39,368,140,46 14.5b)  Export backup
+
+on the web but not found on native (first screen):
+   (39,312) <button.btn> Remove sample data
+
+on native only:
+   (38,342) &#128465;  Remove sample data
+   (30,851) Home
+   (84,852) Habits
+   (132,852) Calendar
+   (192,852) Goals
+   (248,852) Vista
+   (296,852) Journal
+   (358,852) Ask

@@ -1,0 +1,43 @@
+54-journal-timeline: page offset 44dp, 13 texts matched, mean |diff| 73.8dp
+
+  diff   dx    dy    dw    dh   web(x,y,w,h fs)            text
+   212   212   194    10    -2   (30,385,95,47 10.5)  GOAL SET · FRI, OCT 2 · 3:41 AM
+   212   212    49     2    -1   (30,638,139,37 20.0b)  BUILD A CALM MORNING ROUTINE
+   205  -205    42     9    -2   (243,771,95,47 10.5)  GOAL SET · WED, SEP 30 · 3:41 AM
+   197     0   197     1    -3   (153,329,105,28 10.5)  FRI, OCT 2
+    45     0    45     1    -3   (150,715,113,28 10.5)  WED, SEP 30
+    17    -1   -17     0     1   (21,232,92,34 13.5b)  Highlights
+    17    -1   -17    -3     1   (113,232,111,34 13.5b)  My moments
+    17    -3   -17    -1     1   (224,232,64,34 13.5b)  Goals
+    17    -4   -17     0     1   (288,232,69,34 13.5b)  Habits
+    17    -4   -17   -22     1   (357,232,64,34 13.5b)  Steps
+     2    -2     0    -1     1   (97,91,79,34 13.5b)  Threads
+     1     0    -1     5    -0   (16,24,160,35 40.0b)  JOURNAL
+     1    -1     0    -1     1   (21,91,76,34 13.5b)  Journal
+
+on the web but not found on native (first screen):
+   (421,232) <button.> All
+   (30,385) <div.data> GOAL SET · FRI, OCT 2 · 3:41 AM
+   (30,422) <h4.> BUILD A CALM MORNING ROUTINE
+   (118,481) <span.> Progress
+   (135,510) <span.> Steps
+   (30,510) <span.> 0 of 2
+   (141,538) <span.> Next
+   (30,538) <span.> Wake 30 minutes earlier for…
+   (30,593) <button.btn inkline sm> View
+   (30,637) <button.btn inkline sm> Open goal
+   (243,771) <div.data> GOAL SET · WED, SEP 30 · 3:41 AM
+   (243,808) <h4.> EARN A PROFESSIONAL CERTIFICATION
+   (331,888) <span.> Progress
+
+on native only:
+   (172,337) TODAY
+   (29,392) MOMENT · TODAY
+   (29,515) BY BY BY BY
+   (30,852) Home
+   (84,852) Habits
+   (130,852) Calendar
+   (191,851) Goals
+   (246,852) Vista
+   (296,852) Journal
+   (357,852) Ask

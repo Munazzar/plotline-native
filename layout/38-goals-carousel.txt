@@ -1,0 +1,82 @@
+38-goals-carousel: page offset 41dp, 12 texts matched, mean |diff| 14.9dp
+
+  diff   dx    dy    dw    dh   web(x,y,w,h fs)            text
+   124  -124   -12   -52    11   (503,773,68,16 10.5)  THIS YEAR
+    14    -8   -14   111    -1   (73,354,98,16 10.5)  HEALTH · 3 MO
+    12    -1   -12   214    11   (157,773,98,16 10.5)  TARGET DEC 24
+    12    -1    12    15   -21   (73,601,267,44 47.4b)  RUN A 10K RACE
+     8    -0    -8    14     1   (168,826,76,16 10.5)  01 / 06
+     2    -2     0     0     1   (284,164,86,34 13.5b)  Achieved
+     1     0     1     5    -0   (16,24,158,35 40.0b)  GOALS
+     1    -1     1    15    -1   (73,670,267,16 10.5)  17% · 1 OF 6
+     1     0     1    -1    -1   (16,98,380,32 10.5)  6 ACTIVE · 0 ACHIEVED · PINCH THE CARDS TO SEE MORE
+     1    -1     0    -2     1   (188,164,96,34 13.5b)  Long-term
+     0    -0     0    -1     1   (89,164,99,34 13.5b)  Short-term
+     0    -0     0     1     1   (21,164,68,34 13.5b)  Active
+
+on the web but not found on native (first screen):
+   (218,340) <span.> Run a 10K race
+   (73,367) <div.data> NEXT STEP
+   (73,383) <div.nx> Run 20 minutes, 3 times this week
+   (317,419) <span.> Due
+   (73,419) <span.due > In 2d
+   (119,648) <button.btn pri sm> Open
+   (421,374) <span.data> FINANCE · YEAR
+   (421,477) <div.fc-t> BUILD A 3-MONTH EMERGENCY FUND
+   (421,657) <div.fc-p data> 40% · 2 OF 5
+   (437,359) <span.> Build a 3-month emergency fund
+   (421,383) <div.data> NEXT STEP
+   (421,398) <div.nx> Cancel two unused subscriptions
+   (636,430) <span.> Due
+   (421,434) <span.due soon> Today
+   (460,637) <button.btn pri sm> Open
+   (752,374) <span.data> FAMILY · MONTH
+   (752,556) <div.fc-t> WEEKLY FAMILY ADVENTURE DAY
+   (752,657) <div.fc-p data> 25% · 1 OF 4
+   (791,359) <span.> Weekly family adventure day
+   (752,383) <div.data> NEXT STEP
+   (752,398) <div.nx> Block Saturdays on the shared calendar
+   (967,430) <span.> Due
+   (752,434) <span.due over> 1d late
+   (791,637) <button.btn pri sm> Open
+   (831,773) <div.hs-lab data> THIS MONTH
+   (1083,374) <span.data> CAREER · YEAR
+   (1083,517) <div.fc-t> EARN A PROFESSIONAL CERTIFICATION
+   (1083,657) <div.fc-p data> 0% · 0 OF 4
+   (1104,359) <span.> Earn a professional certification
+   (1083,383) <div.data> NEXT STEP
+   (1083,398) <div.nx> Pick the certification and book an exam date
+   (1299,448) <span.> Due
+   (1083,450) <span.due > Oct 12
+   (1123,637) <button.btn pri sm> Open
+   (1166,773) <div.hs-lab data> THIS YEAR
+   (1414,374) <span.data> FAITH · 1–5 YR
+   (1414,517) <div.fc-t> BUILD A CALM MORNING ROUTINE
+   (1414,657) <div.fc-p data> 0% · 0 OF 2
+   (1455,359) <span.> Build a calm morning routine
+   (1414,383) <div.data> NEXT STEP
+   (1414,398) <div.nx> Wake 30 minutes earlier for a week
+   (1630,430) <span.> Due
+   (1414,434) <span.due > In 6d
+   (1454,637) <button.btn pri sm> Open
+   (1497,773) <div.hs-lab data> 1–5 YEARS
+   (1745,374) <span.data> LEARNING · YEAR
+   (1745,556) <div.fc-t> READ 12 BOOKS THIS YEAR
+   (1745,657) <div.fc-p data> 50% · 2 OF 4
+   (1818,359) <span.> Read 12 books this year
+   (1745,383) <div.data> NEXT STEP
+   (1745,398) <div.nx> Read 20 pages every night for a week
+   (1961,430) <span.> Due
+   (1745,434) <span.due > In 4d
+   (1785,637) <button.btn pri sm> Open
+   (1828,773) <div.hs-lab data> THIS YEAR
+
+on native only:
+   (30,269) All areas
+   (30,851) Home
+   (84,852) Habits
+   (132,852) Calendar
+   (192,852) Goals
+   (248,852) Vista
+   (296,852) Journal
+   (358,852) Ask

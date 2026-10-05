@@ -1,0 +1,54 @@
+32-cal-month: page offset 37dp, 38 texts matched, mean |diff| 6.5dp
+
+  diff   dx    dy    dw    dh   web(x,y,w,h fs)            text
+    22    -1   -22    -4     1   (91,872,61,12 9.5)  DAY GOAL
+    22     5   -22    37    -4   (160,869,176,19 12.5)  Earn a professional certification
+    21    -0   -21     0    -1   (91,730,203,20 15.0b)  Call mom after work
+    21    -1   -21    -4     1   (91,752,61,12 9.5)  DAY GOAL
+    21     0   -21    12    -0   (306,730,53,20 10.5)  6:00 PM
+    21    -1   -21    13    -1   (91,788,256,20 15.0b)  Drink 8 glasses of water
+    20    -1   -20    -4     1   (91,810,61,12 9.5)  DAY GOAL
+    20    -1   -20    13    -1   (91,846,256,20 15.0b)  45 minutes on the study guide
+    14    -1   -14    14   -15   (43,679,234,32 10.5)  TODAY · 4 PLANNED · HABITS 0 OF 5
+    13    13     4   -59   -28   (288,142,108,46 14.5b)  Today
+     7     0     7     5     3   (16,24,212,32 36.0b)  CALENDAR
+     5     0     5    -1    -1   (16,92,380,32 10.5)  DAY GOALS, STEPS AND TARGETS TOGETHER · 1 OF 16 DONE
+     4    -1     4    -1     1   (21,148,54,34 13.5b)  Day
+     4    -1     4     1     1   (75,148,63,34 13.5b)  Week
+     4    -1     4    -2     1   (138,148,71,34 13.5b)  Month
+     2    -1    -2    14    -4   (43,654,234,22 15.0b)  Monday, Oct 5
+     2     1     2     3     2   (31,282,47,12 10.0)  SUN
+     2     0     2     3     2   (82,282,47,12 10.0)  MON
+     2    -0     2     4     2   (132,282,47,12 10.0)  TUE
+     2    -1     2     4     2   (183,282,47,12 10.0)  WED
+     2     1     2     4     2   (233,282,47,12 10.0)  THU
+     2     1     2     4     2   (284,282,47,12 10.0)  FRI
+     2     0     2     4     2   (334,282,47,12 10.0)  SAT
+     2    -1     2   119    -1   (35,234,143,27 28.0b)  OCTOBER 2026
+     1    -0    -1    -2     0   (85,595,41,13 8.5b)  Run 5K without stopping
+     1     0    -1    -2     0   (337,595,41,13 8.5b)  Print favourite photos into a small album
+     1     0    -1    -2    -1   (34,476,41,13 8.5b)  Wake 30 minutes earlier for a week
+     0     0     0    -2     0   (34,394,41,13 8.5b)  Clear the email inbox
+     0     0    -0    -2    -1   (34,409,41,13 8.5b)  Block Saturdays on the shared calendar
+     0     0    -0    -2     0   (34,461,41,13 8.5b)  Prep lunches for the week
+     0     0     0    -2     0   (287,394,41,13 8.5b)  Read 20 pages every night for a week
+     0    -0    -0    -2     0   (85,461,41,13 8.5b)  Pick the certification and book an exam date
+     0    -0     0    -2     0   (85,394,41,13 8.5b)  Call mom after work
+     0    -0    -0    -2    -1   (85,409,41,13 8.5b)  Drink 8 glasses of water
+     0     0     0    -2     0   (186,394,41,13 8.5b)  Run 20 minutes, 3 times this week
+     0     0    -0    -2    -1   (186,409,41,13 8.5b)  Pay the credit card bill
+     0     0     0    -2     0   (337,394,41,13 8.5b)  Pack the lake picnic
+     0     0    -0    -2    -1   (337,409,41,13 8.5b)  Plan the first trip to the lake
+
+on the web but not found on native (first screen):
+   (85,425) <em.more> +2 more
+   (91,912) <div.t> Cancel two unused subscriptions
+
+on native only:
+   (30,851) Home
+   (84,852) Habits
+   (131,852) Calendar
+   (192,852) Goals
+   (248,852) Vista
+   (296,852) Journal
+   (358,852) Ask

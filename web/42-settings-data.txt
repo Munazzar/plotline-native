@@ -1,0 +1,12 @@
+  a.ibtn [Back to settings]
+header.ph
+    h1 "Your data"
+    div.data "Backup, import, sample data"
+  section.panel.rv.in
+    h3 "Your data"
+    p.small.muted "Everything is stored on this device. Export a backup before switching "
+      button.btn @demoRemove "Remove sample data"
+      button.btn @exportData "Export backup"
+      label.btn "Import backup"
+      label.btn "Import MQC journal"
+      button.btn.danger @wipe "Erase everything"

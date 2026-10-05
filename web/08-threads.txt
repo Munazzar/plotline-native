@@ -1,0 +1,30 @@
+header.ph
+    h1 "Journal"
+  div.ph-r
+    button.btn.pri @thrNew [New thread]
+    button.ibtn.fsb @focusMode [Full screen]
+    a.ibtn.mob.gearb [Settings]
+  div.seg-c
+    button @jvGo "Journal"
+    button.on @jvGo "Threads"
+  div.seg-c.ico
+    button.on @layout [Cards side by side]
+    button @layout [Timeline]
+div.jchips.rv.in
+  div.seg-c
+    button.on @thrFilt "Active · 1"
+    button @thrFilt "Done"
+    button @thrFilt "All"
+      span.hs-line
+        div.hs-card
+          div.jb.tint.thr-jb @thrOpen [Open thread Garage gym idea]
+              span.data "💭 Thought · 3 updates"
+              button.x @thrAddSheet [Add an update]
+            div.data "1 h ago"
+            div.jb-big "Garage gym idea"
+            div.jb-q.thr-clamp "First workout there this morning, felt great"
+            span.jg "🎯 Run a 10K race"
+        div.hs-lab.data "Today"
+    button.ibtn.sm @hsNav [Previous]
+    span.data.hs-count "01 / 01"
+    button.ibtn.sm @hsNav [Next]

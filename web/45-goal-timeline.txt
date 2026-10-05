@@ -1,0 +1,72 @@
+  a.ibtn [Back to goals]
+  div.ph-r
+    button.ibtn.thr-b.on @thrFrom [Threads (1)]
+      sup "1"
+    button.bell.pill @remEdit [Reminder: Reminders]
+    button.ibtn.on @pin [Unpin]
+    button.ibtn @editGoal [Edit goal]
+    button.ibtn @goalMenu [More]
+    button.ibtn @askAbout [Ask AI about this]
+    a.ibtn.mob.gearb [Settings]
+section.hero.tint.halo
+  div.data "Health · 3 months · High priority"
+  h1 "Run a 10K race"
+  p.why "More energy for my family, and proof to myself that I can finish hard "
+      div.data "Sep 23 → Dec 24 · 1 of 6 steps"
+    div.hero-pct "17"
+      small "%"
+  button.link @newGoal "Add a sub-goal"
+  div.seg-c
+    button @gvMode "Cards"
+    button @gvMode "Path"
+    button.on @gvMode "Timeline"
+      span.fl-tk. "Sep 2026"
+      span.fl-tk. "Oct"
+      span.fl-tk. "Nov"
+      span.fl-tk. "Dec"
+      span.fl-tk.yr "Jan 2027"
+      button.spl.fl-pop.done @editStep
+        span "Get fitted for proper running shoes"
+          em "Done"
+      button.spl.fl-pop.dn @editStep
+        span "Run 20 minutes, 3 times this week"
+          em "Oct 7 · 7:00 AM"
+      button.spl.fl-pop.up @editStep
+        span "Run 5K without stopping"
+          em "Oct 26"
+      button.spl.fl-pop.up @editStep
+        span "Register for a local 10K"
+          em "Nov 4"
+      button.spl.fl-pop.up @editStep
+        span "Complete an 8K long run"
+          em "Dec 4"
+      button.spl.fl-pop.dn @editStep
+        span "Race day — enjoy it"
+          em "Dec 24"
+    div.today-line
+      span "NOW"
+p.small.muted "Tap a planet to edit a step. Move the goal’s start date and the whole "
+section.rv.in
+  div.st-h
+    h3 "Connected goals"
+    button.link @connect "Edit"
+  a.gchip "Weekly family adventure day"
+    span "25%"
+  a.gchip "Build a calm morning routine"
+    span "0%"
+section.rv.in
+  div.st-h
+    h3 "Moments"
+    button.link @addEntry "Add"
+    div.jf. @flip [First run in months. 2 km, slow, felt amazing.. Show description]
+            span.data "Moment · Sat, Sep 26"
+            span.flip-hint
+          div.jt-big "First run in months. 2 km, slow, felt amazing."
+          div.data "Run a 10K race"
+          div.data "Sat, Sep 26"
+          h4 "First run in months. 2 km, slow, felt amazing."
+            span "No description yet."
+          a.jg @open "Run a 10K race"
+            button.btn.inkline.sm @viewEntry
+            button.btn.inkline.sm @editEntry
+            button.btn.inkline.sm @delEntry

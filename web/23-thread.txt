@@ -1,0 +1,43 @@
+  a.ibtn [Back to threads]
+  div.ph-r
+    button.ibtn @thrEdit [Edit thread]
+    button.ibtn @thrDone [Mark done]
+    button.ibtn @askAbout [Ask AI about this]
+    a.ibtn.mob.gearb [Settings]
+header.ph.thr-ph
+    h1 "Garage gym idea"
+    div.data "Thread · started Sep 30, 2026 · 3 updates"
+    button.thr-lk @thrLinkGo "🎯 Run a 10K race"
+    button.chip.on @thrTag "💭"
+    button.chip @thrTag "💡"
+    button.chip @thrTag "🚧"
+    button.chip @thrTag "⛔"
+    button.chip @thrTag "✅"
+    textarea [Add an update]
+    button.btn.pri [Add update]
+  span.data "Latest first"
+  div.seg-c.ico
+    button.on @layout [Cards side by side]
+    button @layout [Timeline]
+      span.hs-line
+        div.hs-card
+              span.data "💭 Thought · 2:41 AM"
+              button.x @thrUpEdit [Edit update]
+            div.data "Today"
+            div.thr-utext "First workout there this morning, felt great"
+        div.hs-lab.data "Today"
+        div.hs-card
+              span.data "🚧 Progress · 3:41 AM"
+              button.x @thrUpEdit [Edit update]
+            div.data "Sat, Oct 3"
+            div.thr-utext "Bought two kettlebells and a mat"
+        div.hs-lab.data "Sat, Oct 3"
+        div.hs-card
+              span.data "💡 Idea · 3:41 AM"
+              button.x @thrUpEdit [Edit update]
+            div.data "Wed, Sep 30"
+            div.thr-utext "Turn the garage corner into a small gym"
+        div.hs-lab.data "Wed, Sep 30"
+    button.ibtn.sm @hsNav [Previous]
+    span.data.hs-count "01 / 03"
+    button.ibtn.sm @hsNav [Next]

@@ -1,0 +1,33 @@
+41-settings-notif: page offset 38dp, 5 texts matched, mean |diff| 12.4dp
+
+  diff   dx    dy    dw    dh   web(x,y,w,h fs)            text
+    50    -1   -50    -9     0   (39,350,245,46 14.5b)  Add due steps to calendar
+     6     0    -6    13    19   (16,82,366,35 40.0b)  NOTIFICATIONS
+     3     0     3    -1    -1   (16,145,380,16 10.5)  5 OF 5 KINDS ON
+     2    -1     2   -19     0   (39,214,334,24 24.0b)  REMINDERS
+     1    -1     0   -19     4   (39,406,334,20 13.0)  Notifications are blocked in this browser’s settings.
+
+on the web but not found on native (first screen):
+   (39,250) <p.small muted> Set reminders and focus timers on any step, and check-ins on any goal.
+   (39,495) <h3.> NOTIFICATIONS
+   (39,519) <p.small muted> Notifications with replies and Done buttons need the Android app. Here
+   (39,579) <span.> Habit reminders At the time set on each habit
+   (39,601) <small.> At the time set on each habit
+   (39,646) <span.> Evening wrap-up One list of habits still open
+   (39,668) <small.> One list of habits still open
+   (53,717) <span.> Wrap-up time
+   (39,777) <span.> Step reminders Steps with a reminder
+   (39,799) <small.> Steps with a reminder
+   (39,844) <span.> Day goals Day goals with a time
+   (39,866) <small.> Day goals with a time
+   (39,911) <span.> Goal check-ins Daily or weekly, set on each goal
+
+on native only:
+   (38,290) Step reminders, goal check-ins and focus timers arrive as phone notifi
+   (30,851) Home
+   (84,852) Habits
+   (132,852) Calendar
+   (192,852) Goals
+   (248,852) Vista
+   (296,852) Journal
+   (358,852) Ask

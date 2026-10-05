@@ -1,0 +1,39 @@
+09-ask: page offset 7dp, 22 texts matched, mean |diff| 20.2dp
+
+  diff   dx    dy    dw    dh   web(x,y,w,h fs)            text
+    40    -0    40     7    -3   (20,204,372,28 28.0b)  STILL UP, M.
+    36     0    36     5    -0   (16,24,212,35 40.0b)  ASK
+    33    -0    33     7    -7   (20,242,372,45 15.0)  Ask anything about your goals, habits and journal. Answers c
+    32     0   -32     7     1   (52,730,42,14 12.0)  All time
+    28    -0   -28     2    -4   (30,796,158,18 12.0)  What I’ve achieved lately
+    26    -0   -26     2    -2   (30,774,158,18 13.5b)  Wins to celebrate
+    23    -1    23   192     1   (93,318,93,20 17.0b)  Plan with AI
+    22    -0   -22     2    -4   (30,898,158,18 12.0)  From your plan
+    21    -0    21     1    -1   (93,346,284,126 14.0)  Say what you want in your own words, like “get fit by summer
+    20    -1    20    -4     0   (93,484,125,38 13.5b)  Start a plan
+    20    -5    20    -5     0   (226,484,129,38 13.5b)  Rework my plan
+    20    -0   -20     2    -0   (30,857,158,36 13.5b)  What should I do next for “Run a 10K race”?
+    18    -0   -18     2   -22   (224,695,158,36 12.0)  When I keep them, when I slip
+    18    -0    18     2    -2   (30,580,158,18 13.5b)  Weekly reflection
+    18    -0    18     2    -2   (224,580,158,18 13.5b)  What lifts my mood
+    17    -0   -17     2    -4   (224,805,158,18 12.0)  From your plan
+    16    -0   -16     2    -0   (224,765,158,36 13.5b)  How can I keep “Exercise” going?
+    11    -0   -11     2    -7   (30,695,158,36 12.0)  Stalled goals and a restart step
+     6    -0     6     2   -22   (30,602,158,36 12.0)  What went well, what slipped
+     6    -0     6     2   -22   (224,602,158,36 12.0)  Patterns in moods and habits
+     6    -0    -6     2    -2   (30,672,158,18 13.5b)  Where I’m stuck
+     6    -0    -6     2    -2   (224,672,158,18 13.5b)  Habit patterns
+
+on the web but not found on native (first screen):
+   (16,98) <button.data ask-eng> LLAMA 3.2 1B · ON THIS DEVICE
+
+on native only:
+   (16,141) LLAMA 3.2 1B · ON THIS PHONE
+   (32,743) Ask anything about your life…
+   (30,851) Home
+   (84,852) Habits
+   (132,852) Calendar
+   (192,852) Goals
+   (248,852) Vista
+   (296,852) Journal
+   (358,852) Ask

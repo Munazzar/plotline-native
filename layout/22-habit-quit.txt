@@ -1,0 +1,44 @@
+22-habit-quit: page offset 19dp, 25 texts matched, mean |diff| 4.4dp
+
+  diff   dx    dy    dw    dh   web(x,y,w,h fs)            text
+    16    -0    16     1    -1   (39,105,334,16 10.5)  BREAKING · HEALTH
+    15    -0    15     1     0   (39,190,334,25 16.5)  Steady energy through the afternoon.
+    14     6    14   -62   -28   (39,325,162,46 14.5b)  I have an urge
+    14    -7    14   -44   -28   (209,325,106,46 14.5b)  Log a slip
+    11    -0    11    13     6   (84,289,33,18 15.0b)  days
+     5    -1    -5    31    -4   (61,864,34,20 13.0b)  1 year
+     5    -1    -5    23    -4   (190,864,42,20 13.0b)  2 years
+     5    -1    -5    23    -4   (320,864,42,20 13.0b)  3 years
+     3    -1    -3    11    -4   (61,810,54,20 13.0b)  2 months
+     3    -1    -3    11    -4   (190,810,54,20 13.0b)  3 months
+     3    -1    -3    11    -4   (320,810,54,20 13.0b)  6 months
+     3    -0     3     2     0   (33,437,151,34 38.0b)  16d
+     2    -0     2     2    -1   (33,477,151,16 10.5)  BEST RUN
+     2     0     2     2    -1   (228,477,151,16 10.5)  MONEY SAVED
+     1    -1     1    25    -4   (320,702,40,20 13.0b)  1 week
+     1    -1    -1    19    -4   (320,756,46,20 13.0b)  1 month
+     1    -1    -1    17    -4   (61,756,48,20 13.0b)  2 weeks
+     1    -1    -1    17    -4   (190,756,48,20 13.0b)  3 weeks
+     1    -1     1    27    -4   (190,702,38,20 13.0b)  3 days
+     1    -0    -1     2    -1   (33,575,151,16 10.5)  SLIPS
+     1     0    -1     2    -1   (228,575,151,16 10.5)  NEXT MILESTONE
+     1    -1     1    35    -4   (61,702,30,20 13.0b)  1 day
+     1    -1     0     3    -1   (313,659,83,16 10.5)  CURRENT RUN
+     0     0    -0     2     0   (228,535,151,34 38.0b)  2 weeks
+     0     0     0   194     5   (16,650,100,24 24.0b)  MILESTONES
+
+on the web but not found on native (first screen):
+   (39,137) <h1.> 🍬 NO ADDED SUGAR
+   (131,288) <span.hms> 14:24:50
+   (247,550) <small.> weeks
+
+on native only:
+   (38,171) &#127852;  NO ADDED SUGAR
+   (123,314) 14:33:43
+   (30,851) Home
+   (83,852) Habits
+   (132,852) Calendar
+   (192,852) Goals
+   (248,852) Vista
+   (296,852) Journal
+   (358,852) Ask

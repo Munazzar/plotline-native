@@ -1,0 +1,189 @@
+  a.ibtn [Back to goals]
+  div.ph-r
+    button.ibtn.thr-b.on @thrFrom [Threads (1)]
+      sup "1"
+    button.bell.pill @remEdit [Reminder: Reminders]
+    button.ibtn.on @pin [Unpin]
+    button.ibtn @editGoal [Edit goal]
+    button.ibtn @goalMenu [More]
+    button.ibtn @askAbout [Ask AI about this]
+    a.ibtn.mob.gearb [Settings]
+section.hero.tint.halo
+  div.data "Health · 3 months · High priority"
+  h1 "Run a 10K race"
+  p.why "More energy for my family, and proof to myself that I can finish hard "
+      div.data "Sep 23 → Dec 24 · 1 of 6 steps"
+    div.hero-pct "17"
+      small "%"
+  button.link @newGoal "Add a sub-goal"
+  div.seg-c
+    button.on @gvMode "Cards"
+    button @gvMode "Path"
+    button @gvMode "Timeline"
+      span.hs-line
+        div.hs-card
+          div.sc.big @flip [Step 1: Get fitted for proper running shoes. Show details]
+                  span.data "Done · step 1 of 6"
+                  span.nbadge "01"
+                div.sc-t "Get fitted for proper running shoes"
+                  span.data "Done Oct 3"
+                  span.flip-hint
+                div.data "Step 1 of 6 · Done"
+                h4 "Get fitted for proper running shoes"
+                  span "Due"
+                  span "No date"
+                  span "Reminder"
+                  span "Off"
+                  span "Focus"
+                  span "None yet"
+                p.note "No notes yet."
+                  button.btn.inkline.sm @toggleStep "Mark not done"
+                  button.btn.inkline.sm @editStep "Edit step"
+        button.node @toggleStep [Mark not done: Get fitted for proper running shoes]
+        div.hs-lab.data "Done"
+        div.hs-card
+          div.sc.big @flip [Step 2: Run 20 minutes, 3 times this week. Show details]
+                  span.data "Up next · step 2 of 6"
+                  span.nbadge "02"
+                div.sc-t "Run 20 minutes, 3 times this week"
+                  span.data "Due in 2 days · 7:00 AM"
+                  button.bell.on.ic @remEdit [Reminder: 15 min before]
+                  span.flip-hint
+                div.data "Step 2 of 6 · Up next"
+                h4 "Run 20 minutes, 3 times this week"
+                  span "Due"
+                  span "Oct 7 · 7:00 AM"
+                  span "Reminder"
+                    button.bell.on. @remEdit [Reminder: 15 min before]
+                      span "15 min before"
+                  span "Focus"
+                  span "None yet"
+                p.note "No notes yet."
+                  button.btn.ink.sm @toggleStep "Mark done"
+                  button.btn.inkline.sm @timerPick "Focus timer"
+                  button.btn.inkline.sm @editStep "Edit step"
+        button.node @toggleStep [Mark done: Run 20 minutes, 3 times this week]
+        div.hs-lab.data "In 2d"
+        div.hs-card
+          div.sc.big @flip [Step 3: Run 5K without stopping. Show details]
+                  span.data "Planned · step 3 of 6"
+                  span.nbadge "03"
+                div.sc-t "Run 5K without stopping"
+                  span.data "Due Oct 26"
+                  button.bell.ic.mini @remEdit [Reminder: Off]
+                  span.flip-hint
+                div.data "Step 3 of 6 · Planned"
+                h4 "Run 5K without stopping"
+                  span "Due"
+                  span "Oct 26"
+                  span "Reminder"
+                    button.bell. @remEdit [Reminder: Off]
+                      span "Off"
+                  span "Focus"
+                  span "None yet"
+                p.note "No notes yet."
+                  button.btn.ink.sm @toggleStep "Mark done"
+                  button.btn.inkline.sm @timerPick "Focus timer"
+                  button.btn.inkline.sm @editStep "Edit step"
+        button.node @toggleStep [Mark done: Run 5K without stopping]
+        div.hs-lab.data "Oct 26"
+        div.hs-card
+          div.sc.big @flip [Step 4: Register for a local 10K. Show details]
+                  span.data "Planned · step 4 of 6"
+                  span.nbadge "04"
+                div.sc-t "Register for a local 10K"
+                  span.data "Due Nov 4"
+                  button.bell.ic.mini @remEdit [Reminder: Off]
+                  span.flip-hint
+                div.data "Step 4 of 6 · Planned"
+                h4 "Register for a local 10K"
+                  span "Due"
+                  span "Nov 4"
+                  span "Reminder"
+                    button.bell. @remEdit [Reminder: Off]
+                      span "Off"
+                  span "Focus"
+                  span "None yet"
+                p.note "No notes yet."
+                  button.btn.ink.sm @toggleStep "Mark done"
+                  button.btn.inkline.sm @timerPick "Focus timer"
+                  button.btn.inkline.sm @editStep "Edit step"
+        button.node @toggleStep [Mark done: Register for a local 10K]
+        div.hs-lab.data "Nov 4"
+        div.hs-card
+          div.sc.big @flip [Step 5: Complete an 8K long run. Show details]
+                  span.data "Planned · step 5 of 6"
+                  span.nbadge "05"
+                div.sc-t "Complete an 8K long run"
+                  span.data "Due Dec 4"
+                  button.bell.ic.mini @remEdit [Reminder: Off]
+                  span.flip-hint
+                div.data "Step 5 of 6 · Planned"
+                h4 "Complete an 8K long run"
+                  span "Due"
+                  span "Dec 4"
+                  span "Reminder"
+                    button.bell. @remEdit [Reminder: Off]
+                      span "Off"
+                  span "Focus"
+                  span "None yet"
+                p.note "No notes yet."
+                  button.btn.ink.sm @toggleStep "Mark done"
+                  button.btn.inkline.sm @timerPick "Focus timer"
+                  button.btn.inkline.sm @editStep "Edit step"
+        button.node @toggleStep [Mark done: Complete an 8K long run]
+        div.hs-lab.data "Dec 4"
+        div.hs-card
+          div.sc.big @flip [Step 6: Race day — enjoy it. Show details]
+                  span.data "Planned · step 6 of 6"
+                  span.nbadge "06"
+                div.sc-t "Race day — enjoy it"
+                  span.data "Due Dec 24"
+                  button.bell.ic.mini @remEdit [Reminder: Off]
+                  span.flip-hint
+                div.data "Step 6 of 6 · Planned"
+                h4 "Race day — enjoy it"
+                  span "Due"
+                  span "Dec 24"
+                  span "Reminder"
+                    button.bell. @remEdit [Reminder: Off]
+                      span "Off"
+                  span "Focus"
+                  span "None yet"
+                p.note "No notes yet."
+                  button.btn.ink.sm @toggleStep "Mark done"
+                  button.btn.inkline.sm @timerPick "Focus timer"
+                  button.btn.inkline.sm @editStep "Edit step"
+        button.node @toggleStep [Mark done: Race day — enjoy it]
+        div.hs-lab.data "Dec 24"
+        button.hs-card @addStepSheet
+            span "Add a step"
+        button.hs-card @newGoal
+            span "Add a sub-goal"
+    button.ibtn.sm @hsNav [Previous]
+    span.data.hs-count "02 / 06"
+    button.ibtn.sm @hsNav [Next]
+section.rv.in
+  div.st-h
+    h3 "Connected goals"
+    button.link @connect "Edit"
+  a.gchip "Weekly family adventure day"
+    span "25%"
+  a.gchip "Build a calm morning routine"
+    span "0%"
+section.rv.in
+  div.st-h
+    h3 "Moments"
+    button.link @addEntry "Add"
+    div.jf. @flip [First run in months. 2 km, slow, felt amazing.. Show description]
+            span.data "Moment · Sat, Sep 26"
+            span.flip-hint
+          div.jt-big "First run in months. 2 km, slow, felt amazing."
+          div.data "Run a 10K race"
+          div.data "Sat, Sep 26"
+          h4 "First run in months. 2 km, slow, felt amazing."
+            span "No description yet."
+          a.jg @open "Run a 10K race"
+            button.btn.inkline.sm @viewEntry
+            button.btn.inkline.sm @editEntry
+            button.btn.inkline.sm @delEntry

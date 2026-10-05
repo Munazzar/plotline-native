@@ -1,0 +1,36 @@
+23-thread: page offset -1dp, 7 texts matched, mean |diff| 81.7dp
+
+  diff   dx    dy    dw    dh   web(x,y,w,h fs)            text
+   386   -41   386  -221     8   (421,498,237,19 10.5)  SAT, OCT 3
+   121    -0  -121     1  -241   (73,511,267,292 17.0)  First workout there this morning, felt great
+    41     0    41    13    -1   (16,82,366,28 30.0b)  GARAGE GYM IDEA
+    18     0    18    -1    -1   (16,138,380,16 10.5)  THREAD · STARTED SEP 30, 2026 · 3 UPDATES
+     5    -1    -5   274    11   (187,890,38,16 10.5)  TODAY
+     2    -0    -2     1     3   (73,482,267,16 10.5)  TODAY
+     0     0     0   205    -1   (16,357,90,16 10.5)  LATEST FIRST
+
+on the web but not found on native (first screen):
+   (16,180) <button.thr-lk> 🎯 Run a 10K race
+   (73,460) <span.data> 💭 THOUGHT · 2:41 AM
+   (421,480) <span.data> 🚧 PROGRESS · 3:41 AM
+   (421,525) <div.thr-utext> Bought two kettlebells and a mat
+   (500,890) <div.hs-lab data> SAT, OCT 3
+   (752,481) <span.data> 💡 IDEA · 3:41 AM
+   (752,498) <div.data> WED, SEP 30
+   (752,525) <div.thr-utext> Turn the garage corner into a small gym
+   (827,890) <div.hs-lab data> WED, SEP 30
+
+on native only:
+   (30,189) &#127919; Run a 10K race
+   (28,240) &#128173;
+   (74,240) &#128161;
+   (120,240) &#128679;
+   (28,281) Add an update…
+   (72,460) &#128173; THOUGHT · 2:41 AM
+   (30,851) Home
+   (84,852) Habits
+   (132,852) Calendar
+   (192,852) Goals
+   (248,852) Vista
+   (296,852) Journal
+   (358,852) Ask

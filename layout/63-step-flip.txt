@@ -1,0 +1,115 @@
+63-step-flip: page offset 13dp, 11 texts matched, mean |diff| 19.0dp
+
+  diff   dx    dy    dw    dh   web(x,y,w,h fs)            text
+    64    -1   -64    20    -1   (73,891,173,16 10.5)  DUE IN 2 DAYS · 7:00 AM
+    64    -0   -64     1     0   (73,691,267,172 47.8b)  RUN 20 MINUTES, 3 TIMES THIS WEEK
+    22    -0    22     1    -1   (39,105,334,16 10.5)  HEALTH · 3 MONTHS · HIGH PRIORITY
+    18    -1   -18    68    -1   (73,537,158,16 10.5)  UP NEXT · STEP 2 OF 6
+    16    -0    16     1    -3   (39,137,334,40 46.0b)  RUN A 10K RACE
+    15    -1    15    16    -1   (39,281,252,16 10.5)  SEP 23 → DEC 24 · 1 OF 6 STEPS
+     7    -0     7     1    -7   (39,190,334,50 16.5)  More energy for my family, and proof to myself that I can fi
+     2    -2     0    -0     1   (145,404,81,34 13.5b)  Timeline
+     2    -2     0    -0     1   (87,404,58,34 13.5b)  Path
+     1    -1     0    -1     1   (21,404,66,34 13.5b)  Cards
+     1     0     1     7    19   (313,270,60,45 58.0b)  17%
+
+on the web but not found on native (first screen):
+   (16,354) <button.link> Add a sub-goal
+   (-245,554) <span.data> DONE · STEP 1 OF 6
+   (-245,692) <div.sc-t> GET FITTED FOR PROPER RUNNING SHOES
+   (-245,835) <span.data> DONE OCT 3
+   (-245,542) <div.data> STEP 1 OF 6 · DONE
+   (-245,569) <h4.> GET FITTED FOR PROPER RUNNING SHOES
+   (-28,643) <span.> Due
+   (-245,641) <span.> No date
+   (-56,677) <span.> Reminder
+   (-245,676) <span.> Off
+   (-39,712) <span.> Focus
+   (-245,711) <span.> None yet
+   (-245,738) <p.note> No notes yet.
+   (-245,779) <button.btn inkline sm> Mark not done
+   (-245,820) <button.btn inkline sm> Edit step
+   (73,524) <div.data> STEP 2 OF 6 · UP NEXT
+   (73,553) <h4.> RUN 20 MINUTES, 3 TIMES THIS WEEK
+   (317,632) <span.> Due
+   (73,632) <span.> Oct 7 · 7:00 AM
+   (285,670) <span.> Reminder
+   (79,678) <span.> 15 min before
+   (305,718) <span.> Focus
+   (73,718) <span.> None yet
+   (73,748) <p.note> No notes yet.
+   (73,785) <button.btn ink sm> Mark done
+   (73,831) <button.btn inkline sm> Focus timer
+   (73,877) <button.btn inkline sm> Edit step
+   (421,557) <span.data> PLANNED · STEP 3 OF 6
+   (421,711) <div.sc-t> RUN 5K WITHOUT STOPPING
+   (421,852) <span.data> DUE OCT 26
+   (421,543) <div.data> STEP 3 OF 6 · PLANNED
+   (421,570) <h4.> RUN 5K WITHOUT STOPPING
+   (636,617) <span.> Due
+   (421,621) <span.> Oct 26
+   (608,652) <span.> Reminder
+   (426,662) <span.> Off
+   (626,696) <span.> Focus
+   (421,698) <span.> None yet
+   (421,723) <p.note> No notes yet.
+   (421,757) <button.btn ink sm> Mark done
+   (421,798) <button.btn inkline sm> Focus timer
+   (421,839) <button.btn inkline sm> Edit step
+   (752,557) <span.data> PLANNED · STEP 4 OF 6
+   (752,750) <div.sc-t> REGISTER FOR A LOCAL 10K
+   (752,852) <span.data> DUE NOV 4
+   (752,543) <div.data> STEP 4 OF 6 · PLANNED
+   (752,570) <h4.> REGISTER FOR A LOCAL 10K
+   (968,617) <span.> Due
+   (752,621) <span.> Nov 4
+   (939,652) <span.> Reminder
+   (757,662) <span.> Off
+   (957,696) <span.> Focus
+   (752,698) <span.> None yet
+   (752,723) <p.note> No notes yet.
+   (752,757) <button.btn ink sm> Mark done
+   (752,798) <button.btn inkline sm> Focus timer
+   (752,839) <button.btn inkline sm> Edit step
+   (1083,557) <span.data> PLANNED · STEP 5 OF 6
+   (1083,750) <div.sc-t> COMPLETE AN 8K LONG RUN
+   (1083,852) <span.data> DUE DEC 4
+   (1083,543) <div.data> STEP 5 OF 6 · PLANNED
+   (1083,570) <h4.> COMPLETE AN 8K LONG RUN
+   (1299,617) <span.> Due
+   (1083,621) <span.> Dec 4
+   (1270,652) <span.> Reminder
+   (1088,662) <span.> Off
+   (1288,696) <span.> Focus
+   (1083,698) <span.> None yet
+   (1083,723) <p.note> No notes yet.
+   (1083,757) <button.btn ink sm> Mark done
+   (1083,798) <button.btn inkline sm> Focus timer
+   (1083,839) <button.btn inkline sm> Edit step
+   (1414,557) <span.data> PLANNED · STEP 6 OF 6
+   (1414,750) <div.sc-t> RACE DAY — ENJOY IT
+   (1414,852) <span.data> DUE DEC 24
+   (1414,543) <div.data> STEP 6 OF 6 · PLANNED
+   (1414,570) <h4.> RACE DAY — ENJOY IT
+   (1630,617) <span.> Due
+   (1414,621) <span.> Dec 24
+   (1601,652) <span.> Reminder
+   (1419,662) <span.> Off
+   (1619,696) <span.> Focus
+   (1414,698) <span.> None yet
+   (1414,723) <p.note> No notes yet.
+   (1414,757) <button.btn ink sm> Mark done
+   (1414,798) <button.btn inkline sm> Focus timer
+   (1414,839) <button.btn inkline sm> Edit step
+   (1829,711) <span.> Add a step
+   (2147,711) <span.> Add a sub-goal
+
+on native only:
+   (16,361) +  Add a sub-goal
+   (31,852) Home
+   (84,852) Habits
+   (130,852) Calendar
+   (191,851) Goals
+   (246,852) Vista
+   (296,852) Journal
+   (357,852) Ask

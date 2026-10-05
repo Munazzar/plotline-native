@@ -1,0 +1,30 @@
+55-threads-timeline: page offset 43dp, 9 texts matched, mean |diff| 27.3dp
+
+  diff   dx    dy    dw    dh   web(x,y,w,h fs)            text
+   114    -0   114     2    -0   (30,532,139,18 20.0b)  GARAGE GYM IDEA
+   108    -0   108     2     8   (30,561,139,32 10.5)  3 UPDATES · RUN A 10K RACE
+    20     0   -20    -1    -3   (172,246,68,28 10.5)  TODAY
+     2    -2     1    -1     1   (97,91,79,34 13.5b)  Threads
+     1    -1     1    -1     1   (21,91,76,34 13.5b)  Journal
+     0     0    -0     5    -0   (16,24,214,35 40.0b)  JOURNAL
+     0     0     0    -1     1   (104,149,62,34 13.5b)  Done
+     0     0     0    -0     1   (166,149,45,34 13.5b)  All
+     0    -0     0     2     1   (21,149,83,34 13.5b)  Active · 1
+
+on the web but not found on native (first screen):
+   (30,304) <span.data> 💭 THREAD · 1 H AGO
+   (30,302) <div.data> 1 H AGO
+   (30,324) <h4.> GARAGE GYM IDEA
+   (30,358) <p.note thr-ln> 💭 First workout there this morning, felt great
+   (30,420) <p.note thr-ln> 🚧 Bought two kettlebells and a mat
+   (30,482) <p.note thr-ln> 💡 Turn the garage corner into a small gym
+
+on native only:
+   (29,325) &#128173; THREAD · 1 H AGO
+   (30,852) Home
+   (84,852) Habits
+   (130,852) Calendar
+   (191,851) Goals
+   (246,852) Vista
+   (296,852) Journal
+   (357,852) Ask

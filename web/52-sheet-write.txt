@@ -1,0 +1,82 @@
+header.ph
+    h1 "Journal"
+  div.ph-r
+    button.ibtn @yearOpen [Your year in review]
+    button.btn.pri @addEntry [Write an entry]
+    button.ibtn.fsb @focusMode [Full screen]
+    a.ibtn.mob.gearb [Settings]
+  div.seg-c
+    button.on @jvGo "Journal"
+    button @jvGo "Threads"
+  div.seg-c.ico
+    button.on @layout [Cards side by side]
+    button @layout [Timeline]
+  button.ibtn.sm @jwGo [Earlier 7 days]
+    button.jw-d @jwDay [Tue, Sep 29]
+      span "T"
+      b "29"
+    button.jw-d.has @jwDay [Wed, Sep 30]
+      span "W"
+      b "30"
+    button.jw-d @jwDay [Thu, Oct 1]
+      span "T"
+      b "1"
+    button.jw-d.has @jwDay [Fri, Oct 2]
+      span "F"
+      b "2"
+    button.jw-d @jwDay [Sat, Oct 3]
+      span "S"
+      b "3"
+    button.jw-d @jwDay [Yesterday]
+      span "S"
+      b "4"
+    button.jw-d.today @jwDay [Today]
+      span "M"
+      b "5"
+  button.ibtn.sm @jwGo [Later 7 days]
+    input
+div.jchips.rv.in
+  div.seg-c.fade-r
+    button.on @jFilt "Highlights"
+    button @jFilt "My moments"
+    button @jFilt "Goals"
+    button @jFilt "Habits"
+    button @jFilt "Steps"
+    button @jFilt "All"
+div.jw-cards
+        span.hs-line
+          div.hs-card
+            div.jf.big.jk-goal-new @flip [Goal set: Build a calm morning routine. Show details]
+                    span.data "Goal set · Fri, Oct 2 · 3:41 AM"
+                    span.flip-hint
+                  div.jt-big "Build a calm morning routine"
+                  div.data "Goal set · Fri, Oct 2 · 3:41 AM"
+                  h4 "Build a calm morning routine"
+                    span "Progress"
+                    span "0%"
+                    span "Steps"
+                    span "0 of 2"
+                    span "Next"
+                    span "Wake 30 minutes earlier for…"
+                    button.btn.inkline.sm @viewEntry "View"
+                    button.btn.inkline.sm @open "Open goal"
+          div.hs-lab.data "Fri, Oct 2"
+          div.hs-card
+            div.jf.big.jk-goal-new @flip [Goal set: Earn a professional certification. Show details]
+                    span.data "Goal set · Wed, Sep 30 · 3:41 AM"
+                    span.flip-hint
+                  div.jt-big "Earn a professional certification"
+                  div.data "Goal set · Wed, Sep 30 · 3:41 AM"
+                  h4 "Earn a professional certification"
+                    span "Progress"
+                    span "0%"
+                    span "Steps"
+                    span "0 of 4"
+                    span "Next"
+                    span "Pick the certification and …"
+                    button.btn.inkline.sm @viewEntry "View"
+                    button.btn.inkline.sm @open "Open goal"
+          div.hs-lab.data "Wed, Sep 30"
+      button.ibtn.sm @hsNav [Previous]
+      span.data.hs-count "01 / 02"
+      button.ibtn.sm @hsNav [Next]

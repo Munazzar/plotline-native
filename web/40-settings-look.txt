@@ -1,0 +1,336 @@
+  a.ibtn [Back to settings]
+header.ph
+    h1 "Look & feel"
+    div.data "Midnight theme"
+  section.panel.wide.rv
+    h3 "Theme"
+        div.data.tgl "Dark"
+          button.tcard.on @theme
+            div.n "Midnight"
+          button.tcard. @theme
+            div.n "Black"
+          button.tcard. @theme
+            div.n "Plum"
+          button.tcard. @theme
+            div.n "Graphite"
+          button.tcard. @theme
+            div.n "Nordic"
+          button.tcard. @theme
+            div.n "Forest"
+          button.tcard. @theme
+            div.n "Deep sea"
+          button.tcard. @theme
+            div.n "Mocha"
+          button.tcard. @theme
+            div.n "Neon"
+          button.tcard. @theme
+            div.n "Liquid Glass"
+        div.data.tgl "Light"
+          button.tcard. @theme
+            div.n "Daylight"
+          button.tcard. @theme
+            div.n "Paper"
+          button.tcard. @theme
+            div.n "Mint"
+          button.tcard. @theme
+            div.n "Lavender"
+          button.tcard. @theme
+            div.n "Blush"
+          button.tcard. @theme
+            div.n "Mono"
+          button.tcard. @theme
+            div.n "Liquid Glass Light"
+          span "Match my device"
+            small "Use Daylight when your device is in light mode"
+          input
+          span "Reduce motion"
+            small "Swap flips, slides and page morphs for simple fades"
+          input
+  section.panel.wide.rv
+    h3 "Colours & background"
+        p.small.muted "Make Plotline yours. These sit on top of any theme, and the widgets on"
+        div.data.tgl "Accent"
+          button.lk-c.auto.on @lkAccent
+            span "Auto"
+          button.lk-c @lkAccent [Accent #FFB547]
+          button.lk-c @lkAccent [Accent #FF7A59]
+          button.lk-c @lkAccent [Accent #FF5C8A]
+          button.lk-c @lkAccent [Accent #C77DFF]
+          button.lk-c @lkAccent [Accent #8B7CFF]
+          button.lk-c @lkAccent [Accent #2E6BFF]
+          button.lk-c @lkAccent [Accent #0A84FF]
+          button.lk-c @lkAccent [Accent #38BDF8]
+          button.lk-c @lkAccent [Accent #2DD4BF]
+          button.lk-c @lkAccent [Accent #46C99B]
+          button.lk-c @lkAccent [Accent #84CC16]
+          button.lk-c @lkAccent [Accent #E8E9EB]
+            input [Custom accent]
+        div.data.tgl "Background"
+          button.lk-w.on @lkWall
+            span "None"
+          button.lk-w @lkWall
+            span "Aurora"
+          button.lk-w @lkWall
+            span "Ocean"
+          button.lk-w @lkWall
+            span "Sunset"
+          button.lk-w @lkWall
+            span "Forest"
+          button.lk-w @lkWall
+            span "Rose"
+          button.lk-w @lkWall
+            span "Mono"
+          button.lk-w @lkWall
+            span "Accent"
+          span "Background strength"
+            small "Balanced"
+          input
+          span "Widget background"
+            small "Slightly see-through"
+          input
+          span "Move the background"
+            small "A slow drift. Off saves battery and keeps scrolling smooth"
+          input
+  section.panel.wide.rv
+    h3 "Start page"
+        p.small.muted "The page Plotline opens on. Pick any page, or one thread, habit or goa"
+        button.lp-cur @landPick
+            small "Opens on"
+            b "Home"
+  section.panel.wide.rv
+    h3 "Home page"
+        p.small.muted "What Today opens with. More live homes are coming. Some studio props a"
+          button.hpc.on @homeStyle
+            b "Classic"
+            small "Your plan as cards and lists"
+          button.hpc @homeStyle
+            b "Studio · live"
+            small "A cosy room: your work board, a bench, a window with the real sky, and"
+  section.panel.wide.rv
+    h3 "Animations"
+        p.small.muted "How pages appear when you move around."
+        div.seg-c
+          button.on @animSet "Snappy"
+          button @animSet "Expressive"
+        p.small.muted "Pages switch instantly with a light fade. Best on older phones."
+  section.panel.wide.rv
+    h3 "Fonts"
+        p.small.muted "Pick a ready-made pair, or choose each one. Everything is built in, so"
+          button.fpcard.on @fontPre
+            b "Plotline"
+            span "Run a 10K race"
+            em "58% · 3 of 5"
+          button.fpcard @fontPre
+            b "Studio"
+            span "Run a 10K race"
+            em "58% · 3 of 5"
+          button.fpcard @fontPre
+            b "Editorial"
+            span "Run a 10K race"
+            em "58% · 3 of 5"
+          button.fpcard @fontPre
+            b "Friendly"
+            span "Run a 10K race"
+            em "58% · 3 of 5"
+          button.fpcard @fontPre
+            b "Geometric"
+            span "Run a 10K race"
+            em "58% · 3 of 5"
+          button.fpcard @fontPre
+            b "Clean"
+            span "Run a 10K race"
+            em "58% · 3 of 5"
+          button.fpcard @fontPre
+            b "Easy to read"
+            span "Run a 10K race"
+            em "58% · 3 of 5"
+          button.fpcard @fontPre
+            b "Bold"
+            span "Run a 10K race"
+            em "58% · 3 of 5"
+          button.fpcard @fontPre
+            b "Classic"
+            span "Run a 10K race"
+            em "58% · 3 of 5"
+          button.fpcard @fontPre
+            b "Tech"
+            span "Run a 10K race"
+            em "58% · 3 of 5"
+          button.fpcard @fontPre
+            b "Handwritten"
+            span "Run a 10K race"
+            em "58% · 3 of 5"
+          button.fpcard @fontPre
+            b "Notebook"
+            span "Run a 10K race"
+            em "58% · 3 of 5"
+          button.fpcard @fontPre
+            b "Elegant"
+            span "Run a 10K race"
+            em "58% · 3 of 5"
+          button.fpcard @fontPre
+            b "Playful"
+            span "Run a 10K race"
+            em "58% · 3 of 5"
+          button.fpcard @fontPre
+            b "Signature"
+            span "Run a 10K race"
+            em "58% · 3 of 5"
+          summary.small "Choose each font"
+            label "Headings"
+            div.fchips [Headings]
+              button.fchip.on @fontSet "Big Shoulders"
+              button.fchip @fontSet "Oswald"
+              button.fchip @fontSet "Bebas Neue"
+              button.fchip @fontSet "Anton"
+              button.fchip @fontSet "Barlow Condensed"
+              button.fchip @fontSet "Antonio"
+              button.fchip @fontSet "League Gothic"
+              button.fchip @fontSet "Sofia Sans Condensed"
+              button.fchip @fontSet "Archivo Narrow"
+              button.fchip @fontSet "Instrument Serif"
+              button.fchip @fontSet "Dancing Script"
+              button.fchip @fontSet "Caveat"
+              button.fchip @fontSet "Pacifico"
+              button.fchip @fontSet "Great Vibes"
+              button.fchip @fontSet "Satisfy"
+              button.fchip @fontSet "Sacramento"
+              button.fchip @fontSet "Parisienne"
+              button.fchip @fontSet "Allura"
+              button.fchip @fontSet "Lobster"
+              button.fchip @fontSet "Yellowtail"
+              button.fchip @fontSet "Kaushan Script"
+              button.fchip @fontSet "Homemade Apple"
+            label "Text"
+            div.fchips [Text]
+              button.fchip.on @fontSet "Figtree"
+              button.fchip @fontSet "Inter"
+              button.fchip @fontSet "DM Sans"
+              button.fchip @fontSet "Manrope"
+              button.fchip @fontSet "Plus Jakarta Sans"
+              button.fchip @fontSet "Outfit"
+              button.fchip @fontSet "Nunito"
+              button.fchip @fontSet "Space Grotesk"
+              button.fchip @fontSet "IBM Plex Sans"
+              button.fchip @fontSet "Lexend"
+              button.fchip @fontSet "Rubik"
+              button.fchip @fontSet "Atkinson Hyperlegible"
+              button.fchip @fontSet "Lora (serif)"
+              button.fchip @fontSet "Source Serif"
+              button.fchip @fontSet "System"
+              button.fchip @fontSet "Kalam"
+              button.fchip @fontSet "Patrick Hand"
+              button.fchip @fontSet "Indie Flower"
+              button.fchip @fontSet "Caveat"
+              button.fchip @fontSet "Shadows Into Light"
+              button.fchip @fontSet "Dancing Script"
+            label "Numbers and labels"
+            div.fchips [Numbers and labels]
+              button.fchip.on @fontSet "Martian Mono"
+              button.fchip @fontSet "JetBrains Mono"
+              button.fchip @fontSet "IBM Plex Mono"
+              button.fchip @fontSet "Space Mono"
+              button.fchip @fontSet "DM Mono"
+              button.fchip @fontSet "Fira Code"
+              button.fchip @fontSet "Geist Mono"
+  section.panel.wide.rv
+    h3 "Card style"
+          button.ccard.on @cardStyle
+                span.data "Health"
+                span.nbadge.sm "07"
+              div.t "Run a 10K race"
+            div.nm "Solid"
+          button.ccard. @cardStyle
+                span.data "Health"
+                span.nbadge.sm "07"
+              div.t "Run a 10K race"
+            div.nm "Glow"
+          button.ccard. @cardStyle
+                span.data "Health"
+                span.nbadge.sm "07"
+              div.t "Run a 10K race"
+            div.nm "Neon"
+          button.ccard. @cardStyle
+                span.data "Health"
+                span.nbadge.sm "07"
+              div.t "Run a 10K race"
+            div.nm "Aurora"
+          button.ccard. @cardStyle
+                span.data "Health"
+                span.nbadge.sm "07"
+              div.t "Run a 10K race"
+            div.nm "Glass"
+          button.ccard. @cardStyle
+                span.data "Health"
+                span.nbadge.sm "07"
+              div.t "Run a 10K race"
+            div.nm "Index card"
+  section.panel.wide.rv
+    h3 "Card background"
+          button.ccard.on @cardBg
+                span.data "Learning"
+                span.nbadge.sm "03"
+              div.t "Read 12 books"
+            div.nm "Plain"
+          button.ccard. @cardBg
+                span.data "Learning"
+                span.nbadge.sm "03"
+              div.t "Read 12 books"
+            div.nm "Soft light"
+          button.ccard. @cardBg
+                span.data "Learning"
+                span.nbadge.sm "03"
+              div.t "Read 12 books"
+            div.nm "Grid"
+          button.ccard. @cardBg
+                span.data "Learning"
+                span.nbadge.sm "03"
+              div.t "Read 12 books"
+            div.nm "Dots"
+          button.ccard. @cardBg
+                span.data "Learning"
+                span.nbadge.sm "03"
+              div.t "Read 12 books"
+            div.nm "Lines"
+          button.ccard. @cardBg
+                span.data "Learning"
+                span.nbadge.sm "03"
+              div.t "Read 12 books"
+            div.nm "Waves"
+          button.ccard. @cardBg
+                span.data "Learning"
+                span.nbadge.sm "03"
+              div.t "Read 12 books"
+            div.nm "Contours"
+          button.ccard. @cardBg
+                span.data "Learning"
+                span.nbadge.sm "03"
+              div.t "Read 12 books"
+            div.nm "Plus"
+          button.ccard. @cardBg
+                span.data "Learning"
+                span.nbadge.sm "03"
+              div.t "Upload an image"
+            div.nm "Your image"
+          label.btn "Upload your own image"
+        p.small.muted "Any goal can also have its own cover image. Add it from the goal’s edi"
+  section.panel.rv.fold
+    h3 "Halo"
+        p.small.muted "A colored glow around cards, map points and timeline tracks."
+          label "Show halo on"
+              input
+              span "Off"
+              input
+              span "High priority"
+              input
+              span "Pinned"
+              input
+              span "Up next"
+              input
+              span "All"
+          span "Bright halo"
+            small "A wider, stronger glow"
+          input
+          span "Pulse"
+            small "The halo breathes slowly"
+          input

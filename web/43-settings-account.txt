@@ -1,0 +1,13 @@
+  a.ibtn [Back to settings]
+header.ph
+    h1 "You & sync"
+    div.data "Not syncing · connect Google Drive"
+  section.panel.wide.rv
+    h3 "Sync"
+        p.small.muted "Keep your phone and the web app in step through a private, hidden fold"
+          button.btn.pri @syncConnect "Connect Google Drive"
+  section.panel.rv.in
+    h3 "You"
+          button.btn @tourGo "Take the tour"
+          label "Your name"
+          input

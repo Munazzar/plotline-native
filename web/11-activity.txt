@@ -1,0 +1,10 @@
+header.ph
+    h1 "Activity"
+    div.data "read on this phone, never uploaded"
+  div.ph-r
+    button.ibtn @actRefresh [Refresh]
+    button.ibtn @actGoals [Daily goals]
+    button.ibtn.fsb @focusMode [Full screen]
+    a.ibtn.mob.gearb [Settings]
+  h3 "Activity lives in the Android app"
+  p "Steps, sleep, workouts, screen time and places are read from your phon"

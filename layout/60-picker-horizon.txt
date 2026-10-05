@@ -1,0 +1,60 @@
+60-picker-horizon: page offset -10dp, 13 texts matched, mean |diff| 4.5dp
+
+  diff   dx    dy    dw    dh   web(x,y,w,h fs)            text
+    12     0   -12     1    27   (21,910,370,13 10.5)  FIRST STEPS · ONE PER LINE
+    10     0    10     1    -1   (21,109,370,28 30.0b)  NEW GOAL
+     9     0    -9     1    27   (21,821,370,13 10.5)  TARGET DATE
+     7     0     7     1    27   (21,153,370,13 10.5)  WHAT DO YOU WANT TO ACHIEVE?
+     7     0     7     1    27   (21,240,370,13 10.5)  WHY IT MATTERS
+     5     0    -5     1    27   (21,732,370,13 10.5)  START DATE
+     3     0     3     1    27   (21,387,370,13 10.5)  LIFE AREA
+     3     0    -3     1    27   (21,648,370,13 10.5)  PRIORITY
+     2     0     2     1    27   (21,474,370,13 10.5)  HORIZON
+     1    -1     0     0    -6   (21,669,119,47 14.0b)  High
+     0     0    -0     1    27   (21,561,370,13 10.5)  PART OF A BIGGER GOAL · OPTIONAL
+     0    -0     0     0    -6   (146,669,119,47 14.0b)  Medium
+     0    -0     0     0    -6   (272,669,119,47 14.0b)  Low
+
+on native only:
+   (16,67) GOALS
+   (16,141) 6 ACTIVE · 0 ACHIEVED · PINCH THE CARDS TO SEE MORE
+   (20,205) Active
+   (90,205) Short-term
+   (187,205) Long-term
+   (282,205) Achieved
+   (30,269) All areas
+   (31,348) HEALTH · 3 MO
+   (31,468) RUN A 10K RACE
+   (31,516) 17% · 1 OF 6
+   (226,348) FINANCE · YEAR
+   (226,446) BUILD A 3-MONTH EMERGENCY FUND
+   (226,516) 40% · 2 OF 5
+   (31,584) FAMILY · MONTH
+   (31,682) WEEKLY FAMILY ADVENTURE DAY
+   (31,752) 25% · 1 OF 4
+   (226,584) CAREER · YEAR
+   (226,659) EARN A PROFESSIONAL CERTIFICATION
+   (226,752) 0% · 0 OF 4
+   (31,820) FAITH · 1–5 YR
+   (226,820) LEARNING · YEAR
+   (20,176) Run a 10K race
+   (20,263) Your future self will read this on hard days.
+   (20,407) Personal
+   (20,493) This month
+   (20,578) None · a main goal
+   (20,744) 10/05/2026
+   (20,829) mm/dd/yyyy
+   (18,518) Horizon
+   (28,573) This week
+   (28,627) This month
+   (28,681) 3 months
+   (28,735) This year
+   (28,789) 1–5 years
+   (28,843) Lifetime
+   (30,852) Home
+   (84,852) Habits
+   (130,852) Calendar
+   (191,851) Goals
+   (246,852) Vista
+   (296,852) Journal
+   (357,852) Ask

@@ -1,0 +1,40 @@
+52-sheet-write: page offset -5dp, 7 texts matched, mean |diff| 4.1dp
+
+  diff   dx    dy    dw    dh   web(x,y,w,h fs)            text
+    14   -14     0    -8     1   (375,205,38,16 10.5b)  Anxious
+     3     1    -3    -0     0   (301,247,85,36 13.5b)  Prompt
+     3    -3     0    37     1   (42,205,25,16 10.5b)  Calm
+     3    -3     0    14     1   (98,205,48,16 10.5b)  Energized
+     2    -2     0    22     1   (170,205,40,16 10.5b)  Grateful
+     2    -2     0    37     1   (246,205,25,16 10.5b)  Okay
+     2    -2     0    41     1   (316,205,21,16 10.5b)  Low
+
+on the web but not found on native (first screen):
+   (21,81) <span.data> NEW ENTRY · STARTS SAVING AS YOU WRITE
+   (320,73) <button.wr-pill add> New
+   (436,205) <small.> Frustrated
+   (518,205) <small.> Tired
+   (21,669) <label.> DATE
+   (21,752) <label.> GOAL · OPTIONAL
+   (62,846) <span.> Add a photo
+   (267,843) <span.> Private
+   (315,905) <button.btn pri> Done
+
+on native only:
+   (16,67) JOURNAL
+   (20,134) Journal
+   (95,134) Threads
+   (20,258) Highlights
+   (112,258) My moments
+   (221,258) Goals
+   (284,258) Habits
+   (353,258) Steps
+   (72,356) GOAL SET · FRI, OCT 2 · 3:41 AM
+   (20,109) TITLE · E.G. MORNING GRATITUDE, LATE-NIGHT VENT
+   (20,174) &#128522;
+   (88,174) &#128516;
+   (157,174) &#128591;
+   (225,174) &#128528;
+   (293,174) &#128532;
+   (361,174) &#128543;
+   (20,292) Write freely. Bold it, underline it, highlight the parts that matter.

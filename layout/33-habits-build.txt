@@ -1,0 +1,52 @@
+33-habits-build: page offset 41dp, 16 texts matched, mean |diff| 53.6dp
+
+  diff   dx    dy    dw    dh   web(x,y,w,h fs)            text
+   593   -15   593   126    -5   (93,227,177,22 15.0b)  Drink water8 GLASSES
+    49    -1   -49   219    -4   (79,886,84,19 12.5)  8 glasses a day
+    44     0   -44   197    -2   (16,813,112,24 24.0b)  BUILD A HABIT
+    43    -1   -43     2    -1   (328,822,68,16 10.5)  TEMPLATES
+    33    -1   -33   -90    -4   (93,474,177,19 12.5)  0 of 3 this week
+    29    -1   -29    23    -3   (93,449,177,22 15.0b)  Exercise
+    27    -0   -27    -2    -4   (136,362,106,19 12.5)  After I get into bed
+    22    -1   -22    -3    -4   (133,251,89,19 12.5)  After each meal
+     4    -4     0   -50     1   (358,149,92,34 13.5b)  Templates
+     3    -3     0    -1     1   (274,149,84,34 13.5b)  Routines
+     3    -3     0    -0     1   (210,149,64,34 13.5b)  Break
+     3    -3     0    -0     1   (150,149,60,34 13.5b)  Build
+     3    -3     0    -0     1   (89,149,61,34 13.5b)  Vista
+     1     0     1     5    -0   (16,24,158,35 40.0b)  HABITS
+     1     0     1    -1    -1   (16,98,380,16 10.5)  0 OF 5 DONE TODAY · 2 BEING BROKEN
+     1    -1     0    -2     1   (21,149,68,34 13.5b)  Today
+
+on the web but not found on native (first screen):
+   (179,233) <span.hu> 8 GLASSES
+   (93,338) <div.t ell> Read before bed20 PAGES
+   (215,344) <span.hu> 20 PAGES
+   (350,376) <small.> /20
+   (93,560) <div.t ell> Pray on time5 PRAYERS
+   (187,566) <span.hu> 5 PRAYERS
+   (93,672) <div.t ell> Family time, phones away30 MINUTES
+   (278,678) <span.hu> 30 MINUTES
+   (93,696) <div.s> 21 Sun, Fri, Sat
+   (350,709) <small.> /30
+   (79,865) <b.> Drink water
+
+on native only:
+   (32,266) &#128167;
+   (92,251) Drink water  8 GLASSES
+   (32,372) &#128214;
+   (92,357) Read before bed  20 PAGES
+   (32,478) &#128170;
+   (32,584) &#128591;
+   (92,568) Pray on time  5 PRAYERS
+   (32,690) &#128104;‍&#128105;‍&#128103;
+   (92,674) Family time, phones away  30 MINUTES
+   (138,696) Sun, Fri, Sat
+   (30,861) &#128167;
+   (30,851) Home
+   (83,852) Habits
+   (132,852) Calendar
+   (192,852) Goals
+   (248,852) Vista
+   (296,852) Journal
+   (358,852) Ask

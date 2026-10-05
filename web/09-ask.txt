@@ -1,0 +1,52 @@
+section.ask.
+  header.ph.ask-h
+      h1 "Ask"
+      button.data.ask-eng @askSettings "Llama 3.2 1B · on this device"
+    div.ph-r
+      button.ibtn @askSettings [Assistant settings]
+      button.ibtn.fsb @focusMode [Full screen]
+      a.ibtn.mob.gearb [Settings]
+    h2 "Still up, M."
+    p.muted "Ask anything about your goals, habits and journal. Answers come from y"
+  section.aip.rv.in-ask
+      b "Plan with AI"
+      p "Say what you want in your own words, like “get fit by summer”, “save f"
+        button.btn.pri.sm @aiStart "Start a plan"
+        button.btn.sm @aiChangeStart "Rework my plan"
+    button.ask-sug @askPre
+      b "Weekly reflection"
+      small "What went well, what slipped"
+    button.ask-sug @askPre
+      b "What lifts my mood"
+      small "Patterns in moods and habits"
+    button.ask-sug @askPre
+      b "Where I’m stuck"
+      small "Stalled goals and a restart step"
+    button.ask-sug @askPre
+      b "Habit patterns"
+      small "When I keep them, when I slip"
+    button.ask-sug @askPre
+      b "Wins to celebrate"
+      small "What I’ve achieved lately"
+    button.ask-sug.idea @askIdea
+      b "How can I keep “Exercise” going?"
+      small "From your plan"
+    button.ask-sug.idea @askIdea
+      b "What should I do next for “Run a 10K race”?"
+      small "From your plan"
+    div.small.muted "Signals"
+        b "1"
+        span "Journal"
+        b "6"
+        span "Steps done"
+        b "1"
+        span "Overdue"
+        b "25%"
+        span "Day goals"
+        b "76%"
+        span "Habits kept"
+    button.ask-scope @askScope [Search scope]
+      span "All time"
+      textarea [Ask]
+      button.mic [Speak instead of typing]
+      button.ask-go @askSend [Send]

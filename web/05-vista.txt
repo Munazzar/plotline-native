@@ -1,0 +1,53 @@
+header.ph
+    h1 "Vista"
+  div.ph-r
+    button.ibtn @chapList [Chapters]
+    button.ibtn @yearOpen [Your year in review]
+    button.ibtn.fsb @focusMode [Full screen]
+    a.ibtn.mob.gearb [Settings]
+    div.seg-c
+      button.on @vistaGo "Timeline"
+      button @vistaGo "Map"
+      button.ibtn @rdToday [Jump to today]
+      button.ibtn @rdAll [Expand all goals]
+    div.seg-c
+      button @rdZoom "Weeks"
+      button.on @rdZoom "Months"
+      button @rdZoom "Years"
+    div.seg-c
+      button.on @rdShow "Active"
+      button @rdShow "All"
+      span.fl-tk. "Aug 2026"
+      span.fl-tk. "Sep"
+      span.fl-tk. "Oct"
+      span.fl-tk. "Nov"
+      span.fl-tk. "Dec"
+      span.fl-tk.yr "Jan 2027"
+      span.fl-tk. "Feb"
+      span.fl-tk. "Mar"
+      span.fl-tk. "Apr"
+      span.fl-tk. "May"
+      span.fl-tk. "Jun"
+      span.fl-tk. "Jul"
+      span.fl-tk. "Aug"
+      span.fl-tk. "Sep"
+      div.fl-chip @laneToggle
+          b "Read 12 books this year"
+          span.data "50% · Sep 5 → Jan 3, 2027"
+      div.fl-chip @laneToggle
+          b "Build a 3-month emergency fund"
+          span.data "40% · Sep 15 → Aug 31, 2027"
+      div.fl-chip @laneToggle
+          b "Run a 10K race"
+          span.data "17% · Sep 23 → Dec 24"
+      div.fl-chip @laneToggle
+          b "Weekly family adventure day"
+          span.data "25% · Sep 26 → Oct 31"
+      div.fl-chip @laneToggle
+          b "Earn a professional certification"
+          span.data "0% · Sep 30 → Feb 2, 2027"
+      div.fl-chip @laneToggle
+          b "Build a calm morning routine"
+          span.data "0% · Oct 2 → Nov 2"
+    div.today-line
+      span "NOW"

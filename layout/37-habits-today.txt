@@ -1,0 +1,50 @@
+37-habits-today: page offset 755dp, 2 texts matched, mean |diff| 91.1dp
+
+  diff   dx    dy    dw    dh   web(x,y,w,h fs)            text
+   120   120   -62   -39   -22   (89,149,61,34 13.5b)  Vista
+    62     3    62  -128   -23   (16,24,158,35 40.0b)  HABITS
+
+on the web but not found on native (first screen):
+   (16,98) <div.data> 0 OF 5 DONE TODAY · 2 BEING BROKEN
+   (21,149) <button.on> Today
+   (150,149) <button.> Build
+   (210,149) <button.> Break
+   (274,149) <button.> Routines
+   (358,149) <button.> Templates
+   (30,277) <small.> 4/4
+   (85,277) <small.> 5/5
+   (140,277) <small.> 3/4
+   (195,277) <small.> 5/5
+   (251,277) <small.> 4/5
+   (306,277) <small.> 5/5
+   (361,277) <small.> 0/5
+   (155,316) <span.> Show the month
+   (152,371) <b.> 0 %
+   (41,503) <div.data> TODAY · 0 OF 5 DONE
+   (41,616) <div.data> 79% KEPT THIS WEEK
+   (16,699) <h3.> MORNING
+   (351,708) <span.data> 0 OF 2
+   (93,753) <div.t ell> Exercise
+   (93,778) <div.s> 0 of 3 this week
+   (93,864) <div.t ell> Morning routine
+   (93,889) <div.s> 7 4 steps · 13 min
+
+on native only:
+   (149,7) 126
+   (173,7)  done in 30 days
+   (37,46) Week
+   (93,46) Month
+   (154,46) 3 months
+   (230,46) Year
+   (34,83) SEP 7 – TODAY
+   (50,721) DONE
+   (115,721) STREAK
+   (187,721) MISSED
+   (259,721) REST
+   (318,721) SLIP
+   (50,741) DUE TODAY, TAP TO LOG
+   (30,851) Home
+   (132,852) Calendar
+   (192,852) Goals
+   (296,852) Journal
+   (358,852) Ask

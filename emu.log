@@ -1,0 +1,9 @@
+seeded total 52
+drwxrwx--x 3 u0_a192 u0_a192  4096 2026-10-05 03:46 .
+drwx------ 8 u0_a192 u0_a192  4096 2026-10-05 03:46 ..
+drwx------ 2 u0_a192 u0_a192  4096 2026-10-05 03:46 models
+-rw-rw-rw- 1 u0_a192 u0_a192 23246 2026-10-05 03:46 state.json
+
+native tap: nothing matches text:Today
+native tap: nothing matches text:RUN 20 MINUTES, 3 TIMES THIS WEEK
+native tap: nothing matches desc:full

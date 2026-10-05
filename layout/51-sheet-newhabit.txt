@@ -1,0 +1,67 @@
+51-sheet-newhabit: page offset -7dp, 8 texts matched, mean |diff| 2.6dp
+
+  diff   dx    dy    dw    dh   web(x,y,w,h fs)            text
+     6     0     6     1    -1   (21,109,370,16 10.5)  NEW
+     4    -2    -4    72    -4   (96,398,209,19 12.5)  A short sequence with a guided timer
+     4    -2     4    33    -4   (96,196,248,22 14.5b)  Build a habit
+     2    -2    -2    33    -4   (96,308,248,19 12.5)  Stop completely, or cut down to a daily limit
+     2    -2     2    33    -4   (96,286,248,22 14.5b)  Break a habit
+     2    -2    -0    33    -4   (96,218,248,19 12.5)  Something to do daily or a few times a week
+     2    -2    -0    72    -4   (96,376,209,22 14.5b)  Create a routine
+     0     0     0     1     6   (21,133,370,28 30.0b)  WHAT DO YOU WANT TO WORK ON?
+
+on native only:
+   (16,67) HABITS
+   (16,141) 0 OF 5 DONE TODAY · 2 BEING BROKEN
+   (20,190) Today
+   (86,190) Vista
+   (147,190) Build
+   (207,190) Break
+   (271,190) Routines
+   (354,190) Templates
+   (16,298) 4/4
+   (71,298) 5/5
+   (126,298) 3/4
+   (181,298) 5/5
+   (236,298) 4/5
+   (291,298) 5/5
+   (346,298) 0/5
+   (147,337) Show the month
+   (40,525) TODAY · 0 OF 5 DONE
+   (40,640) 79% KEPT THIS WEEK
+   (16,707) MORNING
+   (349,710) 0 OF 2
+   (32,771) &#128170;
+   (92,757) Exercise
+   (92,778) 0 of 3 this week
+   (92,862) Morning routine
+   (132,883) 4 steps · 13 min
+   (36,189) &#127793;
+   (36,277) &#128737;️
+   (36,365) &#128257;
+   (20,469) BUILD A HABIT
+   (321,478) TEMPLATES
+   (34,519) &#128167;
+   (83,520) Drink water
+   (83,538) 8 glasses a day
+   (34,589) &#128214;
+   (83,591) Read
+   (83,609) 20 pages a day
+   (34,660) &#128694;
+   (83,661) Walk
+   (83,679) 30 minutes a day
+   (34,730) &#128170;
+   (83,732) Exercise
+   (83,750) 3× a week
+   (34,801) &#128591;
+   (83,802) Pray on time
+   (83,820) 5 prayers a day
+   (83,873) Journal
+   (83,891) Every day
+   (30,852) Home
+   (83,852) Habits
+   (130,852) Calendar
+   (191,851) Goals
+   (246,852) Vista
+   (295,852) Journal
+   (357,852) Ask

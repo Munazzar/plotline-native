@@ -1,0 +1,34 @@
+11-activity: page offset 18dp, 2 texts matched, mean |diff| 24.7dp
+
+  diff   dx    dy    dw    dh   web(x,y,w,h fs)            text
+    25    25   -25  -286   -47   (41,273,330,68 15.0)  Steps, sleep, workouts, screen time and places are read from
+    25     0    25     5    -0   (16,24,158,35 40.0b)  ACTIVITY
+
+on the web but not found on native (first screen):
+   (16,98) <div.data> READ ON THIS PHONE, NEVER UPLOADED
+   (78,197) <h3.> ACTIVITY LIVES IN THE ANDROID APP
+
+on native only:
+   (16,141) UPDATED 3:48 AM · READ ON THIS PHONE, NEVER UPLOADED
+   (16,201) 7 days
+   (93,201) 14 days
+   (176,201) 30 days
+   (16,242) Tap a bar to open that day
+   (34,289) &#128095;
+   (34,323) Allow physical activity so Plotline can read your phone’s step counter
+   (34,366) Allow
+   (34,451) &#128564;
+   (66,452) Sleep
+   (34,532) no sleep recorded yet · avg 0m
+   (34,656) Health Connect is connected but has no sleep from the last 30 days. If
+   (34,706) Open Health Connect
+   (34,790) &#127947;️
+   (66,792) Workouts
+   (34,871) today · active 0 of 7 days
+   (30,851) Home
+   (84,852) Habits
+   (132,852) Calendar
+   (192,852) Goals
+   (248,852) Vista
+   (296,852) Journal
+   (358,852) Ask

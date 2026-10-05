@@ -1,0 +1,45 @@
+45-goal-timeline: page offset 13dp, 11 texts matched, mean |diff| 9.3dp
+
+  diff   dx    dy    dw    dh   web(x,y,w,h fs)            text
+    22    -0    22     1    -1   (39,105,334,16 10.5)  HEALTH · 3 MONTHS · HIGH PRIORITY
+    16    -0    16     1    -3   (39,137,334,40 46.0b)  RUN A 10K RACE
+    15    -1   -15     1    -3   (370,885,26,21 14.0b)  Edit
+    15     0   -15   204    -2   (16,879,148,24 24.0b)  CONNECTED GOALS
+    15    -1    15    16    -1   (39,281,252,16 10.5)  SEP 23 → DEC 24 · 1 OF 6 STEPS
+     9     0    -9    -1    -5   (16,795,380,40 13.0)  Tap a planet to edit a step. Move the goal’s start date and 
+     7    -0     7     1    -7   (39,190,334,50 16.5)  More energy for my family, and proof to myself that I can fi
+     2    -2     0    -0     1   (145,404,81,34 13.5b)  Timeline
+     2    -2     0    -0     1   (87,404,58,34 13.5b)  Path
+     1    -1     0    -1     1   (21,404,66,34 13.5b)  Cards
+     1     0     1     7    19   (313,270,60,45 58.0b)  17%
+
+on the web but not found on native (first screen):
+   (16,354) <button.link> Add a sub-goal
+   (-77,479) <span.fl-tk > SEP 2026
+   (113,479) <span.fl-tk > OCT
+   (309,479) <span.fl-tk > NOV
+   (499,479) <span.fl-tk > DEC
+   (696,479) <span.fl-tk yr> JAN 2027
+   (78,597) <span.> Get fitted for proper running shoes DONE
+   (78,630) <em.> DONE
+   (83,674) <span.> Run 20 minutes, 3 times this week OCT 7 · 7:00 AM
+   (83,708) <em.> OCT 7 · 7:00 AM
+   (203,502) <span.> Run 5K without stopping OCT 26
+   (203,536) <em.> OCT 26
+   (260,575) <span.> Register for a local 10K NOV 4
+   (260,593) <em.> NOV 4
+   (450,569) <span.> Complete an 8K long run DEC 4
+   (450,603) <em.> DEC 4
+   (577,653) <span.> Race day — enjoy it DEC 24
+   (577,671) <em.> DEC 24
+   (119,475) <span.> NOW
+
+on native only:
+   (16,361) +  Add a sub-goal
+   (30,852) Home
+   (83,852) Habits
+   (130,852) Calendar
+   (191,851) Goals
+   (246,852) Vista
+   (295,852) Journal
+   (357,852) Ask

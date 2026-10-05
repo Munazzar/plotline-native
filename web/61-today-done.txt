@@ -1,0 +1,165 @@
+  span "You’re exploring with sample data."
+  button.btn.sm @demoRemove "Remove it"
+  button.ibtn.sm @demoHide [Hide]
+header.ph
+    h1 "Still up, M"
+    div.data "6 steps done this week · 1 late · 6 active goals"
+  div.ph-r
+    button.ibtn @homeStyle [Switch to the Studio room]
+    button.ibtn @newGoal [New goal]
+    button.ibtn.fsb @focusMode [Full screen]
+    a.ibtn.mob.gearb [Settings]
+  button.hmq-b @aiStart "Plan with AI"
+    span "✨"
+  button.hmq-b @newGoal "Goal"
+    span "🎯"
+  button.hmq-b @newHabit "Habit"
+    span "✅"
+  button.hmq-b @addEntry "Write"
+    span "✍️"
+  button.hmq-b @thrNew "Thread"
+    span "🧵"
+  button.hmq-b @askGo "Ask"
+    span "💬"
+  button.hmq-b @dayToday "Today in full"
+    span "📅"
+section.hday.rv.in
+    b "1"
+      small "/9"
+    div.data "Your day · 11% done"
+      span.ell "Next: 💧 Drink water"
+      button.btn.sm.pri @hTap "Done"
+    button.link.small @dayToday "See everything for today ›"
+section.rv.in
+  div.st-h
+      h3 "Today’s goals"
+      span.data "1 of 3"
+    a.link "Calendar"
+      input [Add a goal for today]
+      button.mic [Speak instead of typing]
+      button [Add]
+    div.li @editDay
+      button.chk @toggleDay [Mark done: Call mom after work]
+        div.t.ell "Call mom after work"
+      span.data "6:00 PM"
+      button.bell.on.ic @remEdit [Reminder: 6:00 PM]
+    div.li.done @editDay
+      button.chk.on @toggleDay [Mark not done: Drink 8 glasses of water]
+        div.t.ell "Drink 8 glasses of water"
+    div.li @editDay
+      button.chk @toggleDay [Mark done: 45 minutes on the study guide]
+        div.t.ell "45 minutes on the study guide"
+          span.ell "Earn a professional certification"
+      button.bell.ic @remEdit [Reminder: Off]
+    div.tg-sub.data "Still open from earlier"
+    div.li @editDay
+      button.chk @toggleDay [Mark done: Clear the email inbox]
+        div.t.ell "Clear the email inbox"
+          span "Yesterday"
+      button.chip.sm @dayMove "Move to today"
+section.rv.in
+  div.st-h
+      h3 "Habits"
+      span.data "0 of 5"
+    a.link "All habits"
+    div.hpill @openHabit
+        span.hic.sm "📖"
+        button.hchk @hTap [Add one (0 of 20): Read before bed]
+            b "0"
+            small "/20"
+      div.t.ell "Read before bed"
+      div.data "11 d"
+    div.hpill @openHabit
+        span.hic.sm "💧"
+        button.hchk @hTap [Add one (3 of 8): Drink water]
+            b "3"
+            small "/8"
+      div.t.ell "Drink water"
+      div.data "3 d"
+    div.hpill @openHabit
+        span.hic.sm "💪"
+        button.hchk @hTap [Mark done: Exercise]
+      div.t.ell "Exercise"
+      div.data "Start today"
+    div.hpill @openHabit
+        span.hic.sm "🙏"
+        button.hchk @hTap [Add one (0 of 5): Pray on time]
+            b "0"
+            small "/5"
+      div.t.ell "Pray on time"
+      div.data "1 d"
+    div.hpill @openHabit
+        span.hic.sm "☀️"
+        button.hchk @routineGo [Start routine: Morning routine]
+      div.t.ell "Morning routine"
+      div.data "7 d"
+    div.hpill.q @openHabit
+        span.hic.sm "🍬"
+      div.t.ell "No added sugar"
+      div.data.hp-clock "d h"
+        b "9"
+        b "14"
+    div.hpill.q @openHabit
+        span.hic.sm "📱"
+      div.t.ell "Less social media"
+      div.data.hp-clock "0 of 2 today"
+section.aip.rv.in
+    b "Plan with AI"
+    p "Say what you want in your own words, like “get fit by summer”, “save f"
+      button.btn.pri.sm @aiStart "Start a plan"
+      button.btn.sm @aiChangeStart "Rework my plan"
+      button.btn.ghost.sm @aipHide "Minimize"
+section.rv.in
+  div.st-h
+    h3 "Threads"
+      button.link @thrNew "New"
+      a.link "All threads"
+  div.list
+    div.li.thr-li @thrOpen
+      span.thr-em "💭"
+        div.t.ell "Garage gym idea"
+          span.ell "First workout there this morning, felt great"
+      div.data "1 h ago"
+      button.ibtn.sm @thrAddSheet [Add an update to Garage gym idea]
+section.rv.in
+    div.data "Up next · Weekly family adventure day"
+    h2 "Block Saturdays on the shared calendar"
+    div.data "1 day late"
+      button.btn.ink @toggleStep "Mark done"
+      button.btn.inkline @timerPick "Focus"
+      button.btn.inkline @open "Open goal"
+section.rv.in
+  div.st-h
+    h3 "Coming up"
+      button.link @weekly "Weekly review"
+      a.link "All goals"
+  div.list
+    div.li @open
+      button.chk @toggleStep [Mark done: Cancel two unused subscriptions]
+        div.t.ell "Cancel two unused subscriptions"
+          span.ell "Build a 3-month emergency fund"
+      div.data.due.soon "Today"
+    div.li @open
+      button.chk @toggleStep [Mark done: Run 20 minutes, 3 times this week]
+        div.t.ell "Run 20 minutes, 3 times this week"
+          span.ell "Run a 10K race"
+      div.data.due. "In 2d"
+    div.li @open
+      button.chk @toggleStep [Mark done: Read 20 pages every night for a week]
+        div.t.ell "Read 20 pages every night for a week"
+          span.ell "Read 12 books this year"
+      div.data.due. "In 4d"
+    div.li @open
+      button.chk @toggleStep [Mark done: Wake 30 minutes earlier for a week]
+        div.t.ell "Wake 30 minutes earlier for a week"
+          span.ell "Build a calm morning routine"
+      div.data.due. "In 6d"
+section.rv.in
+  div.st-h
+    h3 "Pinned"
+    a.mini.tint.halo @open
+      div.data "Health"
+        div.t "Run a 10K race"
+    a.mini.tint @open
+      div.data "Family"
+        div.t "Weekly family adventure day"
