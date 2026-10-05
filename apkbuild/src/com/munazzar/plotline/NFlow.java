@@ -17,7 +17,7 @@ final class NFlow extends ViewGroup {
     }
 
     @Override protected void onMeasure(int wSpec, int hSpec) {
-        int maxW = MeasureSpec.getSize(wSpec), x = 0, y = 0, lh = 0;
+        int full = MeasureSpec.getSize(wSpec), maxW = full - getPaddingLeft() - getPaddingRight(), x = 0, y = 0, lh = 0;
         for (int i = 0; i < getChildCount(); i++) {
             View v = getChildAt(i); if (v.getVisibility() == GONE) continue;
             LayoutParams lp = v.getLayoutParams();
@@ -26,11 +26,11 @@ final class NFlow extends ViewGroup {
             if (x > 0 && x + w > maxW) { x = 0; y += lh + vg; lh = 0; }
             x += w + hg; lh = Math.max(lh, h);
         }
-        setMeasuredDimension(maxW, y + lh);
+        setMeasuredDimension(full, y + lh + getPaddingTop() + getPaddingBottom());
     }
 
     @Override protected void onLayout(boolean ch, int l, int t, int r, int b) {
-        int maxW = r - l, n = getChildCount();
+        int maxW = r - l - getPaddingLeft() - getPaddingRight(), n = getChildCount(), pl = getPaddingLeft(), pt = getPaddingTop();
         int[] line = new int[n], lineH = new int[n + 1], lineW = new int[n + 1];
         int x = 0, k = 0;
         for (int i = 0; i < n; i++) {
@@ -44,7 +44,7 @@ final class NFlow extends ViewGroup {
             View v = getChildAt(i); if (v.getVisibility() == GONE) continue;
             if (line[i] != cur) { y += lineH[cur] + vg; cur = line[i]; x = center ? Math.max(0, (maxW - lineW[cur]) / 2) : 0; }
             int w = v.getMeasuredWidth(), h = v.getMeasuredHeight(), oy = (lineH[cur] - h) / 2;
-            v.layout(x, y + oy, x + w, y + oy + h);
+            v.layout(pl + x, pt + y + oy, pl + x + w, pt + y + oy + h);
             x += w + hg;
         }
     }

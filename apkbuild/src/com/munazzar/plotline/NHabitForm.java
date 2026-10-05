@@ -227,6 +227,31 @@ final class NHabitForm {
 
     static String trimNum(double d) { return d == Math.floor(d) ? String.valueOf((long) d) : String.valueOf(d); }
 
+    /* web tplGrid(only): a section per kind ("<Kind>" + "templates"), one .tpl row per template, onto a page */
+    static void tplGrid(final NShell sh, LinearLayout into, String only) {
+        final android.content.Context c = sh.a; JSONArray all = tpls();
+        String[][] groups = {{"build", "Build a habit"}, {"quit", "Break a habit"}, {"routine", "Routines"}};
+        for (String[] g : groups) {
+            if (only != null && !only.equals(g[0])) continue;
+            LinearLayout hd = NUi.sectionHead(c, g[1], null, null); hd.addView(NUi.label(c, "templates", NTheme.muted)); into.addView(hd);
+            boolean first = true;
+            for (int i = 0; i < all.length(); i++) {
+                final JSONObject t = all.optJSONObject(i); if (t == null || !t.optString("kind").equals(g[0])) continue;
+                String sub = t.optString("kind").equals("quit") ? (t.optString("mode").equals("limit") ? "Max " + t.optInt("limit") + " " + t.optString("unit") + " a day" : "Live clean-time clock")
+                    : t.optString("kind").equals("routine") ? t.optString("steps").split("\n").length + " steps" : t.optString("freq").equals("times") ? t.optInt("times") + "× a week" : t.optInt("target", 1) > 1 ? t.optInt("target") + " " + t.optString("unit") + " a day" : "Every day";
+                int col = NTheme.areaCol(t.optString("area"));
+                LinearLayout r = NUi.row(c); r.setGravity(Gravity.CENTER_VERTICAL); r.setBackground(NUi.ripple(NUi.round(NTheme.surface, 18, NTheme.line), 18)); r.setPadding(NUi.dp(14), NUi.dp(12), NUi.dp(14), NUi.dp(12));
+                TextView ic = NUi.text(c, t.optString("icon"), 18, NTheme.text); ic.setGravity(Gravity.CENTER); ic.setIncludeFontPadding(false);
+                ic.setBackground(NUi.round(NTheme.alpha(col, .16f), 12, NTheme.alpha(col, .3f))); r.addView(ic, NUi.lp(NUi.dp(36), NUi.dp(36)));
+                LinearLayout tx = NUi.col(c); tx.setPadding(NUi.dp(12), 0, 0, 0);
+                tx.addView(NUi.body(c, t.optString("title"), 14.5f, NTheme.text, 600)); tx.addView(NUi.text(c, sub, 12.5f, NTheme.muted));
+                r.addView(tx, NUi.lpw(0, -2, 1));
+                NUi.tap(r, new View.OnClickListener() { public void onClick(View v) { open(sh, null, null, t); } });
+                into.addView(r, NUi.mt(first ? 0 : 10)); first = false;
+            }
+        }
+    }
+
     /* the template grid, grouped: build / break / routine */
     static void templates(final NShell sh) {
         final android.content.Context c = sh.a; NForms F = new NForms(sh);

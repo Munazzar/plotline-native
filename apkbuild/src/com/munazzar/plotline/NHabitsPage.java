@@ -57,11 +57,14 @@ final class NHabitsPage extends NPage {
 
         String[][] F2 = {{"today", "Today"}, {"vista", "Vista"}, {"build", "Build"}, {"quit", "Break"}, {"routine", "Routines"}, {"templates", "Templates"}};
         add(NBits.seg(c, F2, filter, new NBits.Pick() { public void on(String k) {
-            if (k.equals("templates")) { NHabitForm.templates(sh); return; }
             filter = k; refresh();
         } }), 18);
 
         if (filter.equals("vista")) { add(new NHabitVista(sh, this).card, 4); return; }
+        if (filter.equals("templates")) {
+            TextView tn = NUi.text(c, "Tap a template, adjust anything, and save. Use them as often as you like.", 13, NTheme.muted); tn.setLineSpacing(0, 1.3f); add(tn, 0);
+            NHabitForm.tplGrid(sh, body, null); return;
+        }
 
         if (filter.equals("today")) {
             List<JSONObject> today = NHabits.today(habits);
@@ -86,11 +89,13 @@ final class NHabitsPage extends NPage {
             List<JSONObject> l = new ArrayList<>();
             for (JSONObject h : live) if (NHabits.kind(h).equals(filter)) l.add(h);
             if (l.isEmpty()) {
-                add(NBits.empty(c, filter.equals("quit") ? "Nothing to break yet" : filter.equals("routine") ? "No routines yet" : "No habits to build yet",
-                    filter.equals("quit") ? "Quit something completely, or cut it down to a daily limit." : filter.equals("routine") ? "A routine is a short sequence you run the same way each time, like a morning start." : "Tap + to add one."), 18);
+                final String fk = filter;
+                add(NBits.empty(c, null, filter.equals("quit") ? "Nothing to break yet. Quit something completely, or cut it down to a daily limit." : filter.equals("routine") ? "No routines yet. A routine is a short sequence you run the same way each time, like a morning start." : "No habits to build yet.",
+                    NBits.ibtnText(c, "plus", filter.equals("quit") ? "Break a habit" : filter.equals("routine") ? "New routine" : "New habit", true, new View.OnClickListener() { public void onClick(View v) { NHabitForm.open(sh, null, fk, null); } })), 0);
             } else if (filter.equals("quit")) quitSection(l, null);
             else if (filter.equals("routine")) for (JSONObject r : l) routineCard(r);
             else section(null, null, l);
+            NHabitForm.tplGrid(sh, body, filter);   /* web: the matching templates under the list */
         }
         if (!arch.isEmpty()) archived(arch);
     }
@@ -368,30 +373,45 @@ final class NHabitsPage extends NPage {
         return r;
     }
 
+    /* web rcard: tinted card, part · minutes + emoji tile, the name, up to 6 steps (ring/check, struck when done,
+       minutes in mono), then the ink Start/Continue/Run again button and today's count · streak */
     void routineCard(final JSONObject h) {
         int col = NTheme.areaCol(h.optString("area")); String td = NDates.ymd();
         LinearLayout card = NUi.col(c);
         card.setBackground(NUi.ripple(NCard.bg(col, 26), 26));
-        card.setPadding(NUi.dp(18), NUi.dp(16), NUi.dp(18), NUi.dp(16));
+        card.setPadding(NUi.dp(20), NUi.dp(20), NUi.dp(20), NUi.dp(18));
         int mins = 0; JSONArray stp = NHabits.steps(h); for (int i = 0; i < stp.length(); i++) mins += stp.optJSONObject(i).optInt("min");
-        LinearLayout top = NUi.row(c);
-        top.addView(NUi.label(c, NHabits.part(h).equals("any") ? "Anytime" : NHabits.part(h) + " · " + (mins > 0 ? mins + " min" : stp.length() + " steps"), NTheme.INK_MUTED), NUi.lpw(0, -2, 1));
-        top.addView(NUi.text(c, NHabits.icon(h), 22, NTheme.INK));
+        String pn = NHabits.part(h); pn = pn.equals("morning") ? "Morning" : pn.equals("afternoon") ? "Afternoon" : pn.equals("evening") ? "Evening" : "Anytime";
+        LinearLayout top = NUi.row(c); top.setGravity(Gravity.CENTER_VERTICAL);
+        top.addView(NUi.label(c, pn + " · " + (mins > 0 ? mins + " min" : stp.length() + " steps"), NTheme.INK_MUTED), NUi.lpw(0, -2, 1));
+        TextView hic = NUi.text(c, NHabits.icon(h), 18, NTheme.text); hic.setGravity(Gravity.CENTER); hic.setIncludeFontPadding(false);
+        hic.setBackground(NUi.round(NTheme.alpha(col, .16f), 12, NTheme.alpha(col, .3f))); top.addView(hic, NUi.lp(NUi.dp(36), NUi.dp(36)));
         card.addView(top);
-        TextView t = NUi.ell(NUi.text(c, h.optString("title").toUpperCase(), 24, NTheme.INK), 2); t.setTypeface(NFont.display(800)); t.setLineSpacing(0, .9f);
-        card.addView(t, NUi.mt(8));
+        TextView t = NUi.title(c, h.optString("title"), 30); t.setTextColor(NTheme.INK); t.setLineSpacing(0, .95f);
+        card.addView(t, NUi.mt(10));
         JSONArray done = NHabits.obj(h, "rs").optJSONArray(td);
+        LinearLayout list = NUi.col(c);
         for (int i = 0; i < Math.min(6, stp.length()); i++) {
             JSONObject sp = stp.optJSONObject(i); boolean on = false;
             if (done != null) for (int j = 0; j < done.length(); j++) if (sp.optString("id").equals(done.optString(j))) on = true;
-            card.addView(NUi.text(c, (on ? "✓  " : "○  ") + sp.optString("title") + (sp.optInt("min") > 0 ? "   " + sp.optInt("min") + "m" : ""), 14, NTheme.INK), NUi.mt(i == 0 ? 10 : 4));
+            LinearLayout li = NUi.row(c); li.setGravity(Gravity.CENTER_VERTICAL);
+            android.widget.FrameLayout dot = new android.widget.FrameLayout(c);
+            dot.setBackground(on ? NUi.oval(NTheme.INK, 0, 0) : NUi.oval(0, NTheme.alpha(NTheme.INK, .35f), 1.5f));
+            if (on) dot.addView(NUi.icon(c, "check", 11, 0xFFF4F2EC), new android.widget.FrameLayout.LayoutParams(NUi.dp(11), NUi.dp(11), Gravity.CENTER));
+            li.addView(dot, NUi.lp(NUi.dp(18), NUi.dp(18)));
+            TextView nm = NUi.ell(NUi.text(c, sp.optString("title"), 14, NTheme.INK), 1); nm.setPadding(NUi.dp(10), 0, NUi.dp(10), 0);
+            if (on) { nm.setAlpha(.6f); nm.setPaintFlags(nm.getPaintFlags() | android.graphics.Paint.STRIKE_THRU_TEXT_FLAG); }
+            li.addView(nm, NUi.lpw(0, -2, 1));
+            if (sp.optInt("min") > 0) { TextView m = NUi.text(c, sp.optInt("min") + "m", 10.5f, NTheme.INK); m.setTypeface(NFont.mono(500)); m.setAlpha(.7f); li.addView(m); }
+            list.addView(li, NUi.mt(i == 0 ? 0 : 6));
         }
-        if (stp.length() > 6) card.addView(NUi.text(c, "+" + (stp.length() - 6) + " more", 13, NTheme.INK_MUTED), NUi.mt(4));
+        if (stp.length() > 6) { TextView more = NUi.text(c, "+" + (stp.length() - 6) + " more", 13, NTheme.INK); more.setAlpha(.7f); more.setPadding(NUi.dp(28), 0, 0, 0); list.addView(more, NUi.mt(6)); }
+        card.addView(list, NUi.mt(10));
         int v = NHabits.val(h, td), n = NHabits.target(h), s = NHabits.streak(h);
-        LinearLayout acts = NUi.row(c);
-        acts.addView(inkBtn((v >= n ? "▶ Run again" : v > 0 ? "▶ Continue" : "▶ Start"), true, new View.OnClickListener() { public void onClick(View x) { NUrge.routine(sh, h.optString("id")); } }));
-        TextView st1 = NUi.label(c, (v >= n ? "Done today" : v > 0 ? v + " of " + n + " today" : "") + (s > 0 ? (v > 0 ? " · " : "") + s + (NHabits.freq(h).equals("times") ? " wk" : "-day") + " streak" : ""), NTheme.INK_MUTED);
-        st1.setPadding(NUi.dp(12), 0, 0, 0); acts.addView(st1);
+        LinearLayout acts = NUi.row(c); acts.setGravity(Gravity.CENTER_VERTICAL);
+        acts.addView(NBits.inkSm(c, "play", v >= n ? "Run again" : v > 0 ? "Continue" : "Start", true, new View.OnClickListener() { public void onClick(View x) { NUrge.routine(sh, h.optString("id")); } }));
+        TextView st1 = NUi.label(c, (v >= n ? "Done today" : v > 0 ? v + " of " + n + " today" : "") + (s > 0 ? (v > 0 || v >= n ? " · " : "") + s + (NHabits.freq(h).equals("times") ? " wk" : "-day") + " streak" : ""), NTheme.INK_MUTED);
+        st1.setPadding(NUi.dp(10), 0, 0, 0); acts.addView(st1, NUi.lpw(0, -2, 1));
         card.addView(acts, NUi.mt(14));
         NUi.tap(card, new View.OnClickListener() { public void onClick(View v2) { sh.push(new NHabitScreen(sh, h.optString("id"))); } });
         add(card, 10);

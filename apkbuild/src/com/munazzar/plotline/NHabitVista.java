@@ -56,7 +56,7 @@ final class NHabitVista {
         /* hero */
         LinearLayout hero = NUi.row(c); hero.setPadding(NUi.dp(18), 0, NUi.dp(18), 0);
         int due = D.optInt("due"), dn = D.optInt("dn"); float f = due > 0 ? dn / (float) due : 0;
-        NRing ring = new NRing(c); ring.strokeDp = 7; ring.set(f, true); ring.text(String.valueOf(Math.round(f * 100)), "%");
+        NRing ring = new NRing(c); ring.strokeDp = 7; ring.inline = true; ring.set(f, true); ring.text(String.valueOf(Math.round(f * 100)), "%");
         hero.addView(ring, NUi.lp(NUi.dp(76), NUi.dp(76)));
         LinearLayout hs = NUi.col(c); hs.setPadding(NUi.dp(16), 0, 0, 0);
         hs.addView(NBits.meta(c, ("Kept this week · " + dn + " of " + due).toUpperCase(), NTheme.muted));
@@ -92,7 +92,11 @@ final class NHabitVista {
         hsv.setHorizontalScrollBarEnabled(false); hsv.setOverScrollMode(View.OVER_SCROLL_NEVER);
         hsv.addView(cv, new android.widget.FrameLayout.LayoutParams(-2, -2));
         card.addView(hsv, NUi.mt(4));
-        hsv.post(new Runnable() { public void run() { cv.setVw(hsv.getWidth() / NUi.density); cv.relayout(); hsv.scrollTo(cv.getWidth(), 0); updateRange(); } });
+        hsv.post(new Runnable() { public void run() {
+            cv.setVw(hsv.getWidth() / NUi.density); cv.relayout();
+            /* the canvas gets its new width on the next layout pass: scroll to today after it */
+            hsv.post(new Runnable() { public void run() { hsv.scrollTo(Math.max(0, cv.getWidth() - hsv.getWidth()), 0); updateRange(); cv.invalidate(); } });
+        } });
         /* legend */
         NFlow lg = new NFlow(c, 14, 6); lg.setPadding(NUi.dp(22), NUi.dp(12), NUi.dp(22), 0);
         String[][] L = {{"d", "Done"}, {"ln", "Streak"}, {"x", "Missed"}, {"s", "Rest"}, {"sl", "Slip"}, {"t", "Due today, tap to log"}};
