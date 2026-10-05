@@ -20,19 +20,26 @@ import java.util.Map;
 /* The web hsShell: one big 4:5 card at a time, centred and snapping, neighbours turned and faded (hsFx), a stem and
    a glowing node under each card on a dashed line, a label, and ‹ 01 / 23 › underneath. Used by Goals and Journal. */
 final class NHs {
-    static final class Item { View card; int col; boolean done, stat, add, check; String label; View.OnClickListener tap; }
+    static final class Item { View card; int col; boolean done, stat, add, check, cur; String label; View.OnClickListener tap; }
 
     static final Map<String, Integer> HSP = new HashMap<>();
 
     static Item item(View card, int col, boolean done, boolean stat, String label) { Item i = new Item(); i.card = card; i.col = col; i.done = done; i.stat = stat; i.label = label; return i; }
 
     static final class Node extends View {
-        final int col; final boolean on; final Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
+        final int col; final boolean on; boolean cur, anim = true; final Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
         Node(Context c, int col, boolean on) { super(c); this.col = col; this.on = on; setLayerType(LAYER_TYPE_SOFTWARE, null); }
         @Override protected void onDraw(Canvas cv) {
             float s = Math.min(getWidth(), getHeight()), cx = getWidth() / 2f, cy = getHeight() / 2f, r = NUi.dp(14) - NUi.dp(1);
             r = Math.min(r, s / 2 - NUi.dp(6));
             p.setStyle(Paint.Style.FILL); p.setShader(null);
+            if (cur && !on) {   /* web .cur .node: @keyframes led, 2.4s: ring 5px c22% + glow 16px c70% <-> ring 11px c5% + glow 30px c */
+                float t = (android.os.SystemClock.uptimeMillis() % 2400) / 2400f, e = (float) (.5 - .5 * Math.cos(t * 2 * Math.PI));
+                float ring = NUi.dp(5 + 6 * e), gl = NUi.dp(16 + 14 * e);
+                p.setColor(NTheme.alpha(col, .7f + .3f * e)); p.setMaskFilter(new android.graphics.BlurMaskFilter(Math.max(1, gl / 2), android.graphics.BlurMaskFilter.Blur.OUTER)); cv.drawCircle(cx, cy, r, p); p.setMaskFilter(null);
+                p.setColor(NTheme.alpha(col, .22f - .17f * e)); cv.drawCircle(cx, cy, r + ring, p);
+                if (anim) postInvalidateOnAnimation();
+            }
             /* web .done .node: box-shadow 0 0 12px c, 0 0 32px c 55%; open node 0 0 12px -3px c 75% */
             if (on) {
                 p.setColor(NTheme.alpha(col, .55f)); p.setMaskFilter(new android.graphics.BlurMaskFilter(NUi.dp(16), android.graphics.BlurMaskFilter.Blur.OUTER)); cv.drawCircle(cx, cy, r, p);
@@ -109,7 +116,7 @@ final class NHs {
             if (x.add) { LinearLayout.LayoutParams il = new LinearLayout.LayoutParams(W, -2); il.rightMargin = gap; row.addView(it, il); cards.add(x.card); its.add(it); continue; }
             View stem = new View(c); stem.setBackground(new android.graphics.drawable.GradientDrawable(android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM, new int[]{NTheme.alpha(x.col, .85f), 0}));
             LinearLayout.LayoutParams sl = new LinearLayout.LayoutParams(NUi.dp(2), NUi.dp(24)); sl.topMargin = NUi.dp(2); it.addView(stem, sl);
-            FrameLayout nd = new FrameLayout(c); nd.addView(new Node(c, x.col, x.done), new FrameLayout.LayoutParams(-1, -1));
+            FrameLayout nd = new FrameLayout(c); Node nv = new Node(c, x.col, x.done); nv.cur = x.cur; nv.anim = !NFx.reduced(sh); nd.addView(nv, new FrameLayout.LayoutParams(-1, -1));
             if (x.check && x.done) nd.addView(NUi.icon(c, "check", 14, NTheme.INK), new FrameLayout.LayoutParams(NUi.dp(14), NUi.dp(14), Gravity.CENTER));
             if (x.tap != null) NUi.tap(nd, x.tap);
             it.addView(nd, new LinearLayout.LayoutParams(node + NUi.dp(40), node + NUi.dp(40)));

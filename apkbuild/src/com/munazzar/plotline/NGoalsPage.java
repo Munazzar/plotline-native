@@ -25,18 +25,18 @@ final class NGoalsPage extends NPage {
         add(NBits.seg(c, new String[][]{{"active", "Active"}, {"short", "Short-term"}, {"long", "Long-term"}, {"done", "Achieved"}}, filter, new NBits.Pick() { public void on(String k) { filter = k; refresh(); } }), 30);
         LinearLayout ar = NUi.row(c);
         String an = "All areas"; for (int i = 0; i < NGen.AREA_ID.length; i++) if (NGen.AREA_ID[i].equals(area)) an = NGen.AREA_NAME[i];
-        LinearLayout sel = NUi.row(c); sel.setPadding(NUi.dp(14), 0, NUi.dp(12), 0); sel.setBackground(NUi.ripple(NUi.round(NTheme.surface, 15, NTheme.line), 15));
+        LinearLayout sel = NUi.row(c); sel.setPadding(NUi.dp(14), 0, NUi.dp(14), 0); sel.setBackground(NUi.ripple(NUi.round(NTheme.surface, 15, NTheme.line), 15));
         sel.addView(NUi.body(c, an, 14, NTheme.text, 600));
-        LinearLayout.LayoutParams dnl = NUi.lp(NUi.dp(16), NUi.dp(16)); dnl.leftMargin = NUi.dp(10); sel.addView(NUi.icon(c, "chev", 16, NTheme.muted), dnl);
+        /* web select.sel: padding 0 38 0 14 with Chrome's filled arrow */
+        android.widget.ImageView cr = new android.widget.ImageView(c); cr.setImageDrawable(NForms.caret());
+        LinearLayout.LayoutParams dnl = NUi.lp(NUi.dp(10), NUi.dp(5)); dnl.leftMargin = NUi.dp(14); sel.addView(cr, dnl);
         NUi.tap(sel, new View.OnClickListener() { public void onClick(View v) {
-            android.widget.PopupMenu pm = new android.widget.PopupMenu(c, v);
-            pm.getMenu().add(0, 0, 0, "All areas");
-            for (int i = 0; i < NGen.AREA_ID.length; i++) pm.getMenu().add(0, i + 1, i + 1, NGen.AREA_NAME[i]);
-            pm.setOnMenuItemClickListener(new android.widget.PopupMenu.OnMenuItemClickListener() { public boolean onMenuItemClick(android.view.MenuItem m) { int i = m.getItemId(); area = i == 0 ? "" : NGen.AREA_ID[i - 1]; refresh(); return true; } });
-            pm.show();
+            String[][] o = new String[NGen.AREA_ID.length + 1][]; o[0] = new String[]{"", "All areas"};
+            for (int i = 0; i < NGen.AREA_ID.length; i++) o[i + 1] = new String[]{NGen.AREA_ID[i], NGen.AREA_NAME[i]};
+            NForms.picker(c, "Life area", o, area == null ? "" : area, new NForms.Pick() { public void on(String k) { area = k; refresh(); } });   /* web select aria-label "Life area" */
         } });
         ar.addView(sel, NUi.lp(-2, NUi.dp(46)));
-        View sp = new View(c); ar.addView(sp, NUi.lpw(0, 1, 1));
+        View sp = new View(c); ar.addView(sp, NUi.lp(NUi.dp(8), 1));   /* web: gap 8, toggle right after the select */
         ar.addView(NBits.iconSeg(c, new String[][]{{"grid", "grid"}, {"h", "horz"}}, layout(), new NBits.Pick() { public void on(String k) { setLayout(k); } }));
         add(ar, 10);
         if (search) {

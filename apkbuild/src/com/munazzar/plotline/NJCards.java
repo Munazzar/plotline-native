@@ -245,12 +245,15 @@ final class NJCards {
         if (!done) { View x = NUi.icon(c, "plus", 16, NTheme.INK); x.setAlpha(.55f); x.setPadding(NUi.dp(2), NUi.dp(2), NUi.dp(2), NUi.dp(2)); NUi.tap(x, new View.OnClickListener() { public void onClick(View v) { new NForms(sh).threadAdd(t); } }); jh.addView(x, NUi.lp(NUi.dp(22), NUi.dp(22))); }
         f.addView(jh);
         TextView ag = data(c, NDates.ago(NJournalPage.last(t)), NTheme.INK_MUTED); ag.setPadding(0, NUi.dp(4), 0, 0); f.addView(ag);
+        /* web .jb: title, latest update and link each take margin-top:auto, so the free space splits evenly between them */
+        float vw = c.getResources().getConfiguration().screenWidthDp / 100f;
         f.addView(grow(c));
-        f.addView(display(c, t.optString("title"), 44, NTheme.INK, 4));
-        TextView q = NUi.text(c, u != null ? trunc(u.optString("x"), 180) : "Nothing logged yet", 19, NTheme.INK); q.setLineSpacing(0, 1.3f); q.setMaxLines(4); q.setEllipsize(android.text.TextUtils.TruncateAt.END); q.setPadding(0, NUi.dp(10), 0, 0); if (u == null) q.setAlpha(.65f);
-        f.addView(q);
+        TextView bt = display(c, t.optString("title"), Math.max(36, Math.min(50, 10 * vw)), NTheme.INK, 4); NUi.cssLh(bt, .88f); f.addView(bt);   /* .jb-big 800 clamp(36px,10vw,50px)/.88 */
+        f.addView(grow(c));
+        TextView q = NUi.body(c, u != null ? trunc(u.optString("x"), 180) : "Nothing logged yet", Math.max(19, Math.min(23, 5.2f * vw)), NTheme.INK, 500); NUi.cssLh(q, 1.38f); q.setMaxLines(5); q.setEllipsize(android.text.TextUtils.TruncateAt.END); if (u == null) q.setAlpha(.65f);
+        f.addView(q);   /* .jb-q 500 clamp(19px,5.2vw,23px)/1.38, 5 lines */
         String[] lk = link(sh, t);
-        if (lk != null) { TextView jg = NUi.body(c, lk[0] + " " + trunc(lk[1], 34), 13, NTheme.INK, 600); jg.setAlpha(.72f); jg.setPadding(0, NUi.dp(14), 0, 0); f.addView(jg); }
+        if (lk != null) { f.addView(grow(c)); TextView jg = NUi.body(c, lk[0] + " " + trunc(lk[1], 34), 13, NTheme.INK, 600); jg.setAlpha(.72f); f.addView(jg); }
         NUi.tap(f, new View.OnClickListener() { public void onClick(View v) { sh.route("thread/" + t.optString("id")); } });
         return f;
     }

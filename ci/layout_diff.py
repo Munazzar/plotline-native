@@ -29,8 +29,9 @@ def native_nodes(path):
 def diff(name):
     wp, np_ = f'{D}/web/{name}.rects.json', f'{D}/native/{name}.xml'
     if not (os.path.exists(wp) and os.path.exists(np_)): return None
-    web = [r for r in json.load(open(wp)) if r['y'] < SCREEN_H * 1.0 and norm(r['t'])]
-    nat = [n for n in native_nodes(np_) if norm(n['t'])]
+    # short texts (single letters, day initials, small numbers) match too many things to tell anything
+    web = [r for r in json.load(open(wp)) if r['y'] < SCREEN_H * 1.0 and len(norm(r['t'])) >= 3]
+    nat = [n for n in native_nodes(np_) if len(norm(n['t'])) >= 3]
     used, pairs, missing = set(), [], []
     for r in web:
         k = norm(r['t']); best = None

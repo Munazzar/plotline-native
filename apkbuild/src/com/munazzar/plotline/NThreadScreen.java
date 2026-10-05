@@ -71,7 +71,7 @@ final class NThreadScreen extends NPage {
             paintTags(chips);
             comp.addView(tags);
             LinearLayout row = NUi.row(c); row.setGravity(Gravity.BOTTOM);
-            final EditText in = NForms.input(c, "Add an update…", "", true); in.setMinHeight(NUi.dp(44)); in.setMaxHeight(NUi.dp(160)); in.setMinLines(1);
+            final EditText in = NForms.input(c, "Add an update…", "", true); in.setMinimumHeight(0); in.setMinHeight(NUi.dp(44)); in.setMaxHeight(NUi.dp(160)); in.setMinLines(1);
             in.setContentDescription("Add an update");
             row.addView(in, NUi.lpw(0, -2, 1));
             android.widget.FrameLayout send = new NUi.Fix(c, NUi.dp(46), NUi.dp(46));

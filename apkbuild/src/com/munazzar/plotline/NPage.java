@@ -55,6 +55,7 @@ abstract class NPage {
         sv = new ScrollView(c);
         sv.setVerticalScrollBarEnabled(false); sv.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS); sv.setClipToPadding(false);
         sv.setFillViewport(true);
+        sv.setOnScrollChangeListener(new View.OnScrollChangeListener() { public void onScrollChange(View v, int x, int y, int ox, int oy) { sh.sbarAt(NPage.this, y); } });
         body = NUi.col(c); body.setClipToPadding(false); body.setClipChildren(false); sv.setClipChildren(false);
         sv.addView(body, new FrameLayout.LayoutParams(-1, -2));
         frame.addView(sv, new FrameLayout.LayoutParams(-1, -1));

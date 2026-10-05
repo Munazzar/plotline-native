@@ -58,6 +58,7 @@ final class NSettings extends NPage {
     LinearLayout panel(String title, String sub) {
         /* web .panel: radius 26, padding 22; h3 display 700 24px uppercase, 14px below */
         LinearLayout p = NUi.col(c); p.setBackground(NUi.card(26)); p.setPadding(NUi.dp(22), NUi.dp(22), NUi.dp(22), NUi.dp(22));
+        if (title != null) p.setTag(title);
         if (title != null) { TextView h = NUi.title(c, title, 24); h.setTypeface(NFont.display(700)); h.setAllCaps(true); NUi.cssLh(h, 1f); p.addView(h); }
         if (sub != null) { TextView t = NUi.text(c, sub, 13.5f, NTheme.muted); t.setLineSpacing(0, 1.2f); p.addView(t, NUi.mt(title != null ? 14 : 0)); }
         return p;
@@ -158,6 +159,34 @@ final class NSettings extends NPage {
             case "share": shareSection(col); break;
             case "voice": voice(col); break;
             default: data(col); break;
+        }
+        fold(col);
+    }
+
+    /* web 1.13 foldSettings: when an area has two or more titled sections, each folds to its title (first one open);
+       the choice is remembered in settings.fold under "<area>:<title>", the same keys the web app uses */
+    void fold(LinearLayout col) {
+        java.util.List<LinearLayout> P = new java.util.ArrayList<>();
+        for (int i = 0; i < col.getChildCount(); i++) { View v = col.getChildAt(i); if (v instanceof LinearLayout && v.getTag() instanceof String && ((LinearLayout) v).getChildCount() > 0) P.add((LinearLayout) v); }
+        if (P.size() < 2) return;
+        JSONObject F = s().optJSONObject("fold");
+        for (int k = 0; k < P.size(); k++) {
+            final LinearLayout p = P.get(k); final String key = sec + ":" + ((String) p.getTag()).trim().substring(0, Math.min(40, ((String) p.getTag()).trim().length()));
+            boolean open = F != null && F.has(key) ? F.optBoolean(key) : k == 0;
+            final View h = p.getChildAt(0); p.removeViewAt(0);
+            final LinearLayout body = NUi.col(c); body.setPadding(0, NUi.dp(12), 0, 0);
+            while (p.getChildCount() > 0) { View v = p.getChildAt(0); p.removeViewAt(0); body.addView(v); }
+            if (body.getChildCount() > 0 && body.getChildAt(0).getLayoutParams() instanceof LinearLayout.LayoutParams) ((LinearLayout.LayoutParams) body.getChildAt(0).getLayoutParams()).topMargin = 0;
+            LinearLayout hr = NUi.row(c); hr.addView(h, NUi.lpw(0, -2, 1));
+            final View chev = NUi.icon(c, "chev", 20, NTheme.text); chev.setAlpha(.6f); chev.setRotation(open ? 180 : 0); hr.addView(chev, NUi.lp(NUi.dp(20), NUi.dp(20)));
+            p.addView(hr); p.addView(body); body.setVisibility(open ? View.VISIBLE : View.GONE);
+            NUi.tap(hr, new View.OnClickListener() { public void onClick(View v) {
+                final boolean o = body.getVisibility() != View.VISIBLE;
+                chev.animate().rotation(o ? 180 : 0).setDuration(300).start();
+                NFx.expand(body, o);
+                try { JSONObject f = s().optJSONObject("fold"); if (f == null) { f = new JSONObject(); s().put("fold", f); } f.put(key, o); } catch (Exception ignored) { }
+                sh.saveQuiet();
+            } });
         }
     }
 
@@ -398,10 +427,7 @@ final class NSettings extends NPage {
         mr.addView(NUi.body(c, "Mute button length", 15, NTheme.text, 600), NUi.lpw(0, -2, 1));
         final int mv = obj("notif").optInt("mute", 120); final TextView mt2 = NUi.body(c, mv >= 60 ? mv / 60 + (mv == 60 ? " hour" : " hours") : mv + " min", 15, NTheme.accent, 700); mr.addView(mt2);
         NUi.tap(mr, new View.OnClickListener() { public void onClick(View v) {
-            PopupMenu pm = new PopupMenu(sh.a, mt2); int[] vs = {30, 60, 120, 180, 240}; String[] ls = {"30 min", "1 hour", "2 hours", "3 hours", "4 hours"};
-            for (int i = 0; i < vs.length; i++) pm.getMenu().add(0, vs[i], i, ls[i]);
-            pm.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() { public boolean onMenuItemClick(android.view.MenuItem it) { putIn("notif", "mute", it.getItemId()); refresh(); return true; } });
-            pm.show();
+            NForms.picker(c, "Mute button length", new String[][]{{"30", "30 min"}, {"60", "1 hour"}, {"120", "2 hours"}, {"180", "3 hours"}, {"240", "4 hours"}}, String.valueOf(mv), new NForms.Pick() { public void on(String k) { putIn("notif", "mute", Integer.parseInt(k)); refresh(); } });
         } });
         p.addView(mr);
         sw(p, "Quiet hours", "No reminders overnight", nb("quiet", false), new Chg() { public void on(boolean v) { putIn("notif", "quiet", v); refresh(); } });
@@ -609,9 +635,7 @@ final class NSettings extends NPage {
         String ln = LG[0][1]; for (String[] x : LG) if (x[0].equals(vs.optString("lang", ""))) ln = x[1];
         final TextView lt = NUi.body(c, ln, 15, NTheme.accent, 700); lr.addView(lt);
         NUi.tap(lr, new View.OnClickListener() { public void onClick(View v) {
-            PopupMenu pm = new PopupMenu(sh.a, lt); for (int i = 0; i < LG.length; i++) pm.getMenu().add(0, i, i, LG[i][1]);
-            pm.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() { public boolean onMenuItemClick(android.view.MenuItem it) { putIn("voice", "lang", LG[it.getItemId()][0]); refresh(); return true; } });
-            pm.show();
+            NForms.picker(c, "Language", LG, vs.optString("lang", ""), new NForms.Pick() { public void on(String k) { putIn("voice", "lang", k); refresh(); } });
         } });
         p.addView(lr);
         col.addView(p, NUi.mt(14));

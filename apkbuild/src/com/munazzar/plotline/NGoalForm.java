@@ -44,7 +44,7 @@ final class NGoalForm {
         final EditText title = NForms.input(c, "Run a 10K race", edit ? g.optString("title") : "", false); b.addView(title);
         NVoice.attach(c, title);
         b.addView(NForms.fieldLabel(c, "Why it matters"));
-        final EditText why = NForms.input(c, "Your future self will read this on hard days.", edit ? g.optString("why") : "", true); why.setMinLines(2); b.addView(why);
+        final EditText why = NForms.input(c, "Your future self will read this on hard days.", edit ? g.optString("why") : "", true); b.addView(why);
         NVoice.attach(c, why);
         /* area: type any, or tap one */
         b.addView(NForms.fieldLabel(c, "Life area"));
@@ -69,18 +69,8 @@ final class NGoalForm {
         final List<String[]> pl = parentList(st(sh), g);
         if (!pl.isEmpty()) {
             b.addView(NForms.fieldLabel(c, "Part of a bigger goal · optional"));
-            final TextView pv = NUi.body(c, "", 15, NTheme.text, 600);
-            pv.setBackground(NUi.ripple(NUi.round(NTheme.surface, 14, NTheme.line2), 14)); pv.setPadding(NUi.dp(16), NUi.dp(13), NUi.dp(16), NUi.dp(13)); pv.setSingleLine(true); pv.setEllipsize(android.text.TextUtils.TruncateAt.END);
-            final Runnable paint = new Runnable() { public void run() {
-                String t = "None · a main goal"; for (String[] o : pl) if (o[0].equals(par[0])) t = o[1].trim();
-                pv.setText(t + "   ▾");
-            } };
-            paint.run();
-            NUi.tap(pv, new View.OnClickListener() { public void onClick(View v) {
-                final String[] items = new String[pl.size() + 1]; items[0] = "None · a main goal"; for (int i = 0; i < pl.size(); i++) items[i + 1] = pl.get(i)[1];
-                new android.app.AlertDialog.Builder(c).setItems(items, new android.content.DialogInterface.OnClickListener() { public void onClick(android.content.DialogInterface d, int i) { par[0] = i == 0 ? "" : pl.get(i - 1)[0]; paint.run(); } }).show();
-            } });
-            b.addView(pv);
+            String[][] po = new String[pl.size() + 1][]; po[0] = new String[]{"", "None · a main goal"}; for (int i = 0; i < pl.size(); i++) po[i + 1] = pl.get(i);
+            b.addView(NForms.select(c, po, par, null));   /* web <select> */
         }
         b.addView(NForms.fieldLabel(c, "Priority"));
         final String[] pri = {edit ? String.valueOf(g.optInt("priority", 2)) : "2"};

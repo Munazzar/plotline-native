@@ -43,7 +43,7 @@ final class NShell implements NStore.Listener {
     boolean classic, quiet, waitOnboard, indPending;
     String day = NDates.ymd();
     String look = "";
-    TextView toastV;
+    TextView toastV; View sbar;
 
     /* tab: icon, label, page index (-1 = classic route) */
     static final String[][] TABS = {{"home", "Home", "0"}, {"habit", "Habits", "1"}, {"cal", "Calendar", "2"}, {"goals", "Goals", "3"}, {"map", "Vista", "4"}, {"journal", "Journal", "5"}, {"ai", "Ask", "6"}};
@@ -79,6 +79,18 @@ final class NShell implements NStore.Listener {
         stackLayer = new FrameLayout(a);
         content.addView(stackLayer, new FrameLayout.LayoutParams(-1, -1));
         for (NPage p : stack) { NPage.detach(p.view()); stackLayer.addView(p.view()); p.pad(); p.refresh(); }
+        /* web 1.13 .sbar: a soft scrim behind the status bar once the page has scrolled (hidden at the top) */
+        sbar = new View(a) {
+            final android.graphics.Paint sp = new android.graphics.Paint();
+            @Override protected void onDraw(android.graphics.Canvas cv) {
+                int h = getHeight(); if (h <= 0) return; float s = Math.min(.95f, top / (float) h);
+                int[] cs = new int[7]; float[] ps = new float[7]; cs[0] = NTheme.alpha(NTheme.bg, .62f); ps[0] = 0; cs[1] = NTheme.alpha(NTheme.bg, .40f); ps[1] = s;
+                for (int i = 2; i < 7; i++) { float u = (i - 1) / 5f; ps[i] = s + (1 - s) * u; cs[i] = NTheme.alpha(NTheme.bg, .40f * (1 - u) * (1 - u)); }
+                sp.setShader(new android.graphics.LinearGradient(0, 0, 0, h, cs, ps, android.graphics.Shader.TileMode.CLAMP)); cv.drawRect(0, 0, getWidth(), h, sp);
+            }
+        };
+        sbar.setAlpha(0f); sbar.setClickable(false);
+        content.addView(sbar, new FrameLayout.LayoutParams(-1, top + NUi.dp(26), Gravity.TOP));
         buildTabbar();
         sheetLayer = new FrameLayout(a);
         sheetLayer.setVisibility(View.GONE);
@@ -196,7 +208,17 @@ final class NShell implements NStore.Listener {
         if (p instanceof NSettings) return -1;
         return pager.page;
     }
+    /* the scrim shows once the visible page is scrolled (web sbarTop: scrollY < 6 = top) */
+    boolean sbarOn;
+    void sbarAt(NPage p, int y) {
+        if (sbar == null || p != curPage()) return;
+        boolean on = y >= NUi.dp(6); if (on == sbarOn) return; sbarOn = on;
+        sbar.animate().alpha(on ? 1f : 0f).setDuration(350).start();
+    }
+    NPage curPage() { return !stack.isEmpty() ? stack.get(stack.size() - 1) : pages == null || pager == null ? null : pages[pager.page]; }
+    void sbarSync() { NPage p = curPage(); if (p != null && p.sv != null) { sbarOn = !(p.sv.getScrollY() >= NUi.dp(6)); sbarAt(p, p.sv.getScrollY()); } }
     void syncNav() {
+        sbarSync();
         if (classic || tabs.isEmpty()) return;
         int pg = stack.isEmpty() ? pager.page : navPage(stack.get(stack.size() - 1));
         final int t = pg < 0 ? -1 : tabOfPage(pg);
@@ -247,6 +269,7 @@ final class NShell implements NStore.Listener {
         hl.leftMargin = hl.rightMargin = NUi.dp(12); hl.bottomMargin = bot + NUi.dp(10);
         h.setLayoutParams(hl);
         h.setVisibility(kb > 0 ? View.GONE : a.lockShown ? View.INVISIBLE : View.VISIBLE);
+        if (sbar != null) { sbar.getLayoutParams().height = top + NUi.dp(26); sbar.requestLayout(); sbar.invalidate(); }
         FrameLayout.LayoutParams tl = (FrameLayout.LayoutParams) toastV.getLayoutParams();
         tl.bottomMargin = bot + NUi.dp(kb > 0 ? 16 : 96); toastV.setLayoutParams(tl);
     }

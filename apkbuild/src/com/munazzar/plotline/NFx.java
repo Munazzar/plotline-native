@@ -11,6 +11,22 @@ import android.widget.FrameLayout;
 final class NFx {
     private NFx() { }
 
+    /* web .fold-b: grid-template-rows 0fr <-> 1fr over .32s */
+    static void expand(final View v, final boolean open) {
+        v.animate().cancel();
+        final int w = ((View) v.getParent()).getWidth() - ((View) v.getParent()).getPaddingLeft() - ((View) v.getParent()).getPaddingRight();
+        v.measure(View.MeasureSpec.makeMeasureSpec(Math.max(1, w), View.MeasureSpec.EXACTLY), View.MeasureSpec.UNSPECIFIED);
+        final int full = v.getMeasuredHeight();
+        final android.view.ViewGroup.LayoutParams lp = v.getLayoutParams();
+        android.animation.ValueAnimator va = android.animation.ValueAnimator.ofInt(open ? 0 : v.getHeight(), open ? full : 0);
+        va.setDuration(320); va.setInterpolator(NUi.EASE);
+        va.addUpdateListener(new android.animation.ValueAnimator.AnimatorUpdateListener() { public void onAnimationUpdate(android.animation.ValueAnimator a) { lp.height = (Integer) a.getAnimatedValue(); v.setLayoutParams(lp); } });
+        va.addListener(new android.animation.AnimatorListenerAdapter() { @Override public void onAnimationEnd(android.animation.Animator a) { lp.height = -2; v.setLayoutParams(lp); if (!open) v.setVisibility(View.GONE); } });
+        if (open) { lp.height = 0; v.setLayoutParams(lp); v.setVisibility(View.VISIBLE); }
+        v.setClipToOutline(false); if (v instanceof android.view.ViewGroup) ((android.view.ViewGroup) v).setClipChildren(true);
+        va.start();
+    }
+
     static boolean reduced(NShell sh) {
         if ("reduced".equals(sh.st.settings().optString("motion"))) return true;
         try { return android.provider.Settings.Global.getFloat(sh.a.getContentResolver(), android.provider.Settings.Global.ANIMATOR_DURATION_SCALE, 1f) == 0f; } catch (Exception e) { return false; }

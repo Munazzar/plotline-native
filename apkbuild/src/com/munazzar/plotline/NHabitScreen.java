@@ -234,7 +234,7 @@ final class NHabitScreen extends NPage {
             double[] sv = saved(h); int d = NHabits.cleanDays(h); int nx = 0; for (int m : NActs.MILES) if (m > d) { nx = m; break; }
             JSONArray sl = h.optJSONArray("slips"); int slips = 0; if (sl != null) for (int i = 0; i < sl.length(); i++) if (sl.optJSONObject(i) != null && sl.optJSONObject(i).optLong("t") >= h.optLong("start")) slips++;
             tiles(new String[][]{{String.valueOf(bestRun(h)), "d", "Best run"}, {h.optDouble("cost", 0) > 0 ? money(h, sv[0]) : String.valueOf(urgesOk(h)), "", h.optDouble("cost", 0) > 0 ? "Money saved" : "Urges beaten"},
-                {h.optDouble("mins", 0) > 0 ? hrs(sv[1]) : String.valueOf(slips), "", h.optDouble("mins", 0) > 0 ? "Time back" : "Slips"}, {nx > 0 ? NHabitsPage.mileName(nx).split(" ")[0] : "—", nx > 0 ? NHabitsPage.mileName(nx).substring(NHabitsPage.mileName(nx).indexOf(' ') + 1) : "", "Next milestone"}});
+                {h.optDouble("mins", 0) > 0 ? hrs(sv[1]) : String.valueOf(slips), "", h.optDouble("mins", 0) > 0 ? "Time back" : "Slips"}, {nx > 0 ? NHabitsPage.mileName(nx).split(" ")[0] : "—", nx > 0 ? NHabitsPage.mileName(nx).substring(NHabitsPage.mileName(nx).indexOf(' ')) : "", "Next milestone"}   /* web "2<small> weeks</small>": the space is part of the small text */});
             add(stH("Milestones", "current run")); miles(h, d, nx, col);
         } else if (quit) {
             int tn = NDates.today(); double tot = 0; int cnt = 0;

@@ -172,19 +172,35 @@ final class NCard extends Drawable {
         v.addOnLayoutChangeListener(new View.OnLayoutChangeListener() { public void onLayoutChange(View x, int l, int t, int r, int b, int ol, int ot, int or, int ob) { glow.setBounds(0, 0, r - l, b - t); } });
     }
 
-    /* the web's .tint.halo: a 2px ring plus a soft glow around the card (wider when "Bright halo") */
+    /* the web's .tint.halo: box-shadow 0 0 0 2px c, 0 0 hr*.45 hr*.05 c@ha, 0 0 hr hr*.2 c@45% (hr 40, ha 85%; bright: 80, 100%).
+       The two blurred shadows are rendered once into a small bitmap (a quarter of the size; it is a blur anyway). */
+    static final java.util.LinkedHashMap<String, android.graphics.Bitmap> GLOW = new java.util.LinkedHashMap<String, android.graphics.Bitmap>(16, .75f, true) {
+        @Override protected boolean removeEldestEntry(java.util.Map.Entry<String, android.graphics.Bitmap> e) { return size() > 16; }
+    };
     void haloGlow(Canvas cv, RectF b) {
-        float hr = NUi.dp(NTheme.haloBright ? 80 : 40), amp = NTheme.haloBright ? 1f : .85f;
+        float hr = NUi.dp(NTheme.haloBright ? 80 : 40), ha = NTheme.haloBright ? 1f : .85f;
         float k = 1f;
         if (NTheme.haloPulse) { k = .8f + .2f * (float) Math.sin(android.os.SystemClock.uptimeMillis() / 2800.0 * 2 * Math.PI); invalidateSelf(); }
-        int cc = col | 0xFF000000; int N = 9; float reach = hr * .62f;
-        p.setStyle(Paint.Style.STROKE);
-        for (int i = N; i >= 1; i--) {
-            float f = i / (float) N, off = reach * f;
-            p.setStrokeWidth(off * 2 + 1); p.setColor(NTheme.alpha(cc, amp * k * .10f * (1f - f) * (1f - f) + .012f));
-            rf.set(b.left - off / 2, b.top - off / 2, b.right + off / 2, b.bottom + off / 2); cv.drawRoundRect(rf, r + off / 2, r + off / 2, p);
+        int cc = col | 0xFF000000;
+        float ext = hr * 1.25f + hr * .2f, sc = .25f;
+        int bw = Math.max(1, Math.round((b.width() + 2 * ext) * sc)), bh = Math.max(1, Math.round((b.height() + 2 * ext) * sc));
+        String key = bw + "x" + bh + ":" + cc + ":" + r + ":" + hr;
+        android.graphics.Bitmap gBmp = GLOW.get(key);
+        if (gBmp == null) {
+            android.graphics.Bitmap bm = android.graphics.Bitmap.createBitmap(bw, bh, android.graphics.Bitmap.Config.ARGB_8888);
+            Canvas c2 = new Canvas(bm); c2.scale(sc, sc); c2.translate(ext, ext);
+            Paint q = new Paint(Paint.ANTI_ALIAS_FLAG);
+            float[][] L = {{hr, hr * .2f, .45f}, {hr * .45f, hr * .05f, ha}};   /* blur, spread, alpha */
+            for (float[] l : L) {
+                float sigma = l[0] / 2f * sc, rad = Math.max(.5f, (sigma - .5f) / .57735f);
+                q.setColor(NTheme.alpha(cc, l[2])); q.setMaskFilter(new android.graphics.BlurMaskFilter(rad / sc, android.graphics.BlurMaskFilter.Blur.NORMAL));
+                RectF e = new RectF(-l[1], -l[1], b.width() + l[1], b.height() + l[1]); c2.drawRoundRect(e, r + l[1], r + l[1], q);
+            }
+            gBmp = bm; GLOW.put(key, bm);
         }
-        p.setStrokeWidth(NUi.dp(2)); p.setColor(cc);
+        Paint bp = new Paint(Paint.FILTER_BITMAP_FLAG); bp.setAlpha(Math.round(255 * k));
+        rf.set(b.left - ext, b.top - ext, b.right + ext, b.bottom + ext); cv.drawBitmap(gBmp, null, rf, bp);
+        p.setStyle(Paint.Style.STROKE); p.setStrokeWidth(NUi.dp(2)); p.setColor(cc);
         rf.set(b.left - NUi.dp(1), b.top - NUi.dp(1), b.right + NUi.dp(1), b.bottom + NUi.dp(1)); cv.drawRoundRect(rf, r + NUi.dp(1), r + NUi.dp(1), p);
         p.setStyle(Paint.Style.FILL);
     }

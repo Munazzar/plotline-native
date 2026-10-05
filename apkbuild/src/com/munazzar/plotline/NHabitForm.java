@@ -148,7 +148,7 @@ final class NHabitForm {
         sync.run();
         /* why / area / goal */
         b.addView(NForms.fieldLabel(c, "Why it matters · optional"));
-        final EditText why = NForms.input(c, "Read this on the days you don’t feel like it", src.optString("why"), true); why.setMinLines(2); b.addView(why);
+        final EditText why = NForms.input(c, "Read this on the days you don’t feel like it", src.optString("why"), true); why.setMinimumHeight(NUi.dp(72)); b.addView(why);   /* web style="min-height:72px" */
         NVoice.attach(c, why);
         b.addView(NForms.fieldLabel(c, "Life area"));
         final String[] area = {NTheme.areaKey(src.optString("area", "personal")).isEmpty() ? "personal" : NTheme.areaKey(src.optString("area", "personal"))};
@@ -158,14 +158,8 @@ final class NHabitForm {
         for (String[] o : NGoalForm.parentList(sh.st, null)) { JSONObject g = sh.st.find("goals", o[0]); if (g != null && "active".equals(g.optString("status"))) gl.add(o); }
         if (!gl.isEmpty()) {
             b.addView(NForms.fieldLabel(c, "Supports a goal · optional"));
-            final TextView gv = NUi.body(c, "", 15, NTheme.text, 600); gv.setBackground(NUi.ripple(NUi.round(NTheme.surface, 14, NTheme.line2), 14)); gv.setPadding(NUi.dp(16), NUi.dp(13), NUi.dp(16), NUi.dp(13)); gv.setSingleLine(true); gv.setEllipsize(android.text.TextUtils.TruncateAt.END);
-            final Runnable gp = new Runnable() { public void run() { String t = "None"; for (String[] o : gl) if (o[0].equals(goal[0])) t = o[1].trim(); gv.setText(t + "   ▾"); } };
-            gp.run();
-            NUi.tap(gv, new View.OnClickListener() { public void onClick(View v) {
-                final String[] items = new String[gl.size() + 1]; items[0] = "None"; for (int i = 0; i < gl.size(); i++) items[i + 1] = gl.get(i)[1];
-                new android.app.AlertDialog.Builder(c).setItems(items, new android.content.DialogInterface.OnClickListener() { public void onClick(android.content.DialogInterface d, int i) { goal[0] = i == 0 ? "" : gl.get(i - 1)[0]; gp.run(); } }).show();
-            } });
-            b.addView(gv);
+            String[][] go = new String[gl.size() + 1][]; go[0] = new String[]{"", "None"}; for (int i = 0; i < gl.size(); i++) go[i + 1] = gl.get(i);
+            b.addView(NForms.select(c, go, goal, null));   /* web <select> */
         }
         List<View> acts = new ArrayList<>();
         acts.add(NUi.btn(c, "Cancel", false, new View.OnClickListener() { public void onClick(View v) { sh.closeSheet(); } }));

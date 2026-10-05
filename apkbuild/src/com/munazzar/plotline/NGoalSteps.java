@@ -111,7 +111,7 @@ final class NGoalSteps {
             boolean d = s.optBoolean("done");
             FrameLayout outer = new FrameLayout(c); outer.setClipChildren(false); outer.addView(flip(bigFront(s, i, N, next), bigBack(s, i, N, next)), new FrameLayout.LayoutParams(-1, -1));   /* the shell turns the outer frame, the flip turns the inner */
             NHs.Item x = NHs.item(outer, col, d, false, d ? "Done" : NDates.valid(s.optString("due")) ? NDates.dueShort(s.optString("due")) : "No date");
-            x.check = true; x.tap = toggle(s); items.add(x);
+            x.check = true; x.cur = s == next; x.tap = toggle(s); items.add(x);
         }
         for (final JSONObject[] k : subs()) {
             final JSONObject x = k[0]; int xc = NTheme.areaCol(x.optString("area")); boolean xd = "done".equals(x.optString("status")); int p = NActs.pct(st, x);

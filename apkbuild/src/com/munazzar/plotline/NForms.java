@@ -6,6 +6,9 @@ import android.content.Context;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ScrollView;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
@@ -34,7 +37,7 @@ final class NForms {
         e.setTypeface(NFont.body(500)); e.setTextSize(16);
         e.setBackground(NUi.round(NTheme.surface, 14, NTheme.line2));
         e.setPadding(NUi.dp(16), NUi.dp(13), NUi.dp(16), NUi.dp(13));
-        if (multi) { e.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES); e.setMinLines(3); e.setGravity(Gravity.TOP); }
+        if (multi) { e.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES); e.setMinimumHeight(NUi.dp(104)); e.setLineSpacing(0, 1.25f); e.setGravity(Gravity.TOP); }   /* web textarea: min-height 104, line-height 1.5 */
         else { e.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES); e.setSingleLine(true); }
         return e;
     }
@@ -304,22 +307,78 @@ final class NForms {
     static String tagEmoji(String k) { for (String[] t : TAGS) if (t[0].equals(k)) return t[1].substring(0, t[1].indexOf(' ')); return "💭"; }
 
     /* a web <select>: a field that opens a menu; rows with a null value are group headings */
+    /* Chrome's <select> arrow: a small filled triangle */
+    static android.graphics.drawable.Drawable caret() {
+        android.graphics.Path p = new android.graphics.Path(); p.moveTo(0, 0); p.lineTo(10, 0); p.lineTo(5, 5); p.close();
+        android.graphics.drawable.ShapeDrawable d = new android.graphics.drawable.ShapeDrawable(new android.graphics.drawable.shapes.PathShape(p, 10, 5));
+        d.getPaint().setColor(NTheme.alpha(NTheme.text, .8f)); d.setIntrinsicWidth(NUi.dp(10)); d.setIntrinsicHeight(NUi.dp(5)); d.setBounds(0, 0, NUi.dp(10), NUi.dp(5));
+        return d;
+    }
     static TextView select(final Context c, final String[][] opts, final String[] sel, final Runnable onChange) {
         final TextView t = NUi.body(c, "", 15, NTheme.text, 600);
         t.setBackground(NUi.ripple(NUi.round(NTheme.surface, 14, NTheme.line2), 14));
         t.setPadding(NUi.dp(16), NUi.dp(13), NUi.dp(16), NUi.dp(13));
         t.setSingleLine(true); t.setEllipsize(android.text.TextUtils.TruncateAt.END);
-        t.setCompoundDrawablesRelative(null, null, NUi.iconD("chev", 16, NTheme.muted), null); t.setCompoundDrawablePadding(NUi.dp(10));
-        final Runnable paint = new Runnable() { public void run() { String l = opts.length > 0 ? opts[0][1] : ""; for (String[] o : opts) if (o[0] != null && o[0].equals(sel[0])) l = o[1]; t.setText(l); } };
+        t.setCompoundDrawablesRelative(null, null, caret(), null); t.setCompoundDrawablePadding(NUi.dp(10));
+        final Runnable paint = new Runnable() { public void run() { String l = opts.length > 0 ? opts[0][1] : ""; for (String[] o : opts) if (o[0] != null && o[0].equals(sel[0])) l = o[1]; t.setText(l.trim()); } };
         paint.run();
         NUi.tap(t, new View.OnClickListener() { public void onClick(View v) {
-            android.widget.PopupMenu pm = new android.widget.PopupMenu(c, t);
-            for (int i = 0; i < opts.length; i++) { android.view.MenuItem m = pm.getMenu().add(0, i, i, opts[i][0] == null ? opts[i][1].toUpperCase() : opts[i][1]); if (opts[i][0] == null) m.setEnabled(false); }
-            pm.setOnMenuItemClickListener(new android.widget.PopupMenu.OnMenuItemClickListener() { public boolean onMenuItemClick(android.view.MenuItem m) {
-                String v = opts[m.getItemId()][0]; if (v == null) return true; sel[0] = v; paint.run(); if (onChange != null) onChange.run(); return true; } });
-            pm.show();
+            /* the picker's title is the field's label (web selLabel), the view just above the select */
+            String title = "Choose"; android.view.ViewParent pp = t.getParent();
+            if (pp instanceof ViewGroup) { int i = ((ViewGroup) pp).indexOfChild(t); if (i > 0 && ((ViewGroup) pp).getChildAt(i - 1) instanceof TextView) { String l = ((TextView) ((ViewGroup) pp).getChildAt(i - 1)).getText().toString().trim(); if (!l.isEmpty()) title = l.substring(0, 1).toUpperCase() + l.substring(1).toLowerCase(); } }
+            picker(c, title, opts, sel[0], new Pick() { public void on(String val) { if (val.equals(sel[0])) return; sel[0] = val; paint.run(); if (onChange != null) onChange.run(); } });
         } });
         return t;
+    }
+
+    interface Pick { void on(String v); }
+
+    /* web 1.13 selOpen: on phones a <select> opens an in-app picker sheet, not Android's system list.
+       Options with a null value are group headings (web <optgroup>). */
+    static void picker(Context c, String title, final String[][] opts, String cur, final Pick pick) {
+        final NShell sh = NShell.I; if (sh == null || sh.nroot == null) return;
+        final FrameLayout ov = new FrameLayout(c); ov.setClickable(true); ov.setElevation(NUi.dp(45));
+        final View dim = new View(c); dim.setBackgroundColor(0x73000000); dim.setAlpha(0f); ov.addView(dim, new FrameLayout.LayoutParams(-1, -1));
+        final LinearLayout s = NUi.col(c);
+        android.graphics.drawable.GradientDrawable bgd = new android.graphics.drawable.GradientDrawable(); bgd.setColor(NTheme.bg2);
+        float R = NUi.dp(24); bgd.setCornerRadii(new float[]{R, R, R, R, 0, 0, 0, 0}); bgd.setStroke(Math.max(1, NUi.dp(1)), NTheme.line2);
+        s.setBackground(bgd); s.setPadding(NUi.dp(14), NUi.dp(10), NUi.dp(14), NUi.dp(14) + sh.bot); s.setElevation(NUi.dp(16)); s.setClickable(true);
+        View grab = new View(c); grab.setBackground(NUi.round(NTheme.line2, 3, 0)); LinearLayout.LayoutParams gl = NUi.lp(NUi.dp(40), NUi.dp(5)); gl.gravity = Gravity.CENTER_HORIZONTAL; gl.bottomMargin = NUi.dp(8); s.addView(grab, gl);
+        LinearLayout hd = NUi.row(c); hd.setPadding(NUi.dp(4), NUi.dp(2), NUi.dp(4), NUi.dp(10));
+        hd.addView(NUi.body(c, title, 17, NTheme.text, 700), NUi.lpw(0, -2, 1));
+        final Runnable[] close = new Runnable[1];
+        TextView x = NUi.body(c, "✕", 15, NTheme.text, 600); x.setGravity(Gravity.CENTER); x.setBackground(NUi.ripple(NUi.round(NTheme.surface2, 12, NTheme.line2), 12));
+        NUi.tap(x, new View.OnClickListener() { public void onClick(View v) { close[0].run(); } });
+        hd.addView(x, NUi.lp(NUi.dp(38), NUi.dp(38))); s.addView(hd);
+        final ScrollView sc = new ScrollView(c); sc.setVerticalScrollBarEnabled(false); sc.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        LinearLayout list = NUi.col(c); View onV = null;
+        for (int i = 0; i < opts.length; i++) {
+            final String[] o = opts[i];
+            if (o[0] == null) { TextView g = NUi.label(c, o[1], NTheme.muted); LinearLayout.LayoutParams l = NUi.lp(-1, -2); l.setMargins(NUi.dp(4), NUi.dp(i == 0 ? 4 : 10), NUi.dp(4), NUi.dp(2)); list.addView(g, l); continue; }
+            boolean on = o[0].equals(cur);
+            LinearLayout b = NUi.row(c); b.setMinimumHeight(NUi.dp(48)); b.setPadding(NUi.dp(14), NUi.dp(10), NUi.dp(14), NUi.dp(10));
+            b.setBackground(NUi.ripple(NUi.round(on ? NUi.mix(NTheme.accent, .14f, NTheme.surface) : NTheme.surface, 14, on ? NTheme.accent : NTheme.line), 14));
+            TextView tx = NUi.body(c, o[1].trim(), 15, NTheme.text, 600); tx.setSingleLine(true); tx.setEllipsize(android.text.TextUtils.TruncateAt.END); b.addView(tx, NUi.lpw(0, -2, 1));
+            if (on) { b.addView(NUi.icon(c, "check", 16, NTheme.accent), NUi.lp(NUi.dp(16), NUi.dp(16))); onV = b; }
+            NUi.tap(b, new View.OnClickListener() { public void onClick(View v) { close[0].run(); pick.on(o[0]); } });
+            LinearLayout.LayoutParams l = NUi.lp(-1, -2); if (list.getChildCount() > 0) l.topMargin = NUi.dp(6); list.addView(b, l);
+        }
+        sc.addView(list); s.addView(sc, new LinearLayout.LayoutParams(-1, -2));
+        final int maxH = Math.round(c.getResources().getDisplayMetrics().heightPixels * .72f);
+        FrameLayout.LayoutParams sl = new FrameLayout.LayoutParams(-1, -2, Gravity.BOTTOM); ov.addView(s, sl);
+        s.measure(View.MeasureSpec.makeMeasureSpec(c.getResources().getDisplayMetrics().widthPixels, View.MeasureSpec.EXACTLY), View.MeasureSpec.UNSPECIFIED);
+        if (s.getMeasuredHeight() > maxH) sl.height = maxH;
+        sh.nroot.addView(ov, new FrameLayout.LayoutParams(-1, -1));
+        s.setTranslationY(NUi.dp(600)); dim.animate().alpha(1f).setDuration(250).start();
+        s.animate().translationY(0).setDuration(320).setInterpolator(new android.view.animation.PathInterpolator(.2f, .9f, .25f, 1.05f)).start();
+        final View onF = onV;
+        if (onF != null) sc.post(new Runnable() { public void run() { sc.scrollTo(0, Math.max(0, onF.getTop() - (sc.getHeight() - onF.getHeight()) / 2)); } });
+        close[0] = new Runnable() { public void run() {
+            if (ov.getParent() == null || ov.getTag() != null) return; ov.setTag(1);
+            dim.animate().alpha(0f).setDuration(250).start();
+            s.animate().translationY(s.getHeight()).setDuration(300).withEndAction(new Runnable() { public void run() { ((ViewGroup) ov.getParent()).removeView(ov); } }).start();
+        } };
+        NUi.tap(dim, new View.OnClickListener() { public void onClick(View v) { close[0].run(); } });
     }
 
     /* web .radios: equal-width options in a row; the chosen one is filled with the text colour */
