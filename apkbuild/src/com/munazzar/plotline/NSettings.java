@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -294,10 +295,52 @@ final class NSettings extends NPage {
         sw(th, "Reduce motion", "Swap flips, slides and page morphs for simple fades", "reduced".equals(s().optString("motion")), new Chg() { public void on(boolean v) { put("motion", v ? "reduced" : "full"); } });
         col.addView(th);
 
-        LinearLayout hm = panel("Home page", "What Today opens with.");
+        colours(col);
+        startPage(col);
+
+        /* web homePanel: two picture cards (.hpick / .hpc) */
+        LinearLayout hm = panel("Home page", "What Today opens with. More live homes are coming. Some studio props are Microsoft Fluent Emoji (MIT licence).");
         String home = "studio".equals(s().optString("home")) ? "studio" : "classic";
-        chips(hm, new String[][]{{"classic", "Classic · cards and lists"}, {"studio", "Studio · live room"}}, home, new Pk() { public void on(String k) { NStudio.setHome(sh, k); } }, 12);
+        LinearLayout hp = NUi.row(c); hp.setGravity(Gravity.TOP);
+        String[][] HP = {{"classic", "Classic", "Your plan as cards and lists"}, {"studio", "Studio · live", "A cosy room: your work board, a bench, a window with the real sky, and a cat"}};
+        for (int i = 0; i < 2; i++) {
+            final String[] o = HP[i]; boolean on = o[0].equals(home);
+            LinearLayout t = NUi.col(c); t.setPadding(NUi.dp(10), NUi.dp(10), NUi.dp(10), NUi.dp(14)); t.setBackground(ringCard(on, 20));
+            View pv = new View(c) {
+                final android.graphics.Paint q = new android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG);
+                @Override protected void onDraw(android.graphics.Canvas cv) {
+                    float w = getWidth(), h = getHeight(), d = NUi.dp(1);
+                    if (o[0].equals("classic")) {
+                        q.setColor(NTheme.bg2); cv.drawRect(0, 0, w, h, q);
+                        q.setColor(NTheme.surface); cv.drawRect(10 * d, 12 * d, 10 * d + w * .45f, 36 * d, q);
+                        q.setColor(NTheme.surface2); cv.drawRect(10 * d, 44 * d, 10 * d + w * .8f, 56 * d, q); cv.drawRect(10 * d, 62 * d, 10 * d + w * .6f, 74 * d, q);
+                    } else {
+                        q.setShader(null); q.setColor(0xFFE8D4B2); cv.drawRect(0, 0, w, h, q);
+                        q.setColor(0xFFC9A06A); cv.drawRect(8 * d, 8 * d, 8 * d + w * .62f, 8 * d + h * .54f, q);
+                        q.setColor(0xFFFFFDF6); for (float x = 14 * d; x < 14 * d + w * .52f; x += 24 * d) cv.drawRect(x, 18 * d, Math.min(x + 18 * d, 14 * d + w * .52f), 44 * d, q);
+                        q.setColor(0xFFA8714A); cv.drawRect(0, 64 * d, w, 69 * d, q);
+                        float sx = w - 10 * d - w * .26f; q.setShader(new android.graphics.LinearGradient(0, 10 * d, 0, 10 * d + h * .44f, 0xFF8FC6EE, 0xFFF6C79B, android.graphics.Shader.TileMode.CLAMP));
+                        cv.drawRect(sx, 10 * d, w - 10 * d, 10 * d + h * .44f, q); q.setShader(null);
+                    }
+                }
+            };
+            pv.setBackground(NUi.round(NTheme.bg2, 13, 0)); pv.setClipToOutline(true);
+            LinearLayout.LayoutParams pl = NUi.lp(-1, NUi.dp(84)); pl.bottomMargin = NUi.dp(6); t.addView(pv, pl);
+            TextView n = NUi.body(c, o[1], 14, NTheme.text, 700); n.setPadding(NUi.dp(4), 0, NUi.dp(4), 0); t.addView(n);
+            TextView sm = NUi.text(c, o[2], 12.5f, NTheme.muted); sm.setPadding(NUi.dp(4), NUi.dp(4), NUi.dp(4), 0); NUi.cssLh(sm, 1.35f); t.addView(sm);
+            NUi.tap(t, new View.OnClickListener() { public void onClick(View v) { NStudio.setHome(sh, o[0]); } });
+            LinearLayout.LayoutParams tl = NUi.lpw(0, -2, 1); if (i == 0) tl.rightMargin = NUi.dp(12); hp.addView(t, tl);
+        }
+        hm.addView(hp, NUi.mt(12));
         col.addView(hm, NUi.mt(14));
+
+        /* web 1.13 Animations: Snappy (default) or Expressive */
+        final boolean rich = "rich".equals(s().optString("anim"));
+        LinearLayout an = panel("Animations", "How pages appear when you move around.");
+        LinearLayout ar = NUi.row(c); ar.addView(NBits.seg(c, new String[][]{{"snappy", "Snappy"}, {"rich", "Expressive"}}, rich ? "rich" : "snappy", new NBits.Pick() { public void on(String k) { put("anim", k); refresh(); } }));
+        an.addView(ar, NUi.mt(12));
+        TextView ax = NUi.text(c, rich ? "Pages slide and fade in, section by section." : "Pages switch instantly with a light fade. Best on older phones.", 13.5f, NTheme.muted); an.addView(ax, NUi.mt(10));
+        col.addView(an, NUi.mt(14));
 
         fonts(col);
 
@@ -339,6 +382,178 @@ final class NSettings extends NPage {
         sw(ha, "Bright halo", "A wider, stronger glow", s().optBoolean("haloBright"), new Chg() { public void on(boolean v) { put("haloBright", v); } });
         sw(ha, "Pulse", "The halo breathes slowly", s().optBoolean("haloPulse"), new Chg() { public void on(boolean v) { put("haloPulse", v); } });
         col.addView(ha, NUi.mt(14));
+    }
+
+    /* a choice card's frame: 1.5 line-2 border; on = accent border + 3px accent ring (web .tcard/.hpc .on) */
+    android.graphics.drawable.Drawable ringCard(boolean on, float r) {
+        android.graphics.drawable.GradientDrawable cb = new android.graphics.drawable.GradientDrawable(); cb.setCornerRadius(NUi.dp(r)); cb.setStroke(NUi.dp(1.5f), on ? NTheme.accent : NTheme.line2);
+        if (!on) return cb;
+        android.graphics.drawable.GradientDrawable ring = new android.graphics.drawable.GradientDrawable(); ring.setCornerRadius(NUi.dp(r + 3)); ring.setStroke(NUi.dp(3), (NTheme.accent & 0xFFFFFF) | 0x38000000);
+        android.graphics.drawable.LayerDrawable ld = new android.graphics.drawable.LayerDrawable(new android.graphics.drawable.Drawable[]{ring, cb}); ld.setLayerInset(1, NUi.dp(3), NUi.dp(3), NUi.dp(3), NUi.dp(3));
+        return ld;
+    }
+
+    static final String[] ACCENTS = {"#FFB547", "#FF7A59", "#FF5C8A", "#C77DFF", "#8B7CFF", "#2E6BFF", "#0A84FF", "#38BDF8", "#2DD4BF", "#46C99B", "#84CC16", "#E8E9EB"};
+
+    /* web 1.13 colorPanel: accent, wallpaper, strength, glass frost, widget background, drift, reset */
+    void colours(LinearLayout col) {
+        final JSONObject st = s(); final String acc = st.optString("accent", ""), w = NWall.wallOf(st);
+        final boolean glass = st.optString("theme").startsWith("glass");
+        LinearLayout p = panel("Colours & background", "Make Plotline yours. These sit on top of any theme, and the widgets on your home screen follow them.");
+        TextView l1 = NBits.meta(c, "ACCENT", NTheme.muted); l1.setTextSize(10.5f); l1.setPadding(0, NUi.dp(18), 0, NUi.dp(6)); p.addView(l1);
+        NFlow sw = new NFlow(c, 2, 4);
+        TextView au = NUi.body(c, "Auto", 13, NTheme.text, 600); au.setGravity(Gravity.CENTER); au.setPadding(NUi.dp(12), 0, NUi.dp(12), 0);
+        au.setBackground(NUi.round(NTheme.surface2, 18, acc.isEmpty() ? NTheme.text : NTheme.line2)); if (acc.isEmpty()) ((android.graphics.drawable.GradientDrawable) au.getBackground()).setStroke(NUi.dp(2), NTheme.text);
+        NUi.tap(au, new View.OnClickListener() { public void onClick(View v) { put("accent", ""); } });
+        LinearLayout.LayoutParams al = NUi.lp(-2, NUi.dp(36)); al.setMargins(NUi.dp(5), NUi.dp(5), NUi.dp(5), NUi.dp(5)); sw.addView(au, new ViewGroup.MarginLayoutParams(al));
+        boolean known = acc.isEmpty();
+        for (final String a : ACCENTS) { boolean on = a.equalsIgnoreCase(acc); if (on) known = true; sw.addView(swatch(new android.graphics.drawable.ColorDrawable(0), android.graphics.Color.parseColor(a), on, new View.OnClickListener() { public void onClick(View v) { put("accent", a); } }), new ViewGroup.MarginLayoutParams(NUi.dp(46), NUi.dp(46))); }
+        sw.addView(swatch(null, 0, !known, new View.OnClickListener() { public void onClick(View v) { pickColour(acc.isEmpty() ? "#8FD8FF" : acc); } }), new ViewGroup.MarginLayoutParams(NUi.dp(46), NUi.dp(46)));
+        p.addView(sw);
+        TextView l2 = NBits.meta(c, "BACKGROUND", NTheme.muted); l2.setTextSize(10.5f); l2.setPadding(0, NUi.dp(18), 0, NUi.dp(8)); p.addView(l2);
+        GridLayout g = new GridLayout(c); g.setColumnCount(4);
+        for (int i = 0; i < NWall.WALLS.length; i++) {
+            final String k = NWall.WALLS[i][0]; boolean on = k.equals(w);
+            LinearLayout t = NUi.col(c); t.setGravity(Gravity.CENTER_HORIZONTAL);
+            final android.graphics.drawable.Drawable tile = NWall.tile(k);
+            View sq = new View(c) { @Override protected void onMeasure(int a, int b) { super.onMeasure(a, a); } };
+            android.graphics.drawable.GradientDrawable fr = new android.graphics.drawable.GradientDrawable(); fr.setCornerRadius(NUi.dp(14)); fr.setStroke(Math.max(1, NUi.dp(1)), NTheme.line2);
+            android.graphics.drawable.LayerDrawable ld = new android.graphics.drawable.LayerDrawable(on ? new android.graphics.drawable.Drawable[]{oval(0, NTheme.text, 2, 18), tile, fr} : new android.graphics.drawable.Drawable[]{tile, fr});
+            if (on) { ld.setLayerInset(1, NUi.dp(4), NUi.dp(4), NUi.dp(4), NUi.dp(4)); ld.setLayerInset(2, NUi.dp(4), NUi.dp(4), NUi.dp(4), NUi.dp(4)); }
+            sq.setBackground(ld); sq.setOutlineProvider(null);
+            FrameLayout clipT = new FrameLayout(c); clipT.addView(sq, new FrameLayout.LayoutParams(-1, -2));
+            t.addView(clipT, NUi.lp(-1, -2));
+            TextView n = NUi.body(c, NWall.WALLS[i][1], 12.5f, NTheme.text, 600); n.setPadding(0, NUi.dp(6), 0, 0); t.addView(n);
+            NUi.tap(t, new View.OnClickListener() { public void onClick(View v) { put("wall", k); } });
+            GridLayout.LayoutParams gl = new GridLayout.LayoutParams(GridLayout.spec(i / 4), GridLayout.spec(i % 4, 1f)); gl.width = 0; gl.setMargins(NUi.dp(i % 4 == 0 ? 0 : 6), i >= 4 ? NUi.dp(12) : 0, NUi.dp(i % 4 == 3 ? 0 : 6), 0);
+            g.addView(t, gl);
+        }
+        p.addView(g);
+        int ws = st.isNull("wallStr") || !st.has("wallStr") ? 55 : st.optInt("wallStr", 55);
+        rangeRow(p, "Background strength", "wallStr", 10, 100, 5, ws, w.equals("off"), new Lbl() { public String of(int v) { return v < 30 ? "Subtle" : v < 70 ? "Balanced" : "Vivid"; } });
+        if (glass) rangeRow(p, "Glass frost", "frost", 0, 100, 5, st.has("frost") && !st.isNull("frost") ? st.optInt("frost", 50) : 50, false, new Lbl() { public String of(int v) { return v < 35 ? "Clear" : v < 70 ? "Frosted" : "Milky"; } });
+        rangeRow(p, "Widget background", "wAlpha", 40, 100, 2, st.has("wAlpha") && !st.isNull("wAlpha") ? st.optInt("wAlpha", 94) : 94, false, new Lbl() { public String of(int v) { return v >= 95 ? "Solid" : v >= 75 ? "Slightly see-through" : "See-through"; } });
+        sw(p, "Move the background", "A slow drift. Off saves battery and keeps scrolling smooth", st.optBoolean("wallMove"), new Chg() { public void on(boolean v) { put("wallMove", v); } });
+        if (w.equals("off")) p.getChildAt(p.getChildCount() - 1).setAlpha(.62f);
+        if (!acc.isEmpty() || st.has("wall") || st.has("wallStr") || st.has("frost") || st.optBoolean("wallMove")) {
+            TextView rs = NUi.btnSm(c, "Reset to theme defaults", false, new View.OnClickListener() { public void onClick(View v) {
+                for (String k : new String[]{"accent", "wall", "wallStr", "frost", "wallMove"}) s().remove(k); sh.save(); refresh(); } });
+            rs.setBackground(null); LinearLayout.LayoutParams rl = NUi.lp(-2, NUi.dp(38)); rl.topMargin = NUi.dp(10); p.addView(rs, rl);
+        }
+        col.addView(p, NUi.mt(14));
+    }
+
+    static android.graphics.drawable.GradientDrawable oval(int fill, int stroke, float sw, float rDp) {
+        android.graphics.drawable.GradientDrawable d = new android.graphics.drawable.GradientDrawable(); d.setCornerRadius(NUi.dp(rDp)); d.setColor(fill); if (stroke != 0) d.setStroke(NUi.dp(sw), stroke); return d;
+    }
+
+    /* .lk-c: a 36px swatch; on = 3px page-colour gap + 2px text-colour ring; the last one is the rainbow "pick any colour" */
+    View swatch(android.graphics.drawable.Drawable unused, final int col, boolean on, View.OnClickListener l) {
+        FrameLayout f = new FrameLayout(c);
+        if (on) { android.graphics.drawable.GradientDrawable r = new android.graphics.drawable.GradientDrawable(); r.setShape(android.graphics.drawable.GradientDrawable.OVAL); r.setStroke(NUi.dp(2), NTheme.text); f.setBackground(r); }
+        View dot = new View(c) {
+            final android.graphics.Paint q = new android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG);
+            @Override protected void onDraw(android.graphics.Canvas cv) {
+                float r = getWidth() / 2f;
+                if (col == 0) q.setShader(new android.graphics.SweepGradient(r, r, new int[]{0xFFFF5C5C, 0xFFFFB547, 0xFFE8E04B, 0xFF46C99B, 0xFF38BDF8, 0xFF8B7CFF, 0xFFFF5C8A, 0xFFFF5C5C}, null));
+                else { q.setShader(null); q.setColor(col); }
+                cv.drawCircle(r, r, r, q); q.setShader(null);
+                q.setStyle(android.graphics.Paint.Style.STROKE); q.setStrokeWidth(Math.max(1, NUi.dp(1))); q.setColor(0x26000000); cv.drawCircle(r, r, r - NUi.dp(.5f), q); q.setStyle(android.graphics.Paint.Style.FILL);
+            }
+        };
+        f.addView(dot, new FrameLayout.LayoutParams(NUi.dp(36), NUi.dp(36), Gravity.CENTER));
+        if (col == 0) f.addView(NUi.icon(c, "edit", 16, 0xFFFFFFFF), new FrameLayout.LayoutParams(NUi.dp(16), NUi.dp(16), Gravity.CENTER));
+        NUi.tap(f, l); return f;
+    }
+
+    /* <input type=color>: a hue and a lightness slider with a live swatch */
+    void pickColour(String cur) {
+        float[] hsv = new float[3]; android.graphics.Color.colorToHSV(android.graphics.Color.parseColor(cur), hsv);
+        final float[] h = {hsv[0], hsv[1], hsv[2]};
+        LinearLayout b = NUi.col(c); b.setPadding(NUi.dp(22), NUi.dp(16), NUi.dp(22), 0);
+        final View pv = new View(c); pv.setBackground(NUi.round(android.graphics.Color.HSVToColor(h), 16, 0)); b.addView(pv, NUi.lp(-1, NUi.dp(56)));
+        String[] names = {"Hue", "Colour", "Brightness"}; int[] max = {360, 100, 100};
+        for (int i = 0; i < 3; i++) {
+            final int k = i; TextView lb = NUi.label(c, names[i], NTheme.muted); lb.setPadding(0, NUi.dp(14), 0, NUi.dp(4)); b.addView(lb);
+            android.widget.SeekBar sb = NUi.range(c); sb.setMax(max[i]); sb.setProgress(Math.round(i == 0 ? h[0] : h[i] * 100));
+            sb.setOnSeekBarChangeListener(new android.widget.SeekBar.OnSeekBarChangeListener() {
+                public void onProgressChanged(android.widget.SeekBar s, int v, boolean u) { h[k] = k == 0 ? v : v / 100f; pv.setBackground(NUi.round(android.graphics.Color.HSVToColor(h), 16, 0)); }
+                public void onStartTrackingTouch(android.widget.SeekBar s) { } public void onStopTrackingTouch(android.widget.SeekBar s) { } });
+            b.addView(sb, NUi.lp(-1, NUi.dp(30)));
+        }
+        new android.app.AlertDialog.Builder(sh.a).setTitle("Accent colour").setView(b)
+            .setPositiveButton("Use", new android.content.DialogInterface.OnClickListener() { public void onClick(android.content.DialogInterface d, int w) { put("accent", String.format("#%06X", android.graphics.Color.HSVToColor(h) & 0xFFFFFF)); } })
+            .setNegativeButton("Cancel", null).show();
+    }
+
+    interface Lbl { String of(int v); }
+    /* .lk-r: label + small state word on the left, slider (46%) on the right, a line above */
+    void rangeRow(LinearLayout p, String title, final String key, final int min, int max, final int step, int val, boolean dis, final Lbl lbl) {
+        LinearLayout r = NUi.row(c); r.setPadding(0, NUi.dp(12), 0, NUi.dp(12));
+        android.graphics.drawable.GradientDrawable top = new android.graphics.drawable.GradientDrawable(); top.setColor(0);
+        r.setBackground(new android.graphics.drawable.LayerDrawable(new android.graphics.drawable.Drawable[]{new android.graphics.drawable.ColorDrawable(0)}) {
+            final android.graphics.Paint q = new android.graphics.Paint();
+            @Override public void draw(android.graphics.Canvas cv) { q.setColor(NTheme.line); cv.drawRect(getBounds().left, getBounds().top, getBounds().right, getBounds().top + Math.max(1, NUi.dp(1)), q); }
+        });
+        LinearLayout tx = NUi.col(c); tx.addView(NUi.body(c, title, 15, NTheme.text, 600));
+        final TextView sm = NUi.text(c, lbl.of(val), 12.5f, NTheme.muted); tx.addView(sm);
+        r.addView(tx, NUi.lpw(0, -2, 1));
+        android.widget.SeekBar sb = NUi.range(c); sb.setMax((max - min) / step); sb.setProgress((val - min) / step); sb.setEnabled(!dis);
+        sb.setOnSeekBarChangeListener(new android.widget.SeekBar.OnSeekBarChangeListener() {
+            public void onProgressChanged(android.widget.SeekBar s, int v, boolean u) { sm.setText(lbl.of(min + v * step)); }
+            public void onStartTrackingTouch(android.widget.SeekBar s) { s.getParent().requestDisallowInterceptTouchEvent(true); }
+            public void onStopTrackingTouch(android.widget.SeekBar s) { put(key, min + s.getProgress() * step); }
+        });
+        r.addView(sb, new LinearLayout.LayoutParams(Math.round((c.getResources().getDisplayMetrics().widthPixels - NUi.dp(76)) * .46f), NUi.dp(26)));
+        if (dis) r.setAlpha(.62f);
+        p.addView(r);
+    }
+
+    /* web 1.13 landPanel / landSheet: the page Plotline opens on */
+    void startPage(LinearLayout col) {
+        final String L = s().optString("landing", "");
+        LinearLayout p = panel("Start page", "The page Plotline opens on. Pick any page, or one thread, habit or goal you check every day.");
+        LinearLayout b = NUi.row(c); b.setPadding(NUi.dp(16), NUi.dp(12), NUi.dp(16), NUi.dp(12)); b.setBackground(NUi.ripple(NUi.round(NTheme.surface2, 16, NTheme.line2), 16));
+        LinearLayout tx = NUi.col(c); tx.addView(NUi.text(c, "Opens on", 12, NTheme.muted));
+        TextView nm = NUi.body(c, landName(L), 16, NTheme.text, 700); nm.setSingleLine(true); nm.setEllipsize(android.text.TextUtils.TruncateAt.END); tx.addView(nm);
+        b.addView(tx, NUi.lpw(0, -2, 1)); b.addView(NUi.icon(c, "next", 16, NTheme.muted), NUi.lp(NUi.dp(16), NUi.dp(16)));
+        NUi.tap(b, new View.OnClickListener() { public void onClick(View v) { landSheet(); } });
+        p.addView(b, NUi.mt(12));
+        col.addView(p, NUi.mt(14));
+    }
+
+    String[][][] landOpts() {
+        String[][] pg = {{"", "Home"}, {"habits", "Habits"}, {"cal", "Calendar"}, {"goals", "Goals"}, {"vista", "Vista"}, {"journal", "Journal"}, {"threads", "Threads"}, {"ask", "Ask"}, {"activity", "Activity"}, {"day/__today", "Today in full"}};
+        java.util.List<String[]> th = new java.util.ArrayList<>(), hb = new java.util.ArrayList<>(), gl = new java.util.ArrayList<>();
+        JSONArray T = st.arr("threads"); for (int i = 0; i < T.length(); i++) { JSONObject t = T.optJSONObject(i); if (t != null && !NStore.isDel(t) && !"done".equals(t.optString("status"))) th.add(new String[]{"thread/" + t.optString("id"), "🧵 " + t.optString("title")}); }
+        JSONArray H = st.arr("habits"); for (int i = 0; i < H.length(); i++) { JSONObject h = H.optJSONObject(i); if (h != null && !NStore.isDel(h) && !"archived".equals(h.optString("status"))) hb.add(new String[]{"habit/" + h.optString("id"), NHabits.icon(h) + " " + h.optString("title")}); }
+        for (JSONObject g : NActs.goals(st, "active")) gl.add(new String[]{"goal/" + g.optString("id"), "🎯 " + g.optString("title")});
+        return new String[][][]{pg, th.toArray(new String[0][]), hb.toArray(new String[0][]), gl.toArray(new String[0][])};
+    }
+    String landName(String v) { if (v.isEmpty()) return "Home"; for (String[][] g : landOpts()) for (String[] x : g) if (x[0].equals(v)) return x[1]; return "Home"; }
+
+    void landSheet() {
+        final String v = s().optString("landing", ""); String[][][] O = landOpts(); String[] T = {"Pages", "A thread", "A habit", "A goal"};
+        LinearLayout b = new NForms(sh).sheetBody("Start page", "Open Plotline on…", null);
+        for (int gi = 0; gi < 4; gi++) {
+            if (O[gi].length == 0) continue;
+            TextView gh = NUi.label(c, T[gi], NTheme.muted); gh.setPadding(0, NUi.dp(18), 0, NUi.dp(8)); b.addView(gh);
+            GridLayout gr = new GridLayout(c); gr.setColumnCount(gi == 0 ? 2 : 1);
+            for (int i = 0; i < O[gi].length; i++) {
+                final String[] o = O[gi][i]; boolean on = o[0].equals(v);
+                LinearLayout r = NUi.row(c); r.setMinimumHeight(NUi.dp(46)); r.setPadding(NUi.dp(14), NUi.dp(10), NUi.dp(14), NUi.dp(10));
+                r.setBackground(NUi.ripple(NUi.round(on ? NUi.mix(NTheme.accent, .14f, NTheme.surface) : NTheme.surface, 14, on ? NTheme.accent : NTheme.line2), 14));
+                TextView t = NUi.body(c, o[1], 14.5f, NTheme.text, 600); t.setSingleLine(true); t.setEllipsize(android.text.TextUtils.TruncateAt.END); r.addView(t, NUi.lpw(0, -2, 1));
+                if (on) r.addView(NUi.icon(c, "check", 16, NTheme.accent), NUi.lp(NUi.dp(16), NUi.dp(16)));
+                NUi.tap(r, new View.OnClickListener() { public void onClick(View x) {
+                    put("landing", o[0]); sh.closeSheet(); refresh(); NShell.toast(o[0].isEmpty() ? "Plotline will open on Home" : "Plotline will open on " + landName(o[0])); } });
+                int cols = gi == 0 ? 2 : 1; GridLayout.LayoutParams l = new GridLayout.LayoutParams(GridLayout.spec(i / cols), GridLayout.spec(i % cols, 1f)); l.width = 0;
+                l.setMargins(cols == 2 && i % 2 == 1 ? NUi.dp(4) : 0, i >= cols ? NUi.dp(cols == 2 ? 8 : 6) : 0, cols == 2 && i % 2 == 0 ? NUi.dp(4) : 0, 0);
+                gr.addView(r, l);
+            }
+            b.addView(gr, NUi.lp(-1, -2));
+        }
+        sh.sheet(b);
     }
 
     View miniCard(String style, String tex, int col, String area, String num, String title, boolean on) {

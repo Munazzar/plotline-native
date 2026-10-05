@@ -222,7 +222,7 @@ final class NHabitsPage extends NPage {
             int[] q = NHabits.dayRatio(habits, ds); float p = q[0] == 0 ? 0 : q[1] / (float) q[0]; wd += q[0]; wn += q[1];
             LinearLayout col = NUi.col(c); col.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM);
             View bar = new View(c); bar.setBackground(NUi.round(p > 0 ? NTheme.accent : NTheme.line2, 7, 0));
-            col.addView(bar, NUi.lp(NUi.dp(24), Math.max(NUi.dp(6), Math.round(NUi.dp(56) * p))));
+            col.addView(bar, NUi.lp(NUi.dp(24), Math.min(NUi.dp(59), Math.max(NUi.dp(6), Math.round(NUi.dp(78) * p)))));   /* web .hbars: p*100% of 78px, shrunk to fit the label */
             TextView lb = NBits.meta(c, NDates.DAYS[NDates.dow(k)].substring(0, 1), k == tn ? NTheme.text : NTheme.muted); lb.setTextSize(10); lb.setGravity(Gravity.CENTER); if (k == tn) lb.setTypeface(NFont.mono(700));
             LinearLayout.LayoutParams ll = NUi.lp(-1, -2); ll.topMargin = NUi.dp(6); col.addView(lb, ll);
             NUi.tap(col, new View.OnClickListener() { public void onClick(View v) { sh.push(new NDayScreen(sh, ds)); } });
@@ -396,7 +396,7 @@ final class NHabitsPage extends NPage {
         LinearLayout top = NUi.row(c); top.setGravity(Gravity.CENTER_VERTICAL);
         top.addView(NUi.label(c, pn + " · " + (mins > 0 ? mins + " min" : stp.length() + " steps"), NTheme.INK_MUTED), NUi.lpw(0, -2, 1));
         TextView hic = NUi.text(c, NHabits.icon(h), 18, NTheme.text); hic.setGravity(Gravity.CENTER); hic.setIncludeFontPadding(false);
-        hic.setBackground(NUi.round(NTheme.alpha(col, .16f), 12, NTheme.alpha(col, .3f))); top.addView(hic, NUi.lp(NUi.dp(36), NUi.dp(36)));
+        hic.setBackground(NUi.round(NTheme.alpha(NTheme.INK, .12f), 12, 0));   /* .tint .hic: ink 12%, no ring */ top.addView(hic, NUi.lp(NUi.dp(36), NUi.dp(36)));
         card.addView(top);
         TextView t = NUi.title(c, h.optString("title"), 30); t.setTextColor(NTheme.INK); NUi.cssLh(t, .95f);
         card.addView(t, NUi.mt(10));
@@ -453,7 +453,7 @@ final class NHabitsPage extends NPage {
         LinearLayout top = NUi.row(c); top.setGravity(Gravity.CENTER_VERTICAL);
         top.addView(NUi.ell(NUi.label(c, lim ? "Cutting down · max " + NHabits.limit(q) + (q.optString("unit").isEmpty() ? "" : " " + q.optString("unit")) + " a day" : slipped ? "Since your last slip" : "Free since " + NDates.fmtDate(NDates.ymd(NHabits.since(q))), NTheme.INK_MUTED), 1), NUi.lpw(0, -2, 1));
         TextView ic = NUi.text(c, NHabits.icon(q), 18, NTheme.text); ic.setGravity(Gravity.CENTER); ic.setIncludeFontPadding(false);
-        ic.setBackground(NUi.round(NTheme.alpha(col, .16f), 12, NTheme.alpha(col, .3f)));
+        ic.setBackground(NUi.round(NTheme.alpha(NTheme.INK, .12f), 12, 0));   /* .tint .hic: ink 12%, no ring */
         LinearLayout.LayoutParams icl = NUi.lp(NUi.dp(36), NUi.dp(36)); icl.leftMargin = NUi.dp(10); top.addView(ic, icl);
         card.addView(top);
         TextView t = NUi.title(c, q.optString("title"), 30); t.setTextColor(NTheme.INK); NUi.cssLh(t, .95f);

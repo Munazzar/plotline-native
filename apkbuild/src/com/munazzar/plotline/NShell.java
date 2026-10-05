@@ -60,7 +60,7 @@ final class NShell implements NStore.Listener {
 
     boolean wide() { return a.getResources().getConfiguration().screenWidthDp >= 600; }
 
-    String lookKey() { JSONObject s = st.settings(); return s.optString("theme") + "|" + s.optString("cards") + "|" + s.optString("cardBg") + "|" + s.optString("cardImg").length() + "|" + s.optString("accent") + "|" + s.optString("halo", "high") + s.optBoolean("haloBright") + s.optBoolean("haloPulse") + "|" + String.valueOf(s.optJSONObject("font")) + "|" + s.optBoolean("matchSystem") + "|" + NTheme.systemNight(a); }
+    String lookKey() { JSONObject s = st.settings(); return s.optString("theme") + "|" + s.optString("cards") + "|" + s.optString("cardBg") + "|" + s.optString("cardImg").length() + "|" + s.optString("accent") + "|" + s.optString("halo", "high") + s.optBoolean("haloBright") + s.optBoolean("haloPulse") + "|" + String.valueOf(s.optJSONObject("font")) + "|" + s.optBoolean("matchSystem") + "|" + NTheme.systemNight(a) + "|" + s.optString("wall") + s.opt("wallStr") + s.optBoolean("wallMove") + s.optString("motion"); }
 
     void build() {
         JSONObject set = st.settings();
@@ -68,7 +68,7 @@ final class NShell implements NStore.Listener {
         int keepPage = pager != null ? pager.page : 0;
         if (nroot != null) root.removeView(nroot);
         nroot = new FrameLayout(a);
-        nroot.setBackgroundColor(NTheme.bg);
+        nroot.setBackground(new NWall(st.settings(), NFx.reduced(this)));   /* theme background + 1.13 wallpaper */
         content = new FrameLayout(a);
         nroot.addView(content, new FrameLayout.LayoutParams(-1, -1));
         pager = new NPager(a);
@@ -297,7 +297,7 @@ final class NShell implements NStore.Listener {
         if (classic) hideClassic();
         View v = p.view();
         p.pad(); p.refresh();
-        v.setBackgroundColor(NTheme.bg);
+        v.setBackground(new NWall(st.settings(), NFx.reduced(this)));
         stackLayer.addView(v, new FrameLayout.LayoutParams(-1, -1));
         stack.add(p);
         syncNav();
@@ -384,7 +384,7 @@ final class NShell implements NStore.Listener {
         if (!classic || a.lockShown) return;
         classic = false;
         hideKeyboard();
-        nroot.setBackgroundColor(NTheme.bg);
+        nroot.setBackground(new NWall(st.settings(), NFx.reduced(this)));   /* theme background + 1.13 wallpaper */
         content.setVisibility(View.VISIBLE); content.setAlpha(0f);
         content.animate().alpha(1f).setDuration(200).setListener(null).start();
         a.web.postDelayed(new Runnable() { public void run() { if (!classic) a.web.setVisibility(View.INVISIBLE); } }, 220);

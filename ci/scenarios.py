@@ -73,6 +73,15 @@ def scenarios(state):
         ('54-journal-timeline', 'journal', [('css:[aria-label="Timeline"]', 'desc:vert')]),
         ('55-threads-timeline', 'threads', []),
         ('56-journal-cards', 'journal', [('css:[aria-label="Cards side by side"]', 'desc:horz')]),
+        # behaviour: taps that change something, so both sides can be compared after the change
+        ('60-picker-horizon', 'goals', [('css:[aria-label="New goal"]', 'desc:plus'), ('css:#sheet select[name=horizon]', 'text:This month')]),
+        ('61-today-done', 'today', [('css:#view .btn.pri[data-act=hTap]', 'text:Done')]),
+        ('62-settings-fold', 'settings/look', [('css:#view .fold>h3', 'text:THEME')]),
+    ]
+    if g:
+        nx = next((s for s in g.get('steps', []) if not s.get('done')), None)
+        if nx: L.append(('63-step-flip', 'goal/' + g['id'], [('css:#view .hs-item.cur .sc-front', 'text:' + nx['title'].upper())]))
+    L += [
         ('59-fullscreen', 'today', [('css:#view .fsb', 'desc:full')]),   # last: full screen stays on
     ]
     return L

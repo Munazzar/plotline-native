@@ -90,7 +90,15 @@ final class NHs {
         final Snap hs = new Snap(c); hs.setHorizontalScrollBarEnabled(false); hs.setClipToPadding(false); hs.setOverScrollMode(View.OVER_SCROLL_NEVER);
         hs.setPadding(0, NUi.dp(34), 0, NUi.dp(10));   /* web .hs padding:34px 0 10px */
         hs.step = W + gap; hs.pad = pad;
-        final int lineY = cardH + NUi.dp(26) + node / 2;   /* inside the row (the scroller's top padding is outside it) */
+        /* web .hs-card is aspect-ratio 4/5 but grows when its content needs more room. Every card gets its own height;
+           the stems stretch so all nodes stay on one line (the web leaves taller cards' nodes below its line). */
+        final int[] hs_ = new int[items.size()]; int maxH = cardH;
+        for (int k = 0; k < items.size(); k++) {
+            View cd = items.get(k).card; int h = cardH;
+            try { cd.measure(View.MeasureSpec.makeMeasureSpec(W, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)); h = Math.max(cardH, cd.getMeasuredHeight()); } catch (Exception ignored) { }
+            hs_[k] = h; maxH = Math.max(maxH, h);
+        }
+        final int lineY = maxH + NUi.dp(26) + node / 2;   /* inside the row (the scroller's top padding is outside it) */
         /* the dashed line and the glowing fill behind the nodes */
         final int[] fillTo = {0};
         final LinearLayout row = new LinearLayout(c) {
@@ -110,12 +118,12 @@ final class NHs {
         for (int k = 0; k < items.size(); k++) {
             Item x = items.get(k);
             LinearLayout it = NUi.col(c); it.setGravity(Gravity.CENTER_HORIZONTAL); it.setClipChildren(false);
-            x.card.setPivotX(W / 2f); x.card.setPivotY(cardH * .6f); x.card.setCameraDistance(1400 * c.getResources().getDisplayMetrics().density * 3);
+            x.card.setPivotX(W / 2f); x.card.setPivotY(hs_[k] * .6f); x.card.setCameraDistance(1400 * c.getResources().getDisplayMetrics().density * 3);
             Gate gt = new Gate(c, hs, k); gt.addView(x.card, new FrameLayout.LayoutParams(-1, -1));
-            it.addView(gt, new LinearLayout.LayoutParams(W, cardH));
+            it.addView(gt, new LinearLayout.LayoutParams(W, hs_[k]));
             if (x.add) { LinearLayout.LayoutParams il = new LinearLayout.LayoutParams(W, -2); il.rightMargin = gap; row.addView(it, il); cards.add(x.card); its.add(it); continue; }
             View stem = new View(c); stem.setBackground(new android.graphics.drawable.GradientDrawable(android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM, new int[]{NTheme.alpha(x.col, .85f), 0}));
-            LinearLayout.LayoutParams sl = new LinearLayout.LayoutParams(NUi.dp(2), NUi.dp(24)); sl.topMargin = NUi.dp(2); it.addView(stem, sl);
+            LinearLayout.LayoutParams sl = new LinearLayout.LayoutParams(NUi.dp(2), NUi.dp(24) + maxH - hs_[k]); sl.topMargin = NUi.dp(2); it.addView(stem, sl);
             FrameLayout nd = new FrameLayout(c); Node nv = new Node(c, x.col, x.done); nv.cur = x.cur; nv.anim = !NFx.reduced(sh); nd.addView(nv, new FrameLayout.LayoutParams(-1, -1));
             if (x.check && x.done) nd.addView(NUi.icon(c, "check", 14, NTheme.INK), new FrameLayout.LayoutParams(NUi.dp(14), NUi.dp(14), Gravity.CENTER));
             if (x.tap != null) NUi.tap(nd, x.tap);

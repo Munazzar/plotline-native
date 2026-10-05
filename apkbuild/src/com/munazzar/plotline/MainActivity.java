@@ -189,6 +189,13 @@ public class MainActivity extends Activity {
                 JSONObject st0 = NStore.get(this).settings();
                 /* brand-new: the web welcome and setup run first; first launch after the update: the engine moves the data over */
                 if (!st0.optBoolean("onboarded")) { final NShell fs = shell; root.post(new Runnable() { public void run() { NWelcome.run(fs); } }); }
+                /* web landHere: open on the chosen start page (settings.landing) unless something else asked for a page */
+                if (state == null && st0.optBoolean("onboarded") && getIntent().getStringExtra("route") == null) {
+                    String L = st0.optString("landing", ""); if (L.equals("day/__today")) L = "day/" + NDates.ymd();
+                    String[] p = L.split("/"); NStore ns = NStore.get(this);
+                    boolean ok = !L.isEmpty() && !(p.length > 1 && ((p[0].equals("thread") && ns.find("threads", p[1]) == null) || (p[0].equals("habit") && ns.find("habits", p[1]) == null) || (p[0].equals("goal") && ns.find("goals", p[1]) == null)));
+                    if (ok) shell.route(L);
+                }
                 if (lockOn()) showLock();
                 /* a clean start clears the crash counter (two crashes in a row fall back to the classic app) */
                 root.postDelayed(new Runnable() { public void run() { NCrash.p(MainActivity.this).edit().putInt("crashes", 0).apply(); } }, 15000);

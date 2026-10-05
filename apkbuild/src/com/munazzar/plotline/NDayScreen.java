@@ -220,7 +220,7 @@ final class NDayScreen extends NPage {
         LinearLayout ctl = NUi.row(c);
         if (quit && NHabits.limitMode(h)) {
             JSONObject lg = h.optJSONObject("log"); final int cnt = lg == null ? 0 : lg.optInt(ds, 0);
-            st1 = cnt + " of " + NHabits.limit(h) + (cnt > NHabits.limit(h) ? " · over" : "");
+            st1 = cnt + " of " + NHabits.limit(h) + (h.optString("unit").isEmpty() ? "" : " " + h.optString("unit")) + (cnt > NHabits.limit(h) ? " · over" : "");
             if (!fut) { ctl.addView(NBits.sbtn(c, "minus", new View.OnClickListener() { public void onClick(View x) { lim(h, -1); } })); LinearLayout.LayoutParams l = NUi.lp(NUi.dp(36), NUi.dp(36)); l.leftMargin = NUi.dp(6); ctl.addView(NBits.sbtn(c, "plus", new View.OnClickListener() { public void onClick(View x) { lim(h, 1); } }), l); }
         } else if (quit) {
             int sl = slipsOn(h).size();
