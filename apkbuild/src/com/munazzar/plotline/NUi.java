@@ -230,4 +230,18 @@ final class NUi {
     static void clear(ViewGroup g) { g.removeAllViews(); }
 
     static int col(String hex, int def) { try { return Color.parseColor(hex); } catch (Exception e) { return def; } }
+
+    /* CSS line-height for a TextView (e.g. font: 800 84px/.82): every line box is exactly lh x font size,
+       with the extra (or missing) space split above and below like CSS half-leading. Glyphs may overflow. */
+    static final class CssLh implements android.text.style.LineHeightSpan {
+        final int px; CssLh(int px) { this.px = px; }
+        @Override public void chooseHeight(CharSequence t, int s, int e, int sv, int v, android.graphics.Paint.FontMetricsInt fm) {
+            int d = (fm.descent - fm.ascent) - px; fm.ascent += d / 2; fm.descent = fm.ascent + px; fm.top = fm.ascent; fm.bottom = fm.descent;
+        }
+    }
+    static TextView cssLh(TextView t, float lh) {
+        android.text.SpannableString ss = new android.text.SpannableString(t.getText());
+        ss.setSpan(new CssLh(Math.round(t.getTextSize() * lh)), 0, ss.length(), android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        t.setIncludeFontPadding(false); t.setFallbackLineSpacing(false); t.setLineSpacing(0, 1f); t.setText(ss); return t;
+    }
 }

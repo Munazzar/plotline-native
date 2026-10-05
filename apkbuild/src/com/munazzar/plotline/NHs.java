@@ -20,7 +20,7 @@ import java.util.Map;
 /* The web hsShell: one big 4:5 card at a time, centred and snapping, neighbours turned and faded (hsFx), a stem and
    a glowing node under each card on a dashed line, a label, and ‹ 01 / 23 › underneath. Used by Goals and Journal. */
 final class NHs {
-    static final class Item { View card; int col; boolean done, stat; String label; }
+    static final class Item { View card; int col; boolean done, stat, add, check; String label; View.OnClickListener tap; }
 
     static final Map<String, Integer> HSP = new HashMap<>();
 
@@ -106,9 +106,13 @@ final class NHs {
             x.card.setPivotX(W / 2f); x.card.setPivotY(cardH * .6f); x.card.setCameraDistance(1400 * c.getResources().getDisplayMetrics().density * 3);
             Gate gt = new Gate(c, hs, k); gt.addView(x.card, new FrameLayout.LayoutParams(-1, -1));
             it.addView(gt, new LinearLayout.LayoutParams(W, cardH));
+            if (x.add) { LinearLayout.LayoutParams il = new LinearLayout.LayoutParams(W, -2); il.rightMargin = gap; row.addView(it, il); cards.add(x.card); its.add(it); continue; }
             View stem = new View(c); stem.setBackground(new android.graphics.drawable.GradientDrawable(android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM, new int[]{NTheme.alpha(x.col, .85f), 0}));
             LinearLayout.LayoutParams sl = new LinearLayout.LayoutParams(NUi.dp(2), NUi.dp(24)); sl.topMargin = NUi.dp(2); it.addView(stem, sl);
-            it.addView(new Node(c, x.col, x.done), new LinearLayout.LayoutParams(node + NUi.dp(40), node + NUi.dp(40)));
+            FrameLayout nd = new FrameLayout(c); nd.addView(new Node(c, x.col, x.done), new FrameLayout.LayoutParams(-1, -1));
+            if (x.check && x.done) nd.addView(NUi.icon(c, "check", 14, NTheme.INK), new FrameLayout.LayoutParams(NUi.dp(14), NUi.dp(14), Gravity.CENTER));
+            if (x.tap != null) NUi.tap(nd, x.tap);
+            it.addView(nd, new LinearLayout.LayoutParams(node + NUi.dp(40), node + NUi.dp(40)));
             ((LinearLayout.LayoutParams) it.getChildAt(2).getLayoutParams()).topMargin = -NUi.dp(20); ((LinearLayout.LayoutParams) it.getChildAt(2).getLayoutParams()).bottomMargin = -NUi.dp(20);
             TextView lb = NBits.meta(c, x.label == null ? "" : x.label.toUpperCase(), NTheme.muted); lb.setGravity(Gravity.CENTER); lb.setSingleLine(true); lb.setPadding(0, NUi.dp(10), 0, 0);
             it.addView(lb, new LinearLayout.LayoutParams(W, -2));
@@ -119,7 +123,7 @@ final class NHs {
         }
         row.addView(new View(c), new LinearLayout.LayoutParams(pad, 1));
         hs.addView(row);
-        final int ld = lastDone;
+        final int ld = lastDone; int real0 = 0; for (Item x : items) if (!x.add) real0++; final int real = Math.max(1, real0);
         final TextView count = NBits.meta(c, "", NTheme.muted); count.setGravity(Gravity.CENTER);
         final boolean red = NFx.reduced(sh);
         hs.fx = new Runnable() { public void run() {
@@ -131,7 +135,7 @@ final class NHs {
                 if (!red) { cd.setRotationY(Math.max(-1, Math.min(1, d)) * -10); float s = 1 - a * .1f; cd.setScaleX(s); cd.setScaleY(s); cd.setAlpha(1 - a * .45f); }
             }
             HSP.put(key, best);
-            count.setText(String.format(java.util.Locale.US, "%02d / %02d", Math.min(best + 1, its.size()), its.size()));
+            count.setText(String.format(java.util.Locale.US, "%02d / %02d", Math.min(best + 1, real), real));   /* web hs-count leaves out "Add" cards */
             if (ld >= 0 && fillTo[0] == 0) { View it = its.get(ld); fillTo[0] = it.getLeft() + W / 2; row.invalidate(); }
         } };
         final int st = HSP.containsKey(key) ? HSP.get(key) : start;

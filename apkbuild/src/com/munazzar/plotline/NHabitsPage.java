@@ -22,10 +22,21 @@ final class NHabitsPage extends NPage {
     void newHabit() {
         final NForms F = new NForms(sh);
         LinearLayout b = F.sheetBody("New", "What do you want to work on?", null);
-        NMore.add(b, NMore.row(c, "🌱", "Build a habit", "Something to do daily or a few times a week", false, new View.OnClickListener() { public void onClick(View v) { sh.closeSheet(); F.habit(null, "build"); } }));
-        NMore.add(b, NMore.row(c, "🛡️", "Break a habit", "Stop completely, or cut down to a daily limit", false, new View.OnClickListener() { public void onClick(View v) { sh.closeSheet(); F.habit(null, "quit"); } }));
-        NMore.add(b, NMore.row(c, "🔁", "Create a routine", "A short sequence with a guided timer", false, new View.OnClickListener() { public void onClick(View v) { sh.closeSheet(); v.postDelayed(new Runnable() { public void run() { NHabitForm.open(sh, null, "routine", null); } }, 300); } }));
-        NMore.add(b, NMore.row(c, "📚", "Start from a template", "Pick one, adjust anything, save", false, new View.OnClickListener() { public void onClick(View v) { sh.closeSheet(); NHabitForm.templates(sh); } }));
+        /* web: three big .tpl rows (emoji in a 46 tile), then every template section */
+        String[][] K = {{"build", "🌱", "Build a habit", "Something to do daily or a few times a week"}, {"quit", "🛡️", "Break a habit", "Stop completely, or cut down to a daily limit"}, {"routine", "🔁", "Create a routine", "A short sequence with a guided timer"}};
+        for (int i = 0; i < K.length; i++) {
+            final String k = K[i][0];
+            LinearLayout r = NUi.row(c); r.setGravity(Gravity.CENTER_VERTICAL); r.setPadding(NUi.dp(16), NUi.dp(16), NUi.dp(16), NUi.dp(16));
+            r.setBackground(NUi.ripple(NUi.round(NTheme.surface, 18, NTheme.line), 18));
+            TextView ic = NUi.text(c, K[i][1], 23, NTheme.text); ic.setGravity(Gravity.CENTER); ic.setIncludeFontPadding(false);
+            ic.setBackground(NUi.round(NTheme.alpha(NTheme.accent, .16f), 15, NTheme.alpha(NTheme.accent, .3f))); r.addView(ic, NUi.lp(NUi.dp(46), NUi.dp(46)));
+            LinearLayout tx = NUi.col(c); tx.setPadding(NUi.dp(12), 0, 0, 0);
+            tx.addView(NUi.body(c, K[i][2], 14.5f, NTheme.text, 600)); tx.addView(NUi.text(c, K[i][3], 12.5f, NTheme.muted));
+            r.addView(tx, NUi.lpw(0, -2, 1));
+            NUi.tap(r, new View.OnClickListener() { public void onClick(View v) { sh.closeSheet(); v.postDelayed(new Runnable() { public void run() { NHabitForm.open(sh, null, k, null); } }, 300); } });
+            b.addView(r, NUi.mt(i == 0 ? 16 : 10));
+        }
+        NHabitForm.tplGrid(sh, b, null);
         sh.sheet(b);
     }
 

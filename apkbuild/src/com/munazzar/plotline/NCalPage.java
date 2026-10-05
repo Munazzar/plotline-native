@@ -406,12 +406,11 @@ final class NCalPage extends NPage {
         List<It> any = new ArrayList<>(), ev = new ArrayList<>();
         for (It i : it) { if (i.time.isEmpty()) any.add(i); else ev.add(i); }
         if (!any.isEmpty()) {
-            LinearLayout ar = NUi.row(c); ar.setGravity(Gravity.TOP);
-            TextView lb = NBits.meta(c, "ANYTIME", NTheme.muted); lb.setTextSize(10.5f); lb.setPadding(NUi.dp(2), NUi.dp(8), NUi.dp(10), 0); ar.addView(lb);
+            /* web .tg-all: one wrapping row, the "Anytime" label is its first item */
             NFlow fl = new NFlow(c, 6, 6);
+            TextView lb = NBits.meta(c, "ANYTIME", NTheme.muted); lb.setTextSize(10.5f); lb.setPadding(0, 0, NUi.dp(4), 0); fl.addView(lb, new ViewGroup.MarginLayoutParams(-2, -2));
             for (It i : any) fl.addView(chip(i), new ViewGroup.MarginLayoutParams(-2, -2));
-            ar.addView(fl, new LinearLayout.LayoutParams(0, -2, 1));
-            card.addView(ar, NUi.mt(16));
+            card.addView(fl, NUi.mt(16));
         }
         LinearLayout tools = NUi.row(c); tools.setPadding(NUi.dp(2), 0, NUi.dp(2), 0);
         TextView td = NBits.meta(c, ev.isEmpty() ? "TAP A TIME SLOT TO PLAN IT" : ev.size() + " SCHEDULED", NTheme.muted); td.setTextSize(10.5f); tools.addView(td, NUi.lpw(0, -2, 1));
@@ -431,7 +430,7 @@ final class NCalPage extends NPage {
         final TG tg = new TG(c, pp, n == tn, ev);
         gs.addView(tg, new FrameLayout.LayoutParams(-1, -2));
         card.addView(gs, NUi.lp(-1, NUi.dp(hDp)));
-        final float[] ty0 = {0};
+        final float[] ty0 = {0}; final int[] hNow = {NUi.dp(hDp)};
         tg.setOnTouchListener(new View.OnTouchListener() { public boolean onTouch(View v, MotionEvent e) { if (e.getActionMasked() == MotionEvent.ACTION_DOWN) ty0[0] = e.getY(); return false; } });
         tg.setOnClickListener(new View.OnClickListener() { public void onClick(View x) {
             int m = Math.round((ty0[0] - NUi.dp(12)) / tg.ppx / 30f) * 30; m = Math.max(0, Math.min(23 * 60 + 30, m));
@@ -440,8 +439,14 @@ final class NCalPage extends NPage {
         int first = 450;
         if (n == tn) { Calendar k = Calendar.getInstance(); first = k.get(Calendar.HOUR_OF_DAY) * 60 + k.get(Calendar.MINUTE) - 90; }
         else if (!ev.isEmpty()) { String t = ev.get(0).time; first = Integer.parseInt(t.substring(0, 2)) * 60 + Integer.parseInt(t.substring(3, 5)) - 45; }
-        final int ty = Math.max(0, Math.round(first * pp * NUi.dp(1)));
-        gs.post(new Runnable() { public void run() { gs.scrollTo(0, ty); } });
+        final int ty = Math.max(0, Math.round(first * pp * NUi.density));
+        /* web fitCal: the grid runs down to just above the tab bar (at least 260) */
+        gs.post(new Runnable() { public void run() {
+            int top = 0, winH = 0; View v = gs;
+            while (v.getParent() instanceof View) { top += v.getTop(); View p = (View) v.getParent(); if (p instanceof ScrollView && p != gs) { winH = p.getHeight(); break; } v = p; }
+            if (winH > 0) { int h = Math.max(NUi.dp(260), winH - top - NUi.dp(108)); if (h != gs.getHeight()) { gs.getLayoutParams().height = h; gs.requestLayout(); } }
+            gs.post(new Runnable() { public void run() { gs.scrollTo(0, ty); } });
+        } });
     }
 
     static final class Ring extends View {
@@ -459,7 +464,7 @@ final class NCalPage extends NPage {
     final class TG extends ViewGroup {
         final float ppx; final boolean today; final List<It> ev; final int[][] geo; final Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
         TG(Context ctx, float ppm, boolean today, List<It> ev) {
-            super(ctx); this.ppx = ppm * NUi.dp(1); this.today = today; this.ev = ev; setWillNotDraw(false);
+            super(ctx); this.ppx = ppm * NUi.density; this.today = today; this.ev = ev; setWillNotDraw(false);
             geo = new int[ev.size()][4];
             List<Integer> order = new ArrayList<>(); for (int i = 0; i < ev.size(); i++) order.add(i);
             for (int i = 0; i < ev.size(); i++) {
@@ -477,6 +482,8 @@ final class NCalPage extends NPage {
             }
             for (int i = 0; i < ev.size(); i++) addView(eventView(ev.get(i), geo[i]));
         }
+        /* web hourLbl: "8 PM" (12 h) or "20" (24 h), like toLocaleTimeString({hour:'numeric'}) */
+        String hourLbl(int h) { if (android.text.format.DateFormat.is24HourFormat(c)) return String.format(Locale.US, "%02d", h); return (h % 12 == 0 ? 12 : h % 12) + (h < 12 ? " AM" : " PM"); }
         int mins(String t) { try { return Integer.parseInt(t.substring(0, 2)) * 60 + Integer.parseInt(t.substring(3, 5)); } catch (Exception e) { return 0; } }
         String mm(int m) { return NDates.fmtTime(String.format(Locale.US, "%02d:%02d", (m / 60) % 24, m % 60)); }
         View eventView(final It x, int[] g) {
@@ -522,7 +529,7 @@ final class NCalPage extends NPage {
                 p.setColor(NTheme.line); p.setPathEffect(null); cv.drawLine(0, y, W, y, p);
                 p.setColor(NTheme.alpha(NTheme.line, .8f)); p.setPathEffect(new android.graphics.DashPathEffect(new float[]{NUi.dp(4), NUi.dp(3)}, 0));
                 float hy = top + (i * 60 + 30) * ppx; cv.drawLine(NUi.dp(62), hy, W, hy, p); p.setPathEffect(null);
-                String lbl = NDates.fmtTime(String.format(Locale.US, "%02d:00", i)).toUpperCase();
+                String lbl = hourLbl(i);
                 float tw = tp.measureText(lbl); Paint bg = new Paint(); bg.setColor(NTheme.bg2);
                 cv.drawRect(NUi.dp(10), y - NUi.dp(7), NUi.dp(10) + tw + NUi.dp(6), y + NUi.dp(6), bg);
                 cv.drawText(lbl, NUi.dp(10), y + NUi.dp(3), tp);

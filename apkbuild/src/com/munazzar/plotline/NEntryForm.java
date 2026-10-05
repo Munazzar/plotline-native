@@ -138,11 +138,14 @@ final class NEntryForm {
         return t;
     }
 
+    /* web writeSheet: status + same-day pills, a big display-font title on a line, mood tiles, a toolbar box,
+       the editor, date + goal, photo + private, Delete / Done */
     void show() {
         final boolean ed0 = e != null;
-        LinearLayout b = F.sheetBody("Journal", ed0 ? "Edit moment" : "Write a moment", null);
-        /* top: status + same-day entries */
-        stat = NUi.body(c, ed0 ? "Saved" : "New entry · starts saving as you write", 12, NTheme.muted, 600); b.addView(stat);
+        LinearLayout b = NUi.col(c);
+        /* top: status + same-day entries + New */
+        LinearLayout top = NUi.col(c);
+        stat = NJCards.data(c, ed0 ? "Saved" : "New entry · starts saving as you write", NTheme.muted); top.addView(stat);
         HorizontalScrollView hs = new HorizontalScrollView(c); hs.setHorizontalScrollBarEnabled(false);
         LinearLayout pr = NUi.row(c); hs.addView(pr);
         List<JSONObject> sib = new ArrayList<>(); JSONArray all = sh.st.arr("entries");
@@ -150,65 +153,123 @@ final class NEntryForm {
         java.util.Collections.sort(sib, new java.util.Comparator<JSONObject>() { public int compare(JSONObject p, JSONObject q) { return Long.compare(p.optLong("t"), q.optLong("t")); } });
         for (int i = 0; i < sib.size(); i++) {
             final JSONObject x = sib.get(i); String t0 = x.optString("title"); if (t0.isEmpty()) t0 = "Entry " + (i + 1); if (t0.length() > 18) t0 = t0.substring(0, 17) + "…";
-            String m0 = NStore.s(x, "mood");
-            LinearLayout.LayoutParams l = NUi.lp(-2, -2); l.rightMargin = NUi.dp(8);
-            pr.addView(NUi.chip(c, (m0.isEmpty() ? "" : m0 + " ") + t0, e != null && x.optString("id").equals(e.optString("id")), new View.OnClickListener() { public void onClick(View v) { if (e == null || !x.optString("id").equals(e.optString("id"))) reopen(x, null); } }), l);
+            String m0 = NStore.s(x, "mood"); boolean on = e != null && x.optString("id").equals(e.optString("id"));
+            TextView pl = NUi.body(c, (m0.isEmpty() ? "" : m0 + " ") + t0, 12.5f, on ? NTheme.bg : NTheme.text, 600); pl.setGravity(Gravity.CENTER); pl.setPadding(NUi.dp(12), 0, NUi.dp(12), 0);
+            pl.setBackground(NUi.ripple(on ? NUi.round(NTheme.text, 99, 0) : NUi.round(NTheme.surface, 99, NTheme.line2), 99));
+            NUi.tap(pl, new View.OnClickListener() { public void onClick(View v) { if (e == null || !x.optString("id").equals(e.optString("id"))) reopen(x, null); } });
+            LinearLayout.LayoutParams l = NUi.lp(-2, NUi.dp(32)); l.rightMargin = NUi.dp(6); pr.addView(pl, l);
         }
-        pr.addView(NUi.chip(c, "+ New", false, new View.OnClickListener() { public void onClick(View v) { reopen(null, day); } }));
-        b.addView(hs, NUi.mt(8));
-        title = NForms.input(c, "Title · e.g. Morning gratitude, Late-night vent", ed0 ? e.optString("title") : "", false);
+        TextView add = NUi.body(c, "New", 12.5f, NTheme.accent, 600); add.setGravity(Gravity.CENTER); add.setPadding(NUi.dp(12), 0, NUi.dp(12), 0);
+        add.setCompoundDrawablesRelative(NUi.iconD("plus", 14, NTheme.accent), null, null, null); add.setCompoundDrawablePadding(NUi.dp(4));
+        add.setBackground(NUi.ripple(NUi.dashed(NTheme.surface, 99, NTheme.line2, 1), 99));
+        NUi.tap(add, new View.OnClickListener() { public void onClick(View v) { reopen(null, day); } });
+        pr.addView(add, NUi.lp(-2, NUi.dp(32)));
+        top.addView(hs, NUi.mt(8));
+        b.addView(top);
+        /* title: display font, uppercase, a line under it */
+        title = new EditText(c); title.setText(ed0 ? e.optString("title") : "");
+        title.setHint("TITLE · E.G. MORNING GRATITUDE, LATE-NIGHT VENT"); title.setHintTextColor(NTheme.muted); title.setTextColor(NTheme.text);
+        title.setTypeface(NFont.display(800)); title.setTextSize(26); title.setSingleLine(true);
+        title.setFilters(new android.text.InputFilter[]{new android.text.InputFilter.LengthFilter(90)});
+        title.setAllCaps(true);   /* shown in capitals like the web's text-transform; stored as typed */
+        title.setPadding(NUi.dp(2), NUi.dp(6), NUi.dp(2), NUi.dp(6));
+        title.setBackground(new android.graphics.drawable.LayerDrawable(new android.graphics.drawable.Drawable[]{new android.graphics.drawable.ColorDrawable(NTheme.line)}) { { setLayerHeight(0, Math.max(1, NUi.dp(1))); setLayerGravity(0, Gravity.BOTTOM); } });
         b.addView(title, NUi.mt(12));
         title.addTextChangedListener(new TextWatcher() { public void beforeTextChanged(CharSequence s, int a, int b2, int c2) { } public void onTextChanged(CharSequence s, int a, int b2, int c2) { } public void afterTextChanged(Editable s) { soon(); } });
-        /* mood */
-        final String[] mo = {mood};
-        b.addView(F.fieldLabel(c, "Mood"));
-        b.addView(NForms.choice(c, new String[][]{{"", "None"}, {"😊", "😊 Calm"}, {"😄", "😄 Energized"}, {"🙏", "🙏 Grateful"}, {"😐", "😐 Okay"}, {"😔", "😔 Low"}, {"😟", "😟 Anxious"}, {"😡", "😡 Frustrated"}, {"😴", "😴 Tired"}}, mo, new Runnable() { public void run() { mood = mo[0]; soon(); } }));
-        /* toolbar */
-        HorizontalScrollView th = new HorizontalScrollView(c); th.setHorizontalScrollBarEnabled(false);
-        LinearLayout tb = NUi.row(c); th.addView(tb);
-        final int[] ks = {0, 1, 2, 3, 5, 4}; String[] ls = {"B", "I", "U", "H", "•", "Tx"}; int[] sy = {Typeface.BOLD, Typeface.ITALIC, 0, 0, 0, 0};
-        for (int i = 0; i < ks.length; i++) { final int k = ks[i]; LinearLayout.LayoutParams l = NUi.lp(NUi.dp(46), NUi.dp(40)); l.rightMargin = NUi.dp(8);
-            TextView t = tool(ls[i], sy[i], new Runnable() { public void run() { fmt(k); } }); t.setPadding(0, 0, 0, 0); tb.addView(t, l); }
-        LinearLayout.LayoutParams pl = NUi.lp(-2, NUi.dp(40)); pl.leftMargin = NUi.dp(6);
-        tb.addView(tool("✨ Prompt", 0, new Runnable() { public void run() { prompt(); } }), pl);
-        b.addView(th, NUi.mt(14));
-        ed = NForms.input(c, "Write freely. Bold it, underline it, highlight the parts that matter.", "", true); ed.setMinLines(6);
+        /* mood tiles (tap again to clear) */
+        final String[][] MO = {{"😊", "Calm"}, {"😄", "Energized"}, {"🙏", "Grateful"}, {"😐", "Okay"}, {"😔", "Low"}, {"😟", "Anxious"}, {"😡", "Frustrated"}, {"😴", "Tired"}};
+        HorizontalScrollView mh = new HorizontalScrollView(c); mh.setHorizontalScrollBarEnabled(false);
+        final LinearLayout mr = NUi.row(c); mh.addView(mr);
+        final List<LinearLayout> tiles = new ArrayList<>();
+        final Runnable paintM = new Runnable() { public void run() {
+            for (int i = 0; i < tiles.size(); i++) { boolean on = MO[i][0].equals(mood); LinearLayout t = tiles.get(i);
+                t.setBackground(NUi.ripple(NUi.round(on ? NUi.mix(NTheme.accent, .14f, NTheme.surface) : NTheme.surface, 16, on ? NTheme.accent : NTheme.line), 16));
+                ((TextView) t.getChildAt(0)).setScaleX(on ? 1.18f : 1f); ((TextView) t.getChildAt(0)).setScaleY(on ? 1.18f : 1f);
+                ((TextView) t.getChildAt(1)).setTextColor(on ? NTheme.text : NTheme.muted); }
+        } };
+        for (final String[] m : MO) {
+            LinearLayout t = NUi.col(c); t.setGravity(Gravity.CENTER_HORIZONTAL); t.setPadding(0, NUi.dp(8), 0, NUi.dp(6));
+            TextView em = NUi.text(c, m[0], 22, NTheme.text); em.setIncludeFontPadding(false); t.addView(em);
+            TextView lb = NUi.body(c, m[1], 10.5f, NTheme.muted, 600); lb.setPadding(0, NUi.dp(4), 0, 0); t.addView(lb);
+            NUi.tap(t, new View.OnClickListener() { public void onClick(View v) { mood = mood.equals(m[0]) ? "" : m[0]; paintM.run(); NUi.haptic(v); soon(); } });
+            LinearLayout.LayoutParams l = NUi.lp(NUi.dp(62), -2); l.rightMargin = NUi.dp(6); mr.addView(t, l); tiles.add(t);
+        }
+        paintM.run();
+        b.addView(mh, NUi.mt(12));
+        /* toolbar box */
+        LinearLayout tb = NUi.row(c); tb.setGravity(Gravity.CENTER_VERTICAL); tb.setPadding(NUi.dp(4), NUi.dp(4), NUi.dp(4), NUi.dp(4));
+        tb.setBackground(NUi.round(NTheme.surface, 14, NTheme.line));
+        final int[] ks = {0, 1, 2, 3, 5, 4};
+        for (int i = 0; i < ks.length; i++) {
+            final int k = ks[i]; View t;
+            if (k == 5) { android.widget.FrameLayout f = new android.widget.FrameLayout(c); f.addView(NUi.icon(c, "menu", 17, NTheme.text), new android.widget.FrameLayout.LayoutParams(NUi.dp(17), NUi.dp(17), Gravity.CENTER)); t = f; }
+            else {
+                TextView tv = NUi.body(c, k == 0 ? "B" : k == 1 ? "I" : k == 2 ? "U" : k == 3 ? "H" : "Tx", 15, NTheme.text, k == 0 || k == 3 ? 800 : 600); tv.setGravity(Gravity.CENTER);
+                if (k == 1) tv.setTypeface(tv.getTypeface(), Typeface.ITALIC);
+                if (k == 2) tv.setPaintFlags(tv.getPaintFlags() | android.graphics.Paint.UNDERLINE_TEXT_FLAG);
+                if (k == 3) { android.text.SpannableString hs2 = new android.text.SpannableString(" H "); hs2.setSpan(new BackgroundColorSpan(0xFFFFE36E), 0, 3, 0); hs2.setSpan(new android.text.style.ForegroundColorSpan(0xFF1B1300), 0, 3, 0); tv.setText(hs2); }
+                t = tv;
+            }
+            t.setBackground(NUi.ripple(NUi.round(0, 10, 0), 10));
+            NUi.tap(t, new View.OnClickListener() { public void onClick(View v) { fmt(k); } });
+            tb.addView(t, NUi.lp(NUi.dp(38), NUi.dp(36)));
+        }
+        tb.addView(new View(c), NUi.lpw(0, 1, 1));
+        TextView pr2 = NUi.body(c, "Prompt", 13.5f, NTheme.accent, 600); pr2.setGravity(Gravity.CENTER); pr2.setPadding(NUi.dp(8), 0, NUi.dp(8), 0);
+        pr2.setCompoundDrawablesRelative(NUi.iconD("ai", 17, NTheme.accent), null, null, null); pr2.setCompoundDrawablePadding(NUi.dp(6));
+        pr2.setBackground(NUi.ripple(NUi.round(0, 10, 0), 10));
+        NUi.tap(pr2, new View.OnClickListener() { public void onClick(View v) { prompt(); } });
+        tb.addView(pr2, NUi.lp(-2, NUi.dp(36)));
+        b.addView(tb, NUi.mt(12));
+        /* editor: 34% of the screen tall, accent border while writing */
+        ed = NForms.input(c, "Write freely. Bold it, underline it, highlight the parts that matter.", "", true);
+        ed.setTextSize(16.5f); ed.setLineSpacing(0, 1.4f); ed.setGravity(Gravity.TOP | Gravity.START);
+        ed.setMinHeight(Math.round(c.getResources().getDisplayMetrics().heightPixels * .34f));
+        ed.setPadding(NUi.dp(16), NUi.dp(14), NUi.dp(16), NUi.dp(14));
+        final EditText edf = ed;
+        final Runnable edBg = new Runnable() { public void run() { edf.setBackground(NUi.round(NTheme.surface, 16, edf.hasFocus() ? NTheme.accent : NTheme.line2)); } };
+        edBg.run();
+        ed.setOnFocusChangeListener(new View.OnFocusChangeListener() { public void onFocusChange(View v, boolean f) { edBg.run(); } });
         if (ed0) ed.setText(fromHtml(e));
-        b.addView(ed, NUi.mt(10));
+        b.addView(ed, NUi.mt(12));
         NVoice.attach(c, ed);
         ed.addTextChangedListener(new TextWatcher() { public void beforeTextChanged(CharSequence s, int a, int b2, int c2) { } public void onTextChanged(CharSequence s, int a, int b2, int c2) { } public void afterTextChanged(Editable s) { soon(); } });
         /* date + goal */
         b.addView(F.fieldLabel(c, "Date"));
         final String[] dt = {day};
-        final TextView dv = NForms.datePick(c, dt, "Pick a date");
+        final TextView dv = NForms.datePick(c, dt, "mm/dd/yyyy");
         b.addView(dv);
         dv.setOnClickListener(null);
         NUi.tap(dv, new View.OnClickListener() { public void onClick(View v) {
             java.util.Calendar k = NDates.valid(dt[0]) ? NDates.cal(dt[0]) : java.util.Calendar.getInstance();
             android.app.DatePickerDialog dlg = new android.app.DatePickerDialog(c, new android.app.DatePickerDialog.OnDateSetListener() { public void onDateSet(android.widget.DatePicker p, int y, int m, int d) {
-                java.util.Calendar x = java.util.Calendar.getInstance(); x.clear(); x.set(y, m, d); String n = NDates.ymd(x); if (n.compareTo(NDates.ymd()) > 0) n = NDates.ymd(); day = n; dt[0] = n; dv.setText(NDates.longDate(n) + "   ✕"); soon();
+                java.util.Calendar x = java.util.Calendar.getInstance(); x.clear(); x.set(y, m, d); String n = NDates.ymd(x); if (n.compareTo(NDates.ymd()) > 0) n = NDates.ymd(); day = n; dt[0] = n;
+                dv.setText(new java.text.SimpleDateFormat("MM/dd/yyyy", java.util.Locale.US).format(NDates.cal(n).getTime())); soon();
             } }, k.get(java.util.Calendar.YEAR), k.get(java.util.Calendar.MONTH), k.get(java.util.Calendar.DAY_OF_MONTH));
             dlg.getDatePicker().setMaxDate(System.currentTimeMillis()); dlg.show();
         } });
         dv.setOnLongClickListener(null);
         b.addView(F.fieldLabel(c, "Goal · optional"));
         List<String[]> go = new ArrayList<>(); go.add(new String[]{"", "None"});
-        for (JSONObject g : NActs.goals(sh.st, null)) go.add(new String[]{g.optString("id"), g.optString("title")});
+        for (JSONObject g : NGoalsPage.treeOrder(NStore.list(sh.st.arr("goals")))) go.add(new String[]{g.optString("id"), NForms.trunc(g.optString("title"), 40)});
         final String[] gs = {gid};
-        b.addView(NForms.choice(c, go.toArray(new String[0][]), gs, new Runnable() { public void run() { gid = gs[0]; soon(); } }));
+        b.addView(NForms.select(c, go.toArray(new String[0][]), gs, new Runnable() { public void run() { gid = gs[0]; soon(); } }));
         /* photo + private */
-        final LinearLayout pc = NUi.col(c); b.addView(pc, NUi.mt(14));
+        final LinearLayout pc = NUi.col(c); b.addView(pc, NUi.mt(12));
         final Runnable[] paint = new Runnable[1];
         paint[0] = new Runnable() { public void run() {
             pc.removeAllViews(); LinearLayout row = NUi.row(c); row.setGravity(Gravity.CENTER_VERTICAL);
-            row.addView(NUi.btn(c, photo.isEmpty() ? "📷 Add a photo" : "📷 Change photo", false, new View.OnClickListener() { public void onClick(View v) {
+            TextView ph = NUi.btnSm(c, photo.isEmpty() ? "Add a photo" : "Change photo", false, new View.OnClickListener() { public void onClick(View v) {
                 sh.a.imgCb = new MainActivity.ImgCb() { public void got(String url) { photo = url; soon(); paint[0].run(); } };
                 sh.a.pickImage("goalcover");
-            } }));
-            if (!photo.isEmpty()) { LinearLayout.LayoutParams l = NUi.lp(-2, -2); l.leftMargin = NUi.dp(8); row.addView(NUi.btn(c, "Remove", false, new View.OnClickListener() { public void onClick(View v) { photo = ""; soon(); paint[0].run(); } }), l); }
+            } });
+            ph.setCompoundDrawablesRelative(NUi.iconD("camera", 16, NTheme.text), null, null, null); ph.setCompoundDrawablePadding(NUi.dp(8));
+            row.addView(ph);
+            if (!photo.isEmpty()) { LinearLayout.LayoutParams l = NUi.lp(-2, -2); l.leftMargin = NUi.dp(8); TextView rm = NUi.btnSm(c, "Remove", false, new View.OnClickListener() { public void onClick(View v) { photo = ""; soon(); paint[0].run(); } }); rm.setTextColor(NTheme.LATE); rm.setBackground(NUi.ripple(NUi.round(0, 12, 0), 12)); row.addView(rm, l); }
             View sp = new View(c); row.addView(sp, new LinearLayout.LayoutParams(0, 1, 1));
-            row.addView(NUi.body(c, "🔒 Private", 14, NTheme.muted, 600));
-            final NSettings.Sw sw = new NSettings.Sw(c, priv); LinearLayout.LayoutParams sl = NUi.lp(NUi.dp(48), NUi.dp(30)); sl.leftMargin = NUi.dp(8);
+            TextView pv = NUi.body(c, "Private", 15, NTheme.text, 500); pv.setCompoundDrawablesRelative(NUi.iconD("lock", 15, NTheme.text), null, null, null); pv.setCompoundDrawablePadding(NUi.dp(6));
+            row.addView(pv);
+            final NSettings.Sw sw = new NSettings.Sw(c, priv); LinearLayout.LayoutParams sl = NUi.lp(NUi.dp(48), NUi.dp(30)); sl.leftMargin = NUi.dp(10);
             sw.setOnClickListener(new View.OnClickListener() { public void onClick(View v) { priv = !priv; sw.on = priv; sw.invalidate(); soon(); } });
             row.addView(sw, sl); pc.addView(row);
             if (!photo.isEmpty()) {
@@ -222,10 +283,13 @@ final class NEntryForm {
             }
         } };
         paint[0].run();
-        List<View> acts = new ArrayList<>();
-        if (ed0) acts.add(NUi.btn(c, "Delete", false, new View.OnClickListener() { public void onClick(View v) { closed = true; hd.removeCallbacks(saver); sh.st.remove("entries", e.optString("id")); sh.closeSheet(); sh.save(); NShell.toast("Moment deleted"); } }));
-        acts.add(NUi.btn(c, "Done", true, new View.OnClickListener() { public void onClick(View v) { finish(); } }));
-        b.addView(NForms.actions(c, acts.toArray(new View[0])));
+        /* actions: Delete on the left (when editing), Done on the right */
+        LinearLayout acts = NUi.row(c); acts.setGravity(Gravity.CENTER_VERTICAL);
+        if (ed0) { TextView del = NUi.btn(c, "Delete", false, new View.OnClickListener() { public void onClick(View v) { closed = true; hd.removeCallbacks(saver); sh.st.remove("entries", e.optString("id")); sh.closeSheet(); sh.save(); NShell.toast("Moment deleted"); } });
+            del.setTextColor(NTheme.LATE); del.setBackground(NUi.ripple(NUi.round(0, 14, 0), 14)); del.setCompoundDrawablesRelative(NUi.iconD("trash", 17, NTheme.LATE), null, null, null); del.setCompoundDrawablePadding(NUi.dp(8)); acts.addView(del); }
+        acts.addView(new View(c), NUi.lpw(0, 1, 1));
+        acts.addView(NUi.btn(c, "Done", true, new View.OnClickListener() { public void onClick(View v) { finish(); } }));
+        b.addView(acts, NUi.mt(20));
         sh.sheet(b);
         if (!ed0) NForms.focus(ed);
     }

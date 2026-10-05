@@ -101,99 +101,70 @@ final class NGoalSteps {
 
     /* ---------- Cards: big flip cards in a row ---------- */
     View cards() {
+        /* web stepsCarousel: the shared hsShell (one centred 4:5 card, neighbours turned and faded, stems, nodes, ‹ 01 / 06 ›) */
         final JSONArray steps = g.optJSONArray("steps"); final int N = steps == null ? 0 : steps.length();
         final JSONObject next = NActs.nextStep(g);
-        final int wDp = Math.min(Math.round(sh.a.getResources().getConfiguration().screenWidthDp * .76f), 344);
-        final int itemW = NUi.dp(wDp), cardH = Math.round(itemW * 1.25f), gap = NUi.dp(18), gutter = NUi.dp(sh.wide() ? 32 : 16);
-        final HorizontalScrollView hs = new HorizontalScrollView(c); hs.setHorizontalScrollBarEnabled(false); hs.setClipToPadding(false);
-        hs.setOverScrollMode(View.OVER_SCROLL_NEVER);
-        final int total0 = N;
-        LinearLayout row = new LinearLayout(c) {
-            @Override protected void dispatchDraw(Canvas cv) {
-                Paint p = new Paint(Paint.ANTI_ALIAS_FLAG); p.setStyle(Paint.Style.STROKE); p.setStrokeWidth(NUi.dp(2)); p.setColor(NTheme.line2); p.setPathEffect(new DashPathEffect(new float[]{NUi.dp(4), NUi.dp(7)}, 0));
-                float y = cardH + NUi.dp(26 + 17); cv.drawLine(0, y, getWidth(), y, p);
-                super.dispatchDraw(cv);
-            }
-        };
-        row.setOrientation(LinearLayout.HORIZONTAL); row.setGravity(Gravity.TOP); row.setWillNotDraw(false);
-        int sidePad = Math.max(NUi.dp(24), (Math.round(sh.a.getResources().getConfiguration().screenWidthDp * NUi.density) - itemW) / 2);
-        row.setPadding(sidePad, NUi.dp(30), sidePad - gap, NUi.dp(10));
-        int nItems = 0, startIdx = 0;
+        List<NHs.Item> items = new ArrayList<>(); int startIdx = 0;
         for (int i = 0; i < N; i++) {
             final JSONObject s = steps.optJSONObject(i); if (s == null) continue;
-            if (s == next) startIdx = nItems;
-            LinearLayout it = NUi.col(c); it.setGravity(Gravity.CENTER_HORIZONTAL);
-            it.addView(flip(bigFront(s, i, N, next), bigBack(s, i, N, next)), new LinearLayout.LayoutParams(-1, cardH));
-            it.addView(stem(), new LinearLayout.LayoutParams(NUi.dp(2), NUi.dp(24)));
-            it.addView(node(s.optBoolean("done"), false, 0, toggle(s)));
-            TextView lb = mono(s.optBoolean("done") ? "Done" : NDates.valid(s.optString("due")) ? NDates.dueShort(s.optString("due")) : "No date", 10.5f, NTheme.muted); lb.setPadding(0, NUi.dp(10), 0, 0); lb.setSingleLine(true); lb.setGravity(Gravity.CENTER); it.addView(lb, new LinearLayout.LayoutParams(-1, -2));
-            LinearLayout.LayoutParams l = new LinearLayout.LayoutParams(itemW, -2); l.rightMargin = gap; row.addView(it, l); nItems++;
+            if (s == next) startIdx = items.size();
+            boolean d = s.optBoolean("done");
+            FrameLayout outer = new FrameLayout(c); outer.setClipChildren(false); outer.addView(flip(bigFront(s, i, N, next), bigBack(s, i, N, next)), new FrameLayout.LayoutParams(-1, -1));   /* the shell turns the outer frame, the flip turns the inner */
+            NHs.Item x = NHs.item(outer, col, d, false, d ? "Done" : NDates.valid(s.optString("due")) ? NDates.dueShort(s.optString("due")) : "No date");
+            x.check = true; x.tap = toggle(s); items.add(x);
         }
         for (final JSONObject[] k : subs()) {
             final JSONObject x = k[0]; int xc = NTheme.areaCol(x.optString("area")); boolean xd = "done".equals(x.optString("status")); int p = NActs.pct(st, x);
-            LinearLayout it = NUi.col(c); it.setGravity(Gravity.CENTER_HORIZONTAL);
             LinearLayout f = NUi.col(c); f.setBackground(NUi.ripple(NUi.round(xd ? NUi.mix(xc, .6f, NTheme.bg) : xc, 30, 0), 30)); f.setPadding(NUi.dp(22), NUi.dp(22), NUi.dp(22), NUi.dp(20));
             LinearLayout top = NUi.row(c); top.addView(mono("Sub-goal", 10.5f, INKM), NUi.lpw(0, -2, 1));
             TextView b = badge(xd ? "✓" : p + "%", 0); top.addView(b); f.addView(top);
             f.addView(new View(c), NUi.lpw(-1, 0, 1));
-            TextView t = NUi.ell(NUi.text(c, x.optString("title").toUpperCase(), 30, INK), 4); t.setTypeface(NFont.display(800)); t.setLineSpacing(0, .96f); t.setIncludeFontPadding(false); f.addView(t);
+            TextView t = NUi.ell(NUi.text(c, x.optString("title").toUpperCase(), 30, INK), 4); t.setTypeface(NFont.display(800)); NUi.cssLh(t, .96f); f.addView(t);
             f.addView(NBits.bar(c, p / 100f, INK, 4), NUi.mt(16));
             JSONObject nx = NActs.nextStep(x);
             TextView ft = mono(xd ? "Achieved" : nx != null ? "Next: " + nx.optString("title") : "No steps yet", 10.5f, INKM); ft.setSingleLine(true); ft.setEllipsize(android.text.TextUtils.TruncateAt.END); f.addView(ft, NUi.mt(12));
-            NUi.tap(f, new View.OnClickListener() { public void onClick(View v) { sh.push(new NGoalScreen(sh, x.optString("id"))); } });
-            it.addView(f, new LinearLayout.LayoutParams(-1, cardH));
-            it.addView(stem(), new LinearLayout.LayoutParams(NUi.dp(2), NUi.dp(24)));
-            it.addView(node(xd, true, p / 100f, new View.OnClickListener() { public void onClick(View v) { sh.push(new NGoalScreen(sh, x.optString("id"))); } }));
-            TextView lb = mono(NDates.valid(x.optString("targetDate")) ? "Target " + NDates.fmtDate(x.optString("targetDate")) : "Sub-goal", 10.5f, NTheme.muted); lb.setPadding(0, NUi.dp(10), 0, 0); lb.setSingleLine(true); lb.setGravity(Gravity.CENTER); it.addView(lb, new LinearLayout.LayoutParams(-1, -2));
-            LinearLayout.LayoutParams l = new LinearLayout.LayoutParams(itemW, -2); l.rightMargin = gap; row.addView(it, l); nItems++;
+            View.OnClickListener open = new View.OnClickListener() { public void onClick(View v) { sh.push(new NGoalScreen(sh, x.optString("id"))); } };
+            NUi.tap(f, open);
+            NHs.Item it = NHs.item(f, xc, xd, true, NDates.valid(x.optString("targetDate")) ? "Target " + NDates.fmtDate(x.optString("targetDate")) : "Sub-goal");
+            it.check = true; it.tap = open; items.add(it);
         }
         for (int a = 0; a < 2; a++) {
             final boolean step = a == 0;
-            LinearLayout it = NUi.col(c); it.setGravity(Gravity.CENTER_HORIZONTAL);
             LinearLayout f = NUi.col(c); f.setGravity(Gravity.CENTER); f.setBackground(NUi.dashed(0, 30, NTheme.line2, 1.5f));
             f.addView(NUi.icon(c, "plus", 36, NTheme.muted), new LinearLayout.LayoutParams(NUi.dp(36), NUi.dp(36)));
             TextView tx = NUi.body(c, step ? "Add a step" : "Add a sub-goal", 15, NTheme.muted, 600); tx.setPadding(0, NUi.dp(10), 0, 0); f.addView(tx, NUi.lp(-2, -2));
             NUi.tap(f, new View.OnClickListener() { public void onClick(View v) { if (step) F.step(g, null); else F.goal(null, g.optString("id")); } });
-            it.addView(f, new LinearLayout.LayoutParams(-1, cardH));
-            LinearLayout.LayoutParams l = new LinearLayout.LayoutParams(itemW, -2); l.rightMargin = gap; row.addView(it, l); nItems++;
+            NHs.Item it = NHs.item(f, col, false, true, ""); it.add = true; items.add(it);
         }
-        hs.addView(row);
-        final int total = nItems, startAt = startIdx, real = nItems - 2;   /* web hs-count leaves out the two "Add" cards */
-        final TextView count = mono("", 10.5f, NTheme.muted); count.setGravity(Gravity.CENTER);
-        final Runnable upd = new Runnable() { public void run() { int i = Math.min(total - 1, Math.max(0, Math.round(hs.getScrollX() / (float) (itemW + gap)))); count.setText(String.format(java.util.Locale.US, "%02d / %02d", Math.min(i + 1, Math.max(1, real)), real)); } };
-        hs.setOnScrollChangeListener(new View.OnScrollChangeListener() { public void onScrollChange(View v, int x, int y, int ox, int oy) { upd.run(); } });
-        hs.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, android.view.MotionEvent e) {
-                if (e.getActionMasked() == android.view.MotionEvent.ACTION_UP || e.getActionMasked() == android.view.MotionEvent.ACTION_CANCEL) {
-                    final int x = hs.getScrollX(); hs.postDelayed(new Runnable() { public void run() { if (Math.abs(hs.getScrollX() - x) < NUi.dp(3)) hs.smoothScrollTo(Math.round(hs.getScrollX() / (float) (itemW + gap)) * (itemW + gap), 0); else hs.postDelayed(this, 80); } }, 80);
-                }
-                return false;
-            }
-        });
-        hs.post(new Runnable() { public void run() { hs.scrollTo(startAt * (itemW + gap), 0); upd.run(); } });
-        LinearLayout wrap = NUi.col(c);
-        wrap.addView(hs, new LinearLayout.LayoutParams(-1, -2));
-        LinearLayout foot = NUi.row(c); foot.setGravity(Gravity.CENTER);
-        foot.addView(NBits.sbtn(c, "back", new View.OnClickListener() { public void onClick(View v) { hs.smoothScrollTo(Math.max(0, Math.round(hs.getScrollX() / (float) (itemW + gap)) - 1) * (itemW + gap), 0); } }));
-        foot.addView(count, new LinearLayout.LayoutParams(NUi.dp(90), -2));
-        foot.addView(NBits.sbtn(c, "next", new View.OnClickListener() { public void onClick(View v) { hs.smoothScrollTo((Math.round(hs.getScrollX() / (float) (itemW + gap)) + 1) * (itemW + gap), 0); } }));
-        wrap.addView(foot, NUi.mt(16));
-        LinearLayout.LayoutParams wl = NUi.lp(-1, -2); return wrapNeg(wrap, gutter);
+        return NHs.build(sh, items, startIdx, "steps-" + g.optString("id"));
     }
     View wrapNeg(LinearLayout wrap, int gutter) { FrameLayout f = new FrameLayout(c); f.setClipChildren(false); FrameLayout.LayoutParams l = new FrameLayout.LayoutParams(-1, -2); l.leftMargin = -gutter; l.rightMargin = -gutter; f.addView(wrap, l); return f; }
     View stem() { View v = new View(c); v.setBackground(new android.graphics.drawable.GradientDrawable(android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM, new int[]{NTheme.alpha(col, .85f), 0})); return v; }
 
     View bigFront(JSONObject s, int i, int N, JSONObject next) {
-        LinearLayout f = NUi.col(c); f.setBackground(NUi.round(s.optBoolean("done") ? NUi.mix(col, .85f, NTheme.bg) : col, 30, 0)); f.setPadding(NUi.dp(22), NUi.dp(22), NUi.dp(22), NUi.dp(20));
+        LinearLayout f = NUi.col(c); f.setPadding(NUi.dp(22), NUi.dp(22), NUi.dp(22), NUi.dp(20));
+        /* web .sc-front.tint (+ .halo when haloOn(g, this is the next step)); done = saturate(.3) brightness(.8) */
+        android.graphics.drawable.Drawable bgd = NCard.bg(s.optBoolean("done") ? NUi.mix(col, .85f, NTheme.bg) : col, 30);
+        if (bgd instanceof NCard && !s.optBoolean("done")) ((NCard) bgd).halo = NTheme.haloOn(g, s == next);
+        f.setBackground(bgd);
         LinearLayout top = NUi.row(c);
         TextView lab = mono(status(s, next) + " · step " + (i + 1) + " of " + N, 10.5f, INKM); lab.setSingleLine(true); lab.setEllipsize(android.text.TextUtils.TruncateAt.END);
         top.addView(lab, NUi.lpw(0, -2, 1)); top.addView(badge(String.format(java.util.Locale.US, "%02d", i + 1), 0)); f.addView(top);
         f.addView(new View(c), NUi.lpw(-1, 0, 1));
-        TextView t = NUi.ell(NUi.text(c, s.optString("title").toUpperCase(), 30, s.optBoolean("done") ? INKM : INK), 4); t.setTypeface(NFont.display(800)); t.setLineSpacing(0, .96f); t.setIncludeFontPadding(false);
+        /* web .sc.big .sc-t: 800 clamp(42px, 11.6vw, 60px)/.9, up to 5 lines, pushed to the bottom */
+        float tsp = Math.max(42, Math.min(60, sh.a.getResources().getConfiguration().screenWidthDp * .116f));
+        TextView t = NUi.ell(NUi.text(c, s.optString("title").toUpperCase(), tsp, s.optBoolean("done") ? INKM : INK), 5); t.setTypeface(NFont.display(800)); NUi.cssLh(t, .9f);
         if (s.optBoolean("done")) t.setPaintFlags(t.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         f.addView(t);
         LinearLayout foot = NUi.row(c);
         TextView d = mono(dueLine(s), 10.5f, INKM); d.setSingleLine(true); d.setEllipsize(android.text.TextUtils.TruncateAt.END); foot.addView(d, NUi.lpw(0, -2, 1));
+        if (!s.optBoolean("done")) {   /* web stepBell(g, s, 'ic mini'): a small bell on a dim chip */
+            final String sid = s.optString("id"); boolean on = NHome.stepRem(s);
+            android.widget.ImageView bl = NUi.icon(c, "bell", 15, on ? INK : INKM); bl.setAlpha(on ? 1f : .55f); bl.setPadding(NUi.dp(4), NUi.dp(4), NUi.dp(4), NUi.dp(4));
+            bl.setBackground(NUi.round(NTheme.alpha(NTheme.bg, .35f), 10, 0));
+            NUi.tap(bl, new View.OnClickListener() { public void onClick(View v) { NReminders.openStep(sh, g.optString("id"), sid, null); } });
+            LinearLayout.LayoutParams bp = NUi.lp(NUi.dp(23), NUi.dp(23)); bp.leftMargin = NUi.dp(6); bp.rightMargin = NUi.dp(10); foot.addView(bl, bp);
+        }
         FrameLayout hint = new FrameLayout(c); hint.setBackground(NUi.oval(0, NTheme.alpha(INK, .24f), 1)); hint.addView(NUi.icon(c, "flipi", 16, INK), new FrameLayout.LayoutParams(NUi.dp(16), NUi.dp(16), Gravity.CENTER));
         foot.addView(hint, new LinearLayout.LayoutParams(NUi.dp(36), NUi.dp(36)));
         f.addView(foot, NUi.mt(18));

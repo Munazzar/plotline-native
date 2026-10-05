@@ -56,9 +56,10 @@ final class NSettings extends NPage {
     interface Chg { void on(boolean v); }
 
     LinearLayout panel(String title, String sub) {
-        LinearLayout p = NUi.col(c); p.setBackground(NUi.card(24)); p.setPadding(NUi.dp(18), NUi.dp(16), NUi.dp(18), NUi.dp(16));
-        if (title != null) p.addView(NUi.body(c, title, 17, NTheme.text, 700));
-        if (sub != null) { TextView t = NUi.text(c, sub, 13.5f, NTheme.muted); t.setLineSpacing(0, 1.2f); p.addView(t, NUi.mt(6)); }
+        /* web .panel: radius 26, padding 22; h3 display 700 24px uppercase, 14px below */
+        LinearLayout p = NUi.col(c); p.setBackground(NUi.card(26)); p.setPadding(NUi.dp(22), NUi.dp(22), NUi.dp(22), NUi.dp(22));
+        if (title != null) { TextView h = NUi.title(c, title, 24); h.setTypeface(NFont.display(700)); h.setAllCaps(true); h.setLineSpacing(0, 1f); p.addView(h); }
+        if (sub != null) { TextView t = NUi.text(c, sub, 13.5f, NTheme.muted); t.setLineSpacing(0, 1.2f); p.addView(t, NUi.mt(title != null ? 14 : 0)); }
         return p;
     }
 
@@ -231,23 +232,33 @@ final class NSettings extends NPage {
         LinearLayout th = panel("Theme", null);
         for (int g = 0; g < 2; g++) {
             final boolean light = g == 1;
-            TextView gl = NBits.meta(c, light ? "LIGHT" : "DARK", NTheme.muted); gl.setTextSize(10.5f); gl.setPadding(0, NUi.dp(14), 0, NUi.dp(8)); th.addView(gl);
+            TextView gl = NBits.meta(c, light ? "LIGHT" : "DARK", NTheme.muted); gl.setTextSize(10.5f); gl.setPadding(0, NUi.dp(light ? 18 : 4), 0, NUi.dp(10)); th.addView(gl);
             GridLayout gr = new GridLayout(c); gr.setColumnCount(3);
+            int k = 0;
             for (int i = 0; i < NGen.THEME_ID.length; i++) {
                 if (NGen.THEME_LIGHT[i] != light) continue;
-                final String id = NGen.THEME_ID[i]; int[] cc = NGen.THEME_COL[i];
-                LinearLayout t = NUi.col(c); t.setPadding(NUi.dp(4), NUi.dp(4), NUi.dp(4), NUi.dp(4));
-                android.widget.FrameLayout pv = new android.widget.FrameLayout(c); pv.setBackground(NUi.round(cc[0], 14, id.equals(s().optString("theme", "night")) ? NTheme.accent : cc[5]));
+                final String id = NGen.THEME_ID[i]; int[] cc = NGen.THEME_COL[i]; boolean on = id.equals(s().optString("theme", "night"));
+                /* web .tcard (phone): border 1.5 line-2, radius 16, padding 6/6/9; on = accent border + 3px accent ring */
+                LinearLayout t = NUi.col(c); t.setPadding(NUi.dp(6), NUi.dp(6), NUi.dp(6), NUi.dp(9));
+                android.graphics.drawable.GradientDrawable cb = new android.graphics.drawable.GradientDrawable(); cb.setCornerRadius(NUi.dp(16)); cb.setStroke(NUi.dp(1.5f), on ? NTheme.accent : NTheme.line2);
+                if (on) { android.graphics.drawable.GradientDrawable ring = new android.graphics.drawable.GradientDrawable(); ring.setCornerRadius(NUi.dp(19)); ring.setStroke(NUi.dp(3), (NTheme.accent & 0xFFFFFF) | 0x38000000);
+                    android.graphics.drawable.LayerDrawable ld = new android.graphics.drawable.LayerDrawable(new android.graphics.drawable.Drawable[]{ring, cb}); ld.setLayerInset(1, NUi.dp(3), NUi.dp(3), NUi.dp(3), NUi.dp(3)); t.setBackground(ld); t.setPadding(NUi.dp(9), NUi.dp(9), NUi.dp(9), NUi.dp(12)); }
+                else t.setBackground(cb);
+                /* .tprev: bg, three 14px squares top-left, surface bar (left 10, right 40, bottom 10, h 26), 24px accent dot */
+                android.widget.FrameLayout pv = new android.widget.FrameLayout(c); pv.setBackground(NUi.round(cc[0], 11, 0)); pv.setClipToOutline(true);
                 LinearLayout dots = NUi.row(c); int[] ds = {0xFF46C99B, 0xFF6B9BFF, 0xFFFF8C6B};
-                for (int d : ds) { View dv = new View(c); dv.setBackground(NUi.oval(d, 0, 0)); LinearLayout.LayoutParams dl = NUi.lp(NUi.dp(8), NUi.dp(8)); dl.rightMargin = NUi.dp(4); dots.addView(dv, dl); }
-                pv.addView(dots, new android.widget.FrameLayout.LayoutParams(-2, -2, Gravity.TOP | Gravity.START)); ((android.widget.FrameLayout.LayoutParams) dots.getLayoutParams()).setMargins(NUi.dp(9), NUi.dp(9), 0, 0);
-                View bar = new View(c); bar.setBackground(NUi.round(cc[3], 5, 0)); android.widget.FrameLayout.LayoutParams bl = new android.widget.FrameLayout.LayoutParams(NUi.dp(46), NUi.dp(10), Gravity.BOTTOM | Gravity.START); bl.setMargins(NUi.dp(9), 0, 0, NUi.dp(9)); pv.addView(bar, bl);
-                View ac = new View(c); ac.setBackground(NUi.oval(cc[9], 0, 0)); android.widget.FrameLayout.LayoutParams al = new android.widget.FrameLayout.LayoutParams(NUi.dp(16), NUi.dp(16), Gravity.BOTTOM | Gravity.END); al.setMargins(0, 0, NUi.dp(9), NUi.dp(7)); pv.addView(ac, al);
+                for (int d : ds) { View dv = new View(c); dv.setBackground(NUi.round(d, 4, 0)); LinearLayout.LayoutParams dl = NUi.lp(NUi.dp(14), NUi.dp(14)); dl.rightMargin = NUi.dp(4); dots.addView(dv, dl); }
+                android.widget.FrameLayout.LayoutParams dlp = new android.widget.FrameLayout.LayoutParams(-2, -2, Gravity.TOP | Gravity.START); dlp.setMargins(NUi.dp(10), NUi.dp(10), 0, 0); pv.addView(dots, dlp);
+                View bar = new View(c); bar.setBackground(NUi.round(light ? cc[2] : cc[3], 8, 0)); android.widget.FrameLayout.LayoutParams bl = new android.widget.FrameLayout.LayoutParams(-1, NUi.dp(26), Gravity.BOTTOM); bl.setMargins(NUi.dp(10), 0, NUi.dp(40), NUi.dp(10)); pv.addView(bar, bl);
+                View ac = new View(c); ac.setBackground(NUi.oval(cc[9], 0, 0)); android.widget.FrameLayout.LayoutParams al = new android.widget.FrameLayout.LayoutParams(NUi.dp(24), NUi.dp(24), Gravity.BOTTOM | Gravity.END); al.setMargins(0, 0, NUi.dp(10), NUi.dp(10)); pv.addView(ac, al);
                 t.addView(pv, NUi.lp(-1, NUi.dp(62)));
-                TextView n = NUi.body(c, NGen.THEME_NAME[i], 12.5f, NTheme.text, 600); n.setGravity(Gravity.CENTER); n.setSingleLine(true); n.setPadding(0, NUi.dp(6), 0, 0); t.addView(n);
+                TextView n = NUi.body(c, NGen.THEME_NAME[i], 12.5f, NTheme.text, 700); n.setSingleLine(true); n.setEllipsize(android.text.TextUtils.TruncateAt.END); n.setPadding(NUi.dp(4), 0, NUi.dp(4), 0); t.addView(n, NUi.mt(7));
                 NUi.tap(t, new View.OnClickListener() { public void onClick(View v) { put("theme", id); refresh(); } });
-                GridLayout.LayoutParams l = new GridLayout.LayoutParams(GridLayout.spec(GridLayout.UNDEFINED), GridLayout.spec(GridLayout.UNDEFINED, 1f)); l.width = 0; gr.addView(t, l);
+                GridLayout.LayoutParams l = new GridLayout.LayoutParams(GridLayout.spec(k / 3), GridLayout.spec(k % 3, 1f)); l.width = 0;
+                l.setMargins(k % 3 == 0 ? 0 : NUi.dp(4.5f), k >= 3 ? NUi.dp(9) : 0, k % 3 == 2 ? 0 : NUi.dp(4.5f), 0);
+                gr.addView(t, l); k++;
             }
+            while (k % 3 != 0) { View sp = new View(c); GridLayout.LayoutParams l = new GridLayout.LayoutParams(GridLayout.spec(k / 3), GridLayout.spec(k % 3, 1f)); l.width = 0; l.height = 1; gr.addView(sp, l); k++; }
             th.addView(gr, NUi.lp(-1, -2));
         }
         sw(th, "Match my device", "Use Daylight when your device is in light mode", s().optBoolean("matchSystem"), new Chg() { public void on(boolean v) { put("matchSystem", v); refresh(); } });

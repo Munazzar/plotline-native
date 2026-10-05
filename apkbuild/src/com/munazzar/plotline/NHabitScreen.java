@@ -31,7 +31,7 @@ final class NHabitScreen extends NPage {
     TextView big(String v, String small, float sp, float smallSp, int color) {
         SpannableStringBuilder b = new SpannableStringBuilder(v);
         if (small != null && !small.isEmpty()) { b.append(small); b.setSpan(new RelativeSizeSpan(smallSp / sp), v.length(), b.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); }
-        TextView t = NUi.text(c, b, sp, color); t.setTypeface(NFont.display(800)); t.setIncludeFontPadding(false); return t;
+        TextView t = NUi.text(c, b, sp, color); t.setTypeface(NFont.display(800)); return NUi.cssLh(t, sp >= 80 ? .82f : sp >= 70 ? .78f : .9f);   /* web line heights: clock/limit .82, hero-pct .78, tiles/hstep .9 */
     }
 
     View stH(String title, String meta) {
@@ -163,9 +163,9 @@ final class NHabitScreen extends NPage {
         hero.addView(data(line, NTheme.INK_MUTED));
         SpannableStringBuilder tb = new SpannableStringBuilder(NHabits.icon(h) + "  "); tb.setSpan(new RelativeSizeSpan(.62f), 0, tb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         tb.append(h.optString("title").toUpperCase());
-        TextView t = NUi.text(c, tb, 46, NTheme.INK); t.setTypeface(NFont.display(800)); t.setLineSpacing(0, .86f); t.setIncludeFontPadding(false);
+        TextView t = NUi.text(c, tb, 46, NTheme.INK); t.setTypeface(NFont.display(800)); NUi.cssLh(t, .86f);   /* web .hero h1: 800 46px/.86 */
         LinearLayout.LayoutParams tp = NUi.mt(16); tp.bottomMargin = NUi.dp(14); hero.addView(t, tp);
-        if (!h.optString("why").isEmpty()) { TextView w = NUi.text(c, h.optString("why"), 16.5f, NTheme.alpha(NTheme.INK, .82f)); w.setLineSpacing(0, 1.2f); hero.addView(w); }
+        if (!h.optString("why").isEmpty()) { TextView w = NUi.cssLh(NUi.text(c, h.optString("why"), 16.5f, NTheme.alpha(NTheme.INK, .82f)), 1.5f); hero.addView(w); }
         if (!h.optString("cue").isEmpty() && kind.equals("build")) {
             int tg = NHabits.target(h);
             LinearLayout cr = NUi.row(c); cr.setGravity(Gravity.TOP);
@@ -198,7 +198,7 @@ final class NHabitScreen extends NPage {
             left.addView(data("Strength " + NHabits.strength(h) + "%", NTheme.INK_MUTED));
             left.addView(NBits.bar(c, NHabits.strength(h) / 100f, NTheme.INK, 6), NUi.mt(12));
             hf.addView(left, NUi.lpw(0, -2, 1));
-            TextView pct = big(String.valueOf(s), u, 76, 30, NTheme.INK); pct.setLineSpacing(0, .78f);
+            TextView pct = big(String.valueOf(s), u, 76, 30, NTheme.INK); 
             LinearLayout.LayoutParams pl = NUi.lp(-2, -2); pl.leftMargin = NUi.dp(22); hf.addView(pct, pl);
             hero.addView(hf, NUi.mt(30));
             if (active) {
@@ -427,7 +427,8 @@ final class NHabitScreen extends NPage {
             if (r != null) { if (r > bv) { bv = r; best = i; } if (r < wv) { wv = r; worst = i; } }
             LinearLayout cc = NUi.col(c); cc.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM);
             View bar = new View(c); bar.setBackground(NUi.round(r != null && r > 0 ? col : NTheme.line2, 7, 0)); if (r == null) bar.setAlpha(.3f);
-            int bh = r == null ? NUi.dp(4) : Math.max(NUi.dp(6), (int) Math.round(NUi.dp(72) * r));
+            /* web: height v*100% of the 96px column, but the flex column shrinks the bar to fit the label (≈77px max) */
+            int bh = Math.min(NUi.dp(77), r == null ? NUi.dp(4) : Math.max(NUi.dp(6), (int) Math.round(NUi.dp(96) * r)));
             cc.addView(bar, NUi.lp(NUi.dp(24), bh));
             TextView lb = NBits.meta(c, NDates.DAYS[i].substring(0, 2), NTheme.muted); lb.setTextSize(10); lb.setGravity(Gravity.CENTER);
             LinearLayout.LayoutParams ll = NUi.lp(-1, -2); ll.topMargin = NUi.dp(6); cc.addView(lb, ll);

@@ -39,7 +39,7 @@ final class NGoalForm {
 
     static void open(final NShell sh, final JSONObject g, final String parentIn) {
         final Context c = sh.a; final NForms F = new NForms(sh); final boolean edit = g != null;
-        LinearLayout b = F.sheetBody("Goal", edit ? "Edit goal" : "New goal", edit ? null : "Name what you want, and why it matters. Add steps after.");
+        LinearLayout b = F.sheetBody(null, edit ? "Edit goal" : "New goal", null);   /* web goalForm: just the heading */
         b.addView(NForms.fieldLabel(c, "What do you want to achieve?"));
         final EditText title = NForms.input(c, "Run a 10K race", edit ? g.optString("title") : "", false); b.addView(title);
         NVoice.attach(c, title);
@@ -56,10 +56,14 @@ final class NGoalForm {
         android.widget.HorizontalScrollView ah = new android.widget.HorizontalScrollView(c); ah.setHorizontalScrollBarEnabled(false);
         LinearLayout ar = NUi.row(c); ah.addView(ar);
         for (final String[] o : as) { LinearLayout.LayoutParams l = NUi.lp(-2, -2); l.rightMargin = NUi.dp(8); ar.addView(NUi.chip(c, o[1], false, new View.OnClickListener() { public void onClick(View v) { area.setText(o[0]); area.setSelection(o[0].length()); } }), l); }
+        /* web: a datalist; the suggestions show while the field has focus */
+        ah.setVisibility(View.GONE);
+        final android.widget.HorizontalScrollView ahf = ah;
+        area.setOnFocusChangeListener(new View.OnFocusChangeListener() { public void onFocusChange(View v, boolean f) { ahf.setVisibility(f ? View.VISIBLE : View.GONE); } });
         b.addView(ah, NUi.mt(8));
         b.addView(NForms.fieldLabel(c, "Horizon"));
         final String[] hz = {edit ? g.optString("horizon", "month") : "month"};
-        b.addView(NForms.choice(c, HZ, hz, null));
+        b.addView(NForms.select(c, HZ, hz, null));
         /* parent */
         final String[] par = {edit ? g.optString("parent") : parentIn == null ? "" : parentIn};
         final List<String[]> pl = parentList(st(sh), g);
@@ -80,7 +84,7 @@ final class NGoalForm {
         }
         b.addView(NForms.fieldLabel(c, "Priority"));
         final String[] pri = {edit ? String.valueOf(g.optInt("priority", 2)) : "2"};
-        b.addView(NForms.choice(c, new String[][]{{"1", "High"}, {"2", "Medium"}, {"3", "Low"}}, pri, null));
+        b.addView(NForms.radios(c, new String[][]{{"1", "High"}, {"2", "Medium"}, {"3", "Low"}}, pri, false, null));
         b.addView(NForms.fieldLabel(c, "Start date"));
         final String[] start = {edit && NDates.valid(g.optString("startDate")) ? g.optString("startDate") : NDates.ymd()};
         b.addView(NForms.datePick(c, start, "Pick a date"));
@@ -101,7 +105,7 @@ final class NGoalForm {
             b.addView(NForms.fieldLabel(c, "First steps · one per line"));
             steps = NForms.input(c, "Get fitted for running shoes\nRun 20 minutes, 3 times this week", "", true); steps.setMinLines(3); b.addView(steps);
             b.addView(NForms.fieldLabel(c, "Space those steps"));
-            b.addView(NForms.choice(c, new String[][]{{"0", "No dates yet"}, {"1", "One per day"}, {"3", "Every 3 days"}, {"7", "Every week"}, {"14", "Every 2 weeks"}, {"30", "Every month"}}, pace, null));
+            b.addView(NForms.select(c, new String[][]{{"0", "No dates yet"}, {"1", "One per day"}, {"3", "Every 3 days"}, {"7", "Every week"}, {"14", "Every 2 weeks"}, {"30", "Every month"}}, pace, null));
         }
         /* check-in */
         b.addView(NForms.fieldLabel(c, "Check-in reminder"));
@@ -109,10 +113,10 @@ final class NGoalForm {
         final String[] ctime = {edit && !g.optString("checkinTime").isEmpty() ? g.optString("checkinTime") : "19:00"};
         final LinearLayout weekly = NUi.col(c);
         weekly.addView(NForms.fieldLabel(c, "On"));
-        String[][] dd = new String[7][2]; for (int i = 0; i < 7; i++) { dd[i][0] = String.valueOf(i); dd[i][1] = NDates.DAYS[i]; }
-        weekly.addView(NForms.choice(c, dd, cday, null));
+        String[][] dd = new String[7][2]; for (int i = 0; i < 7; i++) { dd[i][0] = String.valueOf(i); dd[i][1] = NDates.DAYS[i].substring(0, 2); }
+        weekly.addView(NForms.radios(c, dd, cday, true, null));
         weekly.setVisibility(ci[0].equals("weekly") ? View.VISIBLE : View.GONE);
-        b.addView(NForms.choice(c, new String[][]{{"", "Off"}, {"daily", "Every day"}, {"weekly", "Every week"}}, ci, new Runnable() { public void run() { weekly.setVisibility(ci[0].equals("weekly") ? View.VISIBLE : View.GONE); } }));
+        b.addView(NForms.select(c, new String[][]{{"", "Off"}, {"daily", "Every day"}, {"weekly", "Every week"}}, ci, new Runnable() { public void run() { weekly.setVisibility(ci[0].equals("weekly") ? View.VISIBLE : View.GONE); } }));
         b.addView(NForms.fieldLabel(c, "At"));
         b.addView(NForms.timePick(c, ctime, "19:00"));
         b.addView(weekly);
@@ -185,7 +189,7 @@ final class NGoalForm {
         } });
         b.addView(NForms.actions(c, cancel, save));
         sh.sheet(b);
-        if (!edit) NForms.focus(title);
+        /* web focuses the title only with a keyboard attached; on a phone the sheet opens without the keyboard */
     }
 
     static NStore st(NShell sh) { return sh.st; }

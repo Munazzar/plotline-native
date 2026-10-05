@@ -14,7 +14,7 @@ import org.json.JSONObject;
    goals, and the day-by-day list. The web engine reads the phone and keeps settings.actLog; this shows it. */
 final class NActivityScreen extends NPage {
     int range = 7, more = 14;
-    NActivityScreen(NShell sh) { super(sh); back = true; }
+    NActivityScreen(NShell sh) { super(sh); }   /* web: a top-level page, no back button */
 
     @Override void onShow() { super.onShow(); load(false); }
 

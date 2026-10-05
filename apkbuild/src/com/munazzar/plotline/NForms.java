@@ -71,7 +71,13 @@ final class NForms {
         final TextView t = NUi.body(c, "", 15, NTheme.text, 600);
         t.setBackground(NUi.ripple(NUi.round(NTheme.surface, 14, NTheme.line2), 14));
         t.setPadding(NUi.dp(16), NUi.dp(13), NUi.dp(16), NUi.dp(13));
-        final Runnable paint = new Runnable() { public void run() { t.setText(NDates.valid(d[0]) ? NDates.longDate(d[0]) + "   ✕" : empty); t.setTextColor(NDates.valid(d[0]) ? NTheme.text : NTheme.muted); } };
+        /* web input[type=date]: the date as the phone writes it (10/04/2026), a calendar icon at the end */
+        t.setCompoundDrawablesRelative(null, null, NUi.iconD("cal", 18, NTheme.text), null); t.setCompoundDrawablePadding(NUi.dp(10));
+        t.setTypeface(NFont.body(500)); t.setTextSize(16);
+        final Runnable paint = new Runnable() { public void run() {
+            if (NDates.valid(d[0])) { java.text.DateFormat f = new java.text.SimpleDateFormat("MM/dd/yyyy", java.util.Locale.US); t.setText(f.format(NDates.cal(d[0]).getTime())); t.setTextColor(NTheme.text); }
+            else { t.setText("mm/dd/yyyy"); t.setTextColor(NTheme.muted); }
+        } };
         paint.run();
         NUi.tap(t, new View.OnClickListener() { public void onClick(View v) {
             if (NDates.valid(d[0]) && t.getTag() == null) { /* first tap on a set date offers to clear via long press; open picker */ }
@@ -109,8 +115,8 @@ final class NForms {
 
     LinearLayout sheetBody(String kicker, String title, String sub) {
         LinearLayout b = NUi.col(c);
-        b.addView(NUi.label(c, kicker, NTheme.accent));
-        TextView t = NUi.title(c, title, 30); t.setPadding(0, NUi.dp(6), 0, 0); b.addView(t);
+        if (kicker != null) b.addView(NUi.label(c, kicker, NTheme.muted));   /* web sheet kicker: .data, muted */
+        TextView t = NUi.title(c, title, 30); t.setPadding(0, kicker != null ? NUi.dp(6) : 0, 0, 0); b.addView(t);
         if (sub != null) { TextView s = NUi.text(c, sub, 14, NTheme.muted); s.setPadding(0, NUi.dp(6), 0, 0); s.setLineSpacing(0, 1.2f); b.addView(s); }
         return b;
     }
@@ -302,7 +308,9 @@ final class NForms {
         final TextView t = NUi.body(c, "", 15, NTheme.text, 600);
         t.setBackground(NUi.ripple(NUi.round(NTheme.surface, 14, NTheme.line2), 14));
         t.setPadding(NUi.dp(16), NUi.dp(13), NUi.dp(16), NUi.dp(13));
-        final Runnable paint = new Runnable() { public void run() { String l = opts.length > 0 ? opts[0][1] : ""; for (String[] o : opts) if (o[0] != null && o[0].equals(sel[0])) l = o[1]; t.setText(l + "  ▾"); } };
+        t.setSingleLine(true); t.setEllipsize(android.text.TextUtils.TruncateAt.END);
+        t.setCompoundDrawablesRelative(null, null, NUi.iconD("chev", 16, NTheme.muted), null); t.setCompoundDrawablePadding(NUi.dp(10));
+        final Runnable paint = new Runnable() { public void run() { String l = opts.length > 0 ? opts[0][1] : ""; for (String[] o : opts) if (o[0] != null && o[0].equals(sel[0])) l = o[1]; t.setText(l); } };
         paint.run();
         NUi.tap(t, new View.OnClickListener() { public void onClick(View v) {
             android.widget.PopupMenu pm = new android.widget.PopupMenu(c, t);
@@ -312,6 +320,25 @@ final class NForms {
             pm.show();
         } });
         return t;
+    }
+
+    /* web .radios: equal-width options in a row; the chosen one is filled with the text colour */
+    static LinearLayout radios(final Context c, final String[][] opts, final String[] sel, final boolean small, final Runnable onChange) {
+        final LinearLayout r = NUi.row(c);
+        final List<TextView> ts = new ArrayList<>();
+        final Runnable paint = new Runnable() { public void run() {
+            for (int i = 0; i < ts.size(); i++) { boolean on = opts[i][0].equals(sel[0]); TextView t = ts.get(i);
+                t.setTextColor(on ? NTheme.bg : NTheme.text); t.setBackground(NUi.ripple(on ? NUi.round(NTheme.text, 13, 0) : NUi.round(0, 13, NTheme.line2), 13)); }
+        } };
+        for (int i = 0; i < opts.length; i++) {
+            final String k = opts[i][0];
+            TextView t = NUi.body(c, opts[i][1], small ? 12.5f : 14, NTheme.text, 600); t.setGravity(Gravity.CENTER); t.setSingleLine(true);
+            t.setPadding(NUi.dp(2), NUi.dp(small ? 9 : 12), NUi.dp(2), NUi.dp(small ? 9 : 12));
+            NUi.tap(t, new View.OnClickListener() { public void onClick(View v) { sel[0] = k; paint.run(); if (onChange != null) onChange.run(); } });
+            LinearLayout.LayoutParams l = NUi.lpw(0, -2, 1); if (i > 0) l.leftMargin = NUi.dp(6); r.addView(t, l); ts.add(t);
+        }
+        paint.run();
+        return r;
     }
 
     static String trunc(String s, int n) { return s == null ? "" : s.length() > n ? s.substring(0, n - 1) + "…" : s; }

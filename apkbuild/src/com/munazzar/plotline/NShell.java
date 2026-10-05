@@ -86,7 +86,7 @@ final class NShell implements NStore.Listener {
         toastV = NUi.body(a, "", 15, NTheme.bg, 600);
         toastV.setBackground(NUi.round(NTheme.text, 16, 0));
         toastV.setPadding(NUi.dp(18), NUi.dp(13), NUi.dp(18), NUi.dp(13));
-        toastV.setAlpha(0f); toastV.setVisibility(View.GONE);
+        toastV.setAlpha(0f); toastV.setVisibility(View.GONE); toastV.setElevation(NUi.dp(40));
         FrameLayout.LayoutParams tl = new FrameLayout.LayoutParams(-2, -2, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
         nroot.addView(toastV, tl);
         root.addView(nroot, new FrameLayout.LayoutParams(-1, -1));
@@ -551,6 +551,7 @@ final class NShell implements NStore.Listener {
         pl.topMargin = top + NUi.dp(24);
         sheetLayer.addView(panel, pl);
         sheetPanel = panel;
+        sheetLayer.setElevation(NUi.dp(30));   /* above the floating tab bar (elevation 12) */
         sheetLayer.setVisibility(View.VISIBLE); sheetLayer.bringToFront(); if (toastV != null) toastV.bringToFront();
         dim.setAlpha(0f); dim.animate().alpha(1f).setDuration(220).start();
         panel.setTranslationY(NUi.dp(600));
