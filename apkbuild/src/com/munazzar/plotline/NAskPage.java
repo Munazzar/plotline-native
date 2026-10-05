@@ -69,7 +69,7 @@ final class NAskPage extends NPage {
         NUi.tap(pill, new View.OnClickListener() { public void onClick(View v) { NEng.askScope(sh, new Runnable() { public void run() { sig = ""; } }); } });
         LinearLayout.LayoutParams pl = NUi.lp(-2, -2); pl.leftMargin = NUi.dp(6); pl.bottomMargin = NUi.dp(7); sr.addView(pill, pl); comp.addView(sr);
         LinearLayout row = NUi.row(c); row.setGravity(Gravity.BOTTOM);
-        row.setPadding(NUi.dp(16), NUi.dp(7), NUi.dp(7), NUi.dp(7)); row.setBackground(NUi.round(NTheme.alpha(NTheme.bg2, .88f), 24, NTheme.line2));
+        row.setPadding(NUi.dp(16), NUi.dp(7), NUi.dp(7), NUi.dp(7)); row.setBackground(NUi.round(NTheme.alpha(NTheme.bg2, .97f), 24, NTheme.line2));   /* web 88% + backdrop blur; no live blur here, so nearly opaque */
         in = new EditText(c); in.setHint("Ask anything about your life…"); in.setHintTextColor(NTheme.alpha(NTheme.muted, .9f)); in.setTextColor(NTheme.text); in.setTextSize(16); in.setTypeface(NFont.body(500));
         in.setBackground(null); in.setMaxLines(5); in.setMinHeight(NUi.dp(40)); in.setPadding(0, NUi.dp(9), 0, NUi.dp(9));
         in.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE | android.text.InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);

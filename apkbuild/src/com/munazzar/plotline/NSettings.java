@@ -245,7 +245,7 @@ final class NSettings extends NPage {
         } else p.addView(btns(btn("Connect Google Drive", true, new View.OnClickListener() { public void onClick(View v) { sh.run("syncConnect", null); } })), NUi.mt(14));
         col.addView(p);
         LinearLayout y = panel("You", null);
-        y.addView(btns(btn("🏁  Take the tour", false, new View.OnClickListener() { public void onClick(View v) { NTour.start(sh); } })), NUi.mt(12));
+        y.addView(btns(btn("Take the tour", false, new View.OnClickListener() { public void onClick(View v) { NTour.start(sh); } })), NUi.mt(12));
         fieldLabel(y, "Your name");
         final android.widget.EditText nm = NForms.input(c, "What should we call you?", s().optString("name"), false);
         nm.addTextChangedListener(new android.text.TextWatcher() {
@@ -607,8 +607,8 @@ final class NSettings extends NPage {
         final android.content.Context ctx = sh.a.getApplicationContext();
         LinearLayout r0 = panel("Reminders", "Step reminders, goal check-ins and focus timers arrive as phone notifications, even when the app is closed.");
         boolean granted = ((android.app.NotificationManager) sh.a.getSystemService(android.content.Context.NOTIFICATION_SERVICE)).areNotificationsEnabled();
-        View ics = btn("📅  Add due steps to calendar", false, new View.OnClickListener() { public void onClick(View v) { NSheets.ics(sh, "icsAll", "", ""); } });
-        if (!granted) r0.addView(btns(ics, btn("🔔  Allow notifications", true, new View.OnClickListener() { public void onClick(View v) { sh.a.askNotifications(); if (android.os.Build.VERSION.SDK_INT >= 33) return; try { sh.a.startActivity(new Intent(android.provider.Settings.ACTION_APP_NOTIFICATION_SETTINGS).putExtra(android.provider.Settings.EXTRA_APP_PACKAGE, sh.a.getPackageName())); } catch (Exception ignored) { } } })), NUi.mt(12));
+        View ics = NBits.ibtnText(c, "cal", "Add due steps to calendar", false, new View.OnClickListener() { public void onClick(View v) { NSheets.ics(sh, "icsAll", "", ""); } });
+        if (!granted) r0.addView(btns(ics, NBits.ibtnText(c, "bell", "Allow notifications", true, new View.OnClickListener() { public void onClick(View v) { sh.a.askNotifications(); if (android.os.Build.VERSION.SDK_INT >= 33) return; try { sh.a.startActivity(new Intent(android.provider.Settings.ACTION_APP_NOTIFICATION_SETTINGS).putExtra(android.provider.Settings.EXTRA_APP_PACKAGE, sh.a.getPackageName())); } catch (Exception ignored) { } } })), NUi.mt(12));
         else r0.addView(btns(ics), NUi.mt(12));
         col.addView(r0);
 
