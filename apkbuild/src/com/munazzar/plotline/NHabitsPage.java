@@ -54,7 +54,7 @@ final class NHabitsPage extends NPage {
         for (JSONObject h : NStore.list(habits)) { all.add(h); if (NHabits.status(h).equals("archived")) arch.add(h); else live.add(h); }
         int[] ratio = NHabits.dayRatio(habits, td);
         int quits = 0; for (JSONObject h : live) if (NHabits.kind(h).equals("quit")) quits++;
-        add(NUi.label(c, all.isEmpty() ? "Build good ones. Break the rest." : (ratio[0] > 0 ? ratio[1] + " of " + ratio[0] + " done today" : "Nothing due today") + " · " + quits + " being broken", NTheme.muted), 14);
+        add(NUi.label(c, all.isEmpty() ? "Build good ones. Break the rest." : (ratio[0] > 0 ? ratio[1] + " of " + ratio[0] + " done today" : "Nothing due today") + " · " + quits + " being broken", NTheme.muted), 28);   /* web .ph .data: row-gap 14 + margin 14 */
 
         if (all.isEmpty()) {
             LinearLayout e = NUi.col(c); e.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -69,7 +69,7 @@ final class NHabitsPage extends NPage {
         String[][] F2 = {{"today", "Today"}, {"vista", "Vista"}, {"build", "Build"}, {"quit", "Break"}, {"routine", "Routines"}, {"templates", "Templates"}};
         add(NBits.seg(c, F2, filter, new NBits.Pick() { public void on(String k) {
             filter = k; refresh();
-        } }), 18);
+        } }), 30);   /* web .ph margin-bottom 30 */
 
         if (filter.equals("vista")) { add(new NHabitVista(sh, this).card, 4); return; }
         if (filter.equals("templates")) {
@@ -398,7 +398,7 @@ final class NHabitsPage extends NPage {
         TextView hic = NUi.text(c, NHabits.icon(h), 18, NTheme.text); hic.setGravity(Gravity.CENTER); hic.setIncludeFontPadding(false);
         hic.setBackground(NUi.round(NTheme.alpha(col, .16f), 12, NTheme.alpha(col, .3f))); top.addView(hic, NUi.lp(NUi.dp(36), NUi.dp(36)));
         card.addView(top);
-        TextView t = NUi.title(c, h.optString("title"), 30); t.setTextColor(NTheme.INK); t.setLineSpacing(0, .95f);
+        TextView t = NUi.title(c, h.optString("title"), 30); t.setTextColor(NTheme.INK); NUi.cssLh(t, .95f);
         card.addView(t, NUi.mt(10));
         JSONArray done = NHabits.obj(h, "rs").optJSONArray(td);
         LinearLayout list = NUi.col(c);
@@ -456,11 +456,11 @@ final class NHabitsPage extends NPage {
         ic.setBackground(NUi.round(NTheme.alpha(col, .16f), 12, NTheme.alpha(col, .3f)));
         LinearLayout.LayoutParams icl = NUi.lp(NUi.dp(36), NUi.dp(36)); icl.leftMargin = NUi.dp(10); top.addView(ic, icl);
         card.addView(top);
-        TextView t = NUi.title(c, q.optString("title"), 30); t.setTextColor(NTheme.INK); t.setLineSpacing(0, .95f);
+        TextView t = NUi.title(c, q.optString("title"), 30); t.setTextColor(NTheme.INK); NUi.cssLh(t, .95f);
         card.addView(t, NUi.mt(10));
         if (lim) {
             LinearLayout big = NUi.row(c); big.setGravity(Gravity.BOTTOM);
-            TextView num = NUi.text(c, String.valueOf(today), 66, today > NHabits.limit(q) ? 0xFFFF7A7A : NTheme.INK); num.setTypeface(NFont.display(800)); num.setIncludeFontPadding(false); num.setLineSpacing(0, .82f);
+            TextView num = NUi.text(c, String.valueOf(today), 66, today > NHabits.limit(q) ? 0xFFFF7A7A : NTheme.INK); num.setTypeface(NFont.display(800)); NUi.cssLh(num, .82f);
             big.addView(num);
             TextView u = NUi.text(c, "of " + NHabits.limit(q) + " today", 15, NTheme.INK); u.setPadding(NUi.dp(10), 0, 0, NUi.dp(6)); big.addView(u);
             card.addView(big, NUi.mt(10));

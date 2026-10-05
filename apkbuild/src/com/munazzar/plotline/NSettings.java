@@ -58,7 +58,7 @@ final class NSettings extends NPage {
     LinearLayout panel(String title, String sub) {
         /* web .panel: radius 26, padding 22; h3 display 700 24px uppercase, 14px below */
         LinearLayout p = NUi.col(c); p.setBackground(NUi.card(26)); p.setPadding(NUi.dp(22), NUi.dp(22), NUi.dp(22), NUi.dp(22));
-        if (title != null) { TextView h = NUi.title(c, title, 24); h.setTypeface(NFont.display(700)); h.setAllCaps(true); h.setLineSpacing(0, 1f); p.addView(h); }
+        if (title != null) { TextView h = NUi.title(c, title, 24); h.setTypeface(NFont.display(700)); h.setAllCaps(true); NUi.cssLh(h, 1f); p.addView(h); }
         if (sub != null) { TextView t = NUi.text(c, sub, 13.5f, NTheme.muted); t.setLineSpacing(0, 1.2f); p.addView(t, NUi.mt(title != null ? 14 : 0)); }
         return p;
     }
@@ -147,8 +147,8 @@ final class NSettings extends NPage {
         if (sec == null) { hub(); return; }
         String title = ""; for (String[] x : SECS) if (x[0].equals(sec)) title = x[1];
         header(title);
-        TextView sb = NBits.meta(c, sub(sec).toUpperCase(), NTheme.muted); sb.setTextSize(10.5f); add(sb, 8);
-        LinearLayout col = NUi.col(c); add(col, 18);
+        TextView sb = NBits.meta(c, sub(sec).toUpperCase(), NTheme.muted); sb.setTextSize(10.5f); add(sb, 28);
+        LinearLayout col = NUi.col(c); add(col, 30);
         switch (sec) {
             case "account": account(col); break;
             case "look": look(col); break;
@@ -163,7 +163,7 @@ final class NSettings extends NPage {
 
     void hub() {
         header("Settings");
-        TextView sb = NBits.meta(c, "EVERYTHING IN ONE PLACE, ONE AREA AT A TIME", NTheme.muted); sb.setTextSize(10.5f); add(sb, 8);
+        TextView sb = NBits.meta(c, "EVERYTHING IN ONE PLACE, ONE AREA AT A TIME", NTheme.muted); sb.setTextSize(10.5f); add(sb, 28);
         /* web .shub: one card per area (gap 8, radius 20), accent icon on a bg-2 tile, title 15/650, one-line sub, chevron */
         for (int i = 0; i < SECS.length; i++) {
             final String[] x = SECS[i];

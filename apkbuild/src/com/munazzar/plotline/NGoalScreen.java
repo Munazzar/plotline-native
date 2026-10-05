@@ -60,7 +60,7 @@ final class NGoalScreen extends NPage {
         String hzl = "This month"; for (String[] x : H) if (x[0].equals(hz)) hzl = x[1];
         String pri = g.optInt("priority", 2) == 1 ? " · High priority" : g.optInt("priority", 2) == 3 ? " · Low priority" : "";
         hero.addView(NUi.ell(NUi.label(c, NTheme.areaName(g.optString("area")) + " · " + hzl + pri, NTheme.INK_MUTED), 2));
-        TextView t = NUi.text(c, g.optString("title").toUpperCase(), 40, NTheme.INK); t.setTypeface(NFont.display(800)); t.setLineSpacing(0, .9f); t.setIncludeFontPadding(false);
+        TextView t = NUi.text(c, g.optString("title").toUpperCase(), 40, NTheme.INK); t.setTypeface(NFont.display(800)); NUi.cssLh(t, .9f);
         hero.addView(t, NUi.mt(12));
         if (!g.optString("why").isEmpty()) { TextView w = NUi.text(c, g.optString("why"), 16, NTheme.INK_MUTED); w.setLineSpacing(0, 1.2f); hero.addView(w, NUi.mt(10)); }
         LinearLayout pr = NUi.row(c); pr.setGravity(Gravity.BOTTOM);

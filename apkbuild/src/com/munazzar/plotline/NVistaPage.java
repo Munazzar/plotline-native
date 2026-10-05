@@ -65,7 +65,7 @@ final class NVistaPage extends NPage {
             if (!open.isEmpty()) open.clear(); else for (JSONObject g : NStore.list(st.arr("goals"))) open.add(g.optString("id"));
             draw = false; refresh();
         } }), l2);
-        add(r1, 14);
+        add(r1, 18);   /* web .vtool 18 under the header */
         LinearLayout r2 = NUi.row(c);
         r2.addView(NBits.seg(c, new String[][]{{"month", "Weeks"}, {"quarter", "Months"}, {"year", "Years"}}, zoom, new NBits.Pick() { public void on(String k) { zoom = k; toToday = true; draw = true; refresh(); } }), NUi.lp(-2, -2));
         View sp = new View(c); r2.addView(sp, NUi.lpw(0, 1, 1));
@@ -117,7 +117,7 @@ final class NVistaPage extends NPage {
     void buildMap() {
         header("Vista", gear());
         LinearLayout vs = NUi.row(c); vs.addView(modeSeg());
-        add(vs, 10);
+        add(vs, 18);
         int hdp = (int) Math.max(280, c.getResources().getConfiguration().screenHeightDp - (sh.top + sh.bot) / NUi.density - 150);
         final FrameLayout wrap = new FrameLayout(c);
         final boolean full = sh.focus;
@@ -152,14 +152,14 @@ final class NVistaPage extends NPage {
         LinearLayout dock = NUi.row(c);
         dock.setBackground(NUi.round(NTheme.alpha(NTheme.bg2, .86f), 18, NTheme.line2)); dock.setPadding(NUi.dp(16), NUi.dp(6), NUi.dp(6), NUi.dp(6));
         TextView sl = NUi.label(c, "SPACING", NTheme.muted); dock.addView(sl);
-        SeekBar sb = new SeekBar(c); sb.setMax(24);
+        SeekBar sb = NUi.range(c); sb.setMax(24);
         double cur = st.settings().optDouble("mapSpace", 1); sb.setProgress((int) Math.round((cur - .8) / .05));
         sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             public void onProgressChanged(SeekBar s, int p, boolean fu) { if (!fu) return; try { st.settings().put("mapSpace", Math.round((.8 + p * .05) * 100) / 100.0); } catch (Exception ignored) { } map.rebuild(false); }
             public void onStartTrackingTouch(SeekBar s) { s.getParent().requestDisallowInterceptTouchEvent(true); }
             public void onStopTrackingTouch(SeekBar s) { sh.saveQuiet(); }
         });
-        LinearLayout.LayoutParams sbl = NUi.lp(NUi.dp(120), -2); sbl.leftMargin = NUi.dp(8); dock.addView(sb, sbl);
+        LinearLayout.LayoutParams sbl = NUi.lp(NUi.dp(136), NUi.dp(26)); sbl.leftMargin = NUi.dp(6); dock.addView(sb, sbl);
         LinearLayout.LayoutParams rl = NUi.lp(-2, -2); rl.leftMargin = NUi.dp(4);
         dock.addView(NUi.ibtn(c, "reset", new View.OnClickListener() { public void onClick(View v) {
             try { st.settings().put("mapSpace", 1); } catch (Exception ignored) { }

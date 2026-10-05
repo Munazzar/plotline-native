@@ -42,7 +42,7 @@ final class NYear {
         return b;
     }
     TextView kicker(String s) { TextView t = new TextView(c); t.setText(s.toUpperCase()); t.setTypeface(NFont.mono(600)); t.setTextSize(12); t.setLetterSpacing(.14f); t.setTextColor(NTheme.accent); return t; }
-    TextView h(String s, float sp) { TextView t = new TextView(c); t.setText(s.toUpperCase()); t.setTypeface(NFont.display(800)); t.setTextSize(sp); t.setTextColor(FG); t.setLineSpacing(0, .92f); t.setIncludeFontPadding(false); return t; }
+    TextView h(String s, float sp) { TextView t = new TextView(c); t.setText(s.toUpperCase()); t.setTypeface(NFont.display(800)); t.setTextSize(sp); t.setTextColor(FG); t.setTextSize(sp); NUi.cssLh(t, .92f); return t; }
     TextView p(String s) { TextView t = new TextView(c); t.setText(rich(s)); t.setTypeface(NFont.body(400)); t.setTextSize(18); t.setTextColor(SOFT); t.setLineSpacing(0, 1.28f); return t; }
     View big(String n, String label) {
         LinearLayout l = NUi.col(c);

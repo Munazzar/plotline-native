@@ -46,7 +46,7 @@ final class NDayScreen extends NPage {
         acts.add(nx);
         acts.add(gear());
         header(rel == 0 ? "Today" : rel == -1 ? "Yesterday" : NDates.weekday(ds), acts.toArray(new View[0]));
-        add(NUi.label(c, NDates.longDateYear(ds) + (rel < -1 ? " · " + (-rel) + " days ago" : ""), NTheme.muted), 8);
+        add(NUi.label(c, NDates.longDateYear(ds) + (rel < -1 ? " · " + (-rel) + " days ago" : ""), NTheme.muted), 28);
 
         final JSONArray habits = st.arr("habits");
         int[] r = NHabits.dayRatio(habits, ds);

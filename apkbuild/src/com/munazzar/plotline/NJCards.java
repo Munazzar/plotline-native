@@ -26,7 +26,7 @@ final class NJCards {
     }
 
     static TextView display(Context c, String s, float sp, int col, int lines) {
-        TextView t = NUi.text(c, s.toUpperCase(), sp, col); t.setTypeface(NFont.display(800)); t.setLineSpacing(0, .9f); t.setIncludeFontPadding(false);
+        TextView t = NUi.text(c, s.toUpperCase(), sp, col); t.setTypeface(NFont.display(800)); NUi.cssLh(t, .9f);
         t.setMaxLines(lines); t.setEllipsize(android.text.TextUtils.TruncateAt.END);
         return t;
     }

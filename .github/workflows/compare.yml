@@ -62,7 +62,9 @@ jobs:
           script: python ci/emu.py apkbuild/out/Plotline-debug.apk 2>&1 | tee ci/out/emu.log
       - name: Side by side
         if: always()
-        run: python ci/compare.py || true
+        run: |
+          python ci/compare.py || true
+          python ci/layout_diff.py > /dev/null || true
       - name: Publish to the shots branch
         if: always()
         run: |

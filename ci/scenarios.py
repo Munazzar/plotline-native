@@ -12,6 +12,14 @@ ups:[{id:'tu1',t:now-5*D,k:'idea',x:'Turn the garage corner into a small gym',u:
 {id:'tu3',t:now-36e5,k:'note',x:'First workout there this morning, felt great',u:now}]});save()})()"""
 
 
+# every visible piece of text on the page with its box (CSS px, page coordinates), for ci/layout_diff.py
+RECTS_JS = """(()=>{const out=[];const skip=new Set(['SCRIPT','STYLE','SVG','TITLE']);
+const walk=n=>{for(const c of n.children){if(skip.has(c.tagName.toUpperCase()))continue;const cs=getComputedStyle(c);if(cs.display==='none'||cs.visibility==='hidden'||+cs.opacity===0)continue;
+ const own=[...c.childNodes].filter(x=>x.nodeType===3).map(x=>x.textContent).join(' ').replace(/\\s+/g,' ').trim();
+ if(own){const r=c.getBoundingClientRect();if(r.width>0&&r.height>0)out.push({t:(c.innerText||own).replace(/\\s+/g,' ').trim().slice(0,80),x:r.left+scrollX,y:r.top+scrollY,w:r.width,h:r.height,fs:parseFloat(cs.fontSize),fw:cs.fontWeight,tag:c.tagName.toLowerCase(),cls:(c.getAttribute('class')||'').slice(0,40)})}
+ walk(c)}};walk(document.querySelector('#sheet.on')||document.querySelector('#view')||document.body);return out})()"""
+
+
 def scenarios(state):
     today = datetime.date.today().isoformat()
     g = next((x for x in state.get('goals', []) if x.get('status', 'active') == 'active'), None)

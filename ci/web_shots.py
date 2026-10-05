@@ -4,7 +4,7 @@
 import asyncio, json, os, sys
 from playwright.async_api import async_playwright
 sys.path.insert(0, os.path.dirname(__file__))
-from scenarios import scenarios, THREAD_JS
+from scenarios import scenarios, THREAD_JS, RECTS_JS
 
 URL = os.environ.get('WEB_URL', 'https://munazzar.github.io/plotline/')
 OUT = os.path.join(os.path.dirname(__file__), 'out')
@@ -56,6 +56,7 @@ async def main():
             # reveal-on-scroll content: mark everything shown so screenshots match a scrolled-through page
             await pg.evaluate("document.querySelectorAll('.rv').forEach(x=>x.classList.add('in'))")
             open(f'{OUT}/web/{name}.txt', 'w').write(await pg.evaluate(OUTLINE))
+            json.dump(await pg.evaluate(RECTS_JS), open(f'{OUT}/web/{name}.rects.json', 'w'))
             total = await pg.evaluate("Math.max(document.documentElement.scrollHeight,document.body.scrollHeight)")
             k = 0; y = 0
             while k < 8:

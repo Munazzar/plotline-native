@@ -67,7 +67,7 @@ final class NLock {
         LinearLayout box = NUi.col(c); box.setGravity(Gravity.CENTER_HORIZONTAL);
         int w = Math.min(NUi.dp(340), c.getResources().getDisplayMetrics().widthPixels - NUi.dp(48));
         box.addView(new Logo(c), NUi.lp(NUi.dp(64), NUi.dp(64)));
-        TextView h = NUi.text(c, "WELCOME BACK", 44, NTheme.text); h.setTypeface(NFont.display(800)); h.setGravity(Gravity.CENTER); h.setLineSpacing(0, .9f);
+        TextView h = NUi.text(c, "WELCOME BACK", 44, NTheme.text); h.setTypeface(NFont.display(800)); h.setGravity(Gravity.CENTER); NUi.cssLh(h, .9f);
         LinearLayout.LayoutParams hl = NUi.lp(-1, -2); hl.topMargin = NUi.dp(22); hl.bottomMargin = NUi.dp(8); box.addView(h, hl);
         if (bio) {
             TextView s = NUi.text(c, "Unlock with your fingerprint, face or screen lock", 13.5f, NTheme.muted); s.setGravity(Gravity.CENTER); box.addView(s, NUi.lp(-1, -2));

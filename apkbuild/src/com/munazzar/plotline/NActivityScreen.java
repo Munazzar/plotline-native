@@ -14,7 +14,7 @@ import org.json.JSONObject;
    goals, and the day-by-day list. The web engine reads the phone and keeps settings.actLog; this shows it. */
 final class NActivityScreen extends NPage {
     int range = 7, more = 14;
-    NActivityScreen(NShell sh) { super(sh); }   /* web: a top-level page, no back button */
+    NActivityScreen(NShell sh) { super(sh); topLevel = true; }   /* web: a top-level page, no back button */
 
     @Override void onShow() { super.onShow(); load(false); }
 
@@ -60,7 +60,7 @@ final class NActivityScreen extends NPage {
             NUi.ibtn(c, "rep", new View.OnClickListener() { public void onClick(View v) { load(true); NShell.toast("Refreshing…"); } }),
             NUi.ibtn(c, "target", new View.OnClickListener() { public void onClick(View v) { goals(); } }),
             gear());
-        add(NUi.label(c, (av.optString("at").isEmpty() ? "" : "Updated " + av.optString("at") + " · ") + "read on this phone, never uploaded", NTheme.muted), 8);
+        add(NUi.label(c, (av.optString("at").isEmpty() ? "" : "Updated " + av.optString("at") + " · ") + "read on this phone, never uploaded", NTheme.muted), 28);
 
         LinearLayout seg = NUi.row(c);
         int[] rs = {7, 14, 30};
@@ -68,7 +68,7 @@ final class NActivityScreen extends NPage {
             LinearLayout.LayoutParams l = NUi.lp(-2, -2); l.rightMargin = NUi.dp(8);
             seg.addView(NUi.chip(c, n + " days", range == n, new View.OnClickListener() { public void onClick(View v) { range = n; refresh(); } }), l);
         }
-        add(seg, 14);
+        add(seg, 30);
         add(muted("Tap a bar to open that day"), 8);
 
         final int tn = NDates.today();

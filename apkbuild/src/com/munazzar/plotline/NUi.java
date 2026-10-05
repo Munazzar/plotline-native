@@ -37,8 +37,8 @@ final class NUi {
     static LinearLayout row(Context c) { LinearLayout l = new LinearLayout(c); l.setOrientation(LinearLayout.HORIZONTAL); l.setGravity(Gravity.CENTER_VERTICAL); return l; }
 
     static TextView text(Context c, CharSequence s, float sp, int color) {
-        TextView t = new TextView(c);
-        t.setText(s); t.setTextSize(TypedValue.COMPLEX_UNIT_SP, sp); t.setTextColor(color);
+        TextView t = new T(c);
+        t.setTextSize(TypedValue.COMPLEX_UNIT_SP, sp); t.setText(s); t.setTextColor(color);
         t.setTypeface(NFont.body(400)); t.setIncludeFontPadding(true);
         return t;
     }
@@ -47,7 +47,7 @@ final class NUi {
 
     static TextView title(Context c, CharSequence s, float sp) {
         TextView t = text(c, s.toString().toUpperCase(), sp, NTheme.text);
-        t.setTypeface(NFont.display(800)); t.setLineSpacing(0, .9f); t.setIncludeFontPadding(false);
+        t.setTypeface(NFont.display(800)); cssLh(t, .9f);
         return t;
     }
 
@@ -240,8 +240,33 @@ final class NUi {
         }
     }
     static TextView cssLh(TextView t, float lh) {
-        android.text.SpannableString ss = new android.text.SpannableString(t.getText());
-        ss.setSpan(new CssLh(Math.round(t.getTextSize() * lh)), 0, ss.length(), android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-        t.setIncludeFontPadding(false); t.setFallbackLineSpacing(false); t.setLineSpacing(0, 1f); t.setText(ss); return t;
+        t.setIncludeFontPadding(false); t.setFallbackLineSpacing(false); t.setLineSpacing(0, 1f);
+        if (t instanceof T) { ((T) t).lh = lh; t.setText(t.getText()); return t; }   /* kept through later setText calls */
+        t.setText(withLh(t.getText(), Math.round(t.getTextSize() * lh))); return t;
+    }
+    static CharSequence withLh(CharSequence s, int px) {
+        android.text.SpannableString ss = new android.text.SpannableString(s == null ? "" : s);
+        for (CssLh o : ss.getSpans(0, ss.length(), CssLh.class)) ss.removeSpan(o);
+        ss.setSpan(new CssLh(px), 0, ss.length(), android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE); return ss;
+    }
+    /* a TextView that can keep a CSS line-height (see cssLh) */
+    static class T extends TextView {
+        float lh;
+        T(Context c) { super(c); }
+        @Override public void setText(CharSequence s, BufferType b) { if (lh > 0) super.setText(withLh(s, Math.round(getTextSize() * lh)), b); else super.setText(s, b); }
+        @Override public void setTextSize(int unit, float size) { super.setTextSize(unit, size); if (lh > 0) setText(getText()); }
+    }
+
+    /* <input type=range> as Chrome draws it with accent-color: 8px rounded track, accent fill, round accent thumb */
+    static android.widget.SeekBar range(Context c) {
+        android.widget.SeekBar sb = new android.widget.SeekBar(c);
+        GradientDrawable tr = new GradientDrawable(); tr.setCornerRadius(dp(4)); tr.setColor(NTheme.alpha(NTheme.text, .42f)); tr.setStroke(Math.max(1, dp(.5f)), NTheme.alpha(NTheme.text, .25f));
+        GradientDrawable fi = new GradientDrawable(); fi.setCornerRadius(dp(4)); fi.setColor(NTheme.accent);
+        android.graphics.drawable.LayerDrawable ld = new android.graphics.drawable.LayerDrawable(new Drawable[]{tr, new android.graphics.drawable.ClipDrawable(fi, Gravity.START, android.graphics.drawable.ClipDrawable.HORIZONTAL)});
+        ld.setId(0, android.R.id.background); ld.setId(1, android.R.id.progress);
+        sb.setProgressDrawable(ld); sb.setMinHeight(dp(8)); sb.setMaxHeight(dp(8));
+        GradientDrawable th = new GradientDrawable(); th.setShape(GradientDrawable.OVAL); th.setColor(NTheme.accent); th.setSize(dp(18), dp(18));
+        sb.setThumb(th); sb.setThumbOffset(0); sb.setSplitTrack(false); sb.setPadding(dp(9), dp(4), dp(9), dp(4)); sb.setBackground(null);
+        return sb;
     }
 }

@@ -276,7 +276,7 @@ final class NBits {
         l.setBackground(NUi.dashed(0, 28, NTheme.line2, 1.5f));
         l.setPadding(NUi.dp(24), NUi.dp(52), NUi.dp(24), NUi.dp(52));
         if (title != null) {
-            TextView t = NUi.title(c, title, 34); t.setGravity(Gravity.CENTER); t.setLineSpacing(0, .95f);
+            TextView t = NUi.title(c, title, 34); t.setGravity(Gravity.CENTER); NUi.cssLh(t, .95f);
             t.setMaxWidth(Math.round(t.getPaint().measureText("0") * 16));
             LinearLayout.LayoutParams tl = NUi.lp(-2, -2); tl.bottomMargin = NUi.dp(12); l.addView(t, tl);
         }
@@ -325,7 +325,7 @@ final class NBits {
         String par = g.optString("parent");
         if (!par.isEmpty()) { JSONObject pg = sh.st.find("goals", par); if (pg != null) { TextView pt = NUi.text(c, "↳ " + pg.optString("title"), 10.5f, NTheme.INK_MUTED); pt.setTypeface(NFont.mono(500)); pt.setAllCaps(true); pt.setSingleLine(true); pt.setEllipsize(android.text.TextUtils.TruncateAt.END); card.addView(pt, NUi.mt(10)); } }
         View sp = new View(c); card.addView(sp, NUi.lpw(-1, 0, 1));
-        TextView t = NUi.ell(NUi.text(c, g.optString("title").toUpperCase(), 24, ink), 4); t.setTypeface(NFont.display(800)); t.setLineSpacing(0, .92f); t.setIncludeFontPadding(false);
+        TextView t = NUi.ell(NUi.text(c, g.optString("title").toUpperCase(), 24, ink), 4); t.setTypeface(NFont.display(800)); NUi.cssLh(t, .92f);
         LinearLayout.LayoutParams tl = NUi.mt(0); tl.bottomMargin = NUi.dp(14); card.addView(t, tl);
         int p = NActs.pct(sh.st, g);
         card.addView(bar(c, p / 100f, ink), NUi.lp(-1, NUi.dp(4)));

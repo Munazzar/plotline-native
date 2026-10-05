@@ -281,9 +281,13 @@ final class NShell implements NStore.Listener {
         if (focus) buildFnav();
         v.setTranslationX(root.getWidth() > 0 ? root.getWidth() : 1000); v.setAlpha(1f);
         v.animate().translationX(0).setDuration(340).setInterpolator(NUi.EASE).start();
-        View under = stack.size() > 1 ? stack.get(stack.size() - 2).view() : pager;
-        under.animate().translationX(-root.getWidth() * .22f).alpha(.6f).setDuration(340).setInterpolator(NUi.EASE).start();
+        final View under = stack.size() > 1 ? stack.get(stack.size() - 2).view() : pager;
+        /* once covered, the screen underneath stops drawing (less overdraw; hidden from accessibility) */
+        under.animate().translationX(-root.getWidth() * .22f).alpha(.6f).setDuration(340).setInterpolator(NUi.EASE).withEndAction(new Runnable() { public void run() {
+            if (!stack.isEmpty() && stack.get(stack.size() - 1) == p) under.setVisibility(View.INVISIBLE);
+        } }).start();
     }
+    View underTop() { return stack.size() > 1 ? stack.get(stack.size() - 2).view() : pager; }
 
     void pop() {
         if (stack.isEmpty()) return;
@@ -294,6 +298,7 @@ final class NShell implements NStore.Listener {
             @Override public void onAnimationEnd(Animator an) { v.animate().setListener(null); stackLayer.removeView(v); }
         }).start();
         View under = stack.isEmpty() ? pager : stack.get(stack.size() - 1).view();
+        under.setVisibility(View.VISIBLE);
         under.animate().translationX(0).alpha(1f).setDuration(280).setInterpolator(NUi.EASE).start();
         if (stack.isEmpty()) { NPage cur = pages[pager.page]; if (cur.stale) cur.refresh(); }
         else { NPage t = stack.get(stack.size() - 1); t.refresh(); }
@@ -303,7 +308,7 @@ final class NShell implements NStore.Listener {
 
     void popAll() {
         for (NPage p : stack) stackLayer.removeView(p.view());
-        stack.clear(); pager.setTranslationX(0); pager.setAlpha(1f);
+        stack.clear(); pager.setTranslationX(0); pager.setAlpha(1f); pager.setVisibility(View.VISIBLE);
         NPage cur = pages[pager.page]; if (cur.stale) cur.refresh();
         syncNav();
     }
@@ -319,7 +324,7 @@ final class NShell implements NStore.Listener {
         edge.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View e, MotionEvent ev) {
                 switch (ev.getActionMasked()) {
-                    case MotionEvent.ACTION_DOWN: s[0] = ev.getRawX(); on[0] = true; return true;
+                    case MotionEvent.ACTION_DOWN: s[0] = ev.getRawX(); on[0] = true; if (!stack.isEmpty()) underTop().setVisibility(View.VISIBLE); return true;
                     case MotionEvent.ACTION_MOVE: if (on[0]) v.setTranslationX(Math.max(0, ev.getRawX() - s[0])); return true;
                     default:
                         if (on[0]) { on[0] = false; if (v.getTranslationX() > v.getWidth() * .28f) pop(); else v.animate().translationX(0).setDuration(220).setInterpolator(NUi.EASE).start(); }

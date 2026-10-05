@@ -129,7 +129,7 @@ final class NAskPage extends NPage {
         if (!lab.isEmpty()) {
             LinearLayout r = NUi.row(c); TextView t = NBits.meta(c, lab.toUpperCase(), NTheme.muted); t.setTextSize(10.5f); r.addView(t); r.addView(NUi.icon(c, "next", 12, NTheme.muted), NUi.lp(NUi.dp(12), NUi.dp(12)));
             NUi.tap(r, new View.OnClickListener() { public void onClick(View v) { NSheets.assistant(sh); } });
-            add(r, 6);
+            add(r, 28);   /* web .ph .data */
         }
         if (d == null) { add(NBits.empty(c, "Getting ready…", "Opening your assistant."), 24); return; }
         if (!has) intro(); else thread();

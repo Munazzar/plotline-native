@@ -48,7 +48,7 @@ final class NHome extends NPage {
         int act = NActs.goals(st, "active").size(), late = 0;
         for (JSONObject g : NActs.goals(st, "active")) { org.json.JSONArray ss = g.optJSONArray("steps"); for (int i = 0; ss != null && i < ss.length(); i++) { JSONObject x = ss.optJSONObject(i); if (x != null && !x.optBoolean("done") && !x.optString("due").isEmpty() && NDates.dnum(x.optString("due")) < NDates.today()) late++; } }
         int wk = NActs.stepsDoneThisWeek(st);
-        if (act > 0) add(NJCards.data(c, wk + " step" + (wk == 1 ? "" : "s") + " done this week" + (late > 0 ? " · " + late + " late" : "") + " · " + act + " active goal" + (act == 1 ? "" : "s"), NTheme.muted), 14);
+        if (act > 0) add(NJCards.data(c, wk + " step" + (wk == 1 ? "" : "s") + " done this week" + (late > 0 ? " · " + late + " late" : "") + " · " + act + " active goal" + (act == 1 ? "" : "s"), NTheme.muted), 28);
 
         /* quick actions */
         LinearLayout qa = NUi.row(c);
@@ -65,7 +65,7 @@ final class NHome extends NPage {
             } });
             LinearLayout.LayoutParams l = NUi.lp(-2, NUi.dp(42)); l.rightMargin = NUi.dp(8); qa.addView(t, l);
         }
-        add(NBits.hscroll(c, qa), 16);
+        add(NBits.hscroll(c, qa), 18);
 
         yourDay(F);
         insights(eng);
@@ -313,7 +313,7 @@ final class NHome extends NPage {
         card.setBackground(NCard.bgFor(g, col, 30, true));
         card.setPadding(NUi.dp(22), NUi.dp(22), NUi.dp(22), NUi.dp(22));
         card.addView(NUi.ell(NJCards.data(c, "Up next · " + g.optString("title"), NTheme.INK_MUTED), 1));
-        TextView t = NJCards.display(c, s.optString("title"), 34, NTheme.INK, 5); t.setLineSpacing(0, .92f);
+        TextView t = NJCards.display(c, s.optString("title"), 34, NTheme.INK, 5); NUi.cssLh(t, .92f);
         t.setMaxWidth(Math.round(t.getPaint().measureText("0") * 18));   /* web .now h2 max-width:18ch */
         LinearLayout.LayoutParams tl = NUi.mt(16); tl.bottomMargin = NUi.dp(12); card.addView(t, tl);
         String due = NDates.dueText(s.optString("due"), s.optString("time"));

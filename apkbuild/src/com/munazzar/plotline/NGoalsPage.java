@@ -20,9 +20,9 @@ final class NGoalsPage extends NPage {
         header("Goals", NUi.ibtn(c, "search", new View.OnClickListener() { public void onClick(View v) { search = !search; if (!search) q = ""; refresh(); } }), NUi.ibtn(c, "plus", new View.OnClickListener() { public void onClick(View v) { F.goal(null); } }), gear());
         List<JSONObject> all = NStore.list(st.arr("goals"));
         int act = 0, ach = 0; for (JSONObject g : all) { if ("active".equals(g.optString("status", "active"))) act++; else if ("done".equals(g.optString("status"))) ach++; }
-        add(NUi.label(c, act + " active · " + ach + " achieved · pinch the cards to see more", NTheme.muted), 14);
+        add(NUi.label(c, act + " active · " + ach + " achieved · pinch the cards to see more", NTheme.muted), 28);
 
-        add(NBits.seg(c, new String[][]{{"active", "Active"}, {"short", "Short-term"}, {"long", "Long-term"}, {"done", "Achieved"}}, filter, new NBits.Pick() { public void on(String k) { filter = k; refresh(); } }), 18);
+        add(NBits.seg(c, new String[][]{{"active", "Active"}, {"short", "Short-term"}, {"long", "Long-term"}, {"done", "Achieved"}}, filter, new NBits.Pick() { public void on(String k) { filter = k; refresh(); } }), 30);
         LinearLayout ar = NUi.row(c);
         String an = "All areas"; for (int i = 0; i < NGen.AREA_ID.length; i++) if (NGen.AREA_ID[i].equals(area)) an = NGen.AREA_NAME[i];
         LinearLayout sel = NUi.row(c); sel.setPadding(NUi.dp(14), 0, NUi.dp(12), 0); sel.setBackground(NUi.ripple(NUi.round(NTheme.surface, 15, NTheme.line), 15));

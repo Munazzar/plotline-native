@@ -174,7 +174,7 @@ final class NGoalSteps {
     View bigBack(final JSONObject s, int i, int N, JSONObject next) {
         LinearLayout f = NUi.col(c); f.setBackground(NCard.bgFor(g, col, 30)); f.setPadding(NUi.dp(22), NUi.dp(20), NUi.dp(22), NUi.dp(18));
         f.addView(mono("Step " + (i + 1) + " of " + N + " · " + status(s, next), 10.5f, INKM));
-        TextView h = NUi.ell(NUi.text(c, s.optString("title").toUpperCase(), 24, INK), 2); h.setTypeface(NFont.display(800)); h.setLineSpacing(0, .95f); h.setIncludeFontPadding(false); h.setPadding(0, NUi.dp(6), 0, NUi.dp(4)); f.addView(h);
+        TextView h = NUi.ell(NUi.text(c, s.optString("title").toUpperCase(), 24, INK), 2); h.setTypeface(NFont.display(800)); NUi.cssLh(h, .95f); h.setPadding(0, NUi.dp(6), 0, NUi.dp(4)); f.addView(h);
         f.addView(kv("Due", NDates.valid(s.optString("due")) ? NDates.fmtDate(s.optString("due")) + (s.optString("time").isEmpty() ? "" : " · " + NDates.fmtTime(s.optString("time"))) : "No date", true, INK, INKM));
         f.addView(kv("Reminder", s.optBoolean("done") ? remLabel(s) : remLabel(s), false, INK, INKM));
         if (!s.optString("repeat").isEmpty()) f.addView(kv("Repeats", s.optString("repeat").substring(0, 1).toUpperCase() + s.optString("repeat").substring(1), false, INK, INKM));

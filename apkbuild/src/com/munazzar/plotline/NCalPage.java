@@ -107,7 +107,7 @@ final class NCalPage extends NPage {
         int[] sp = span(v); Map<Integer, List<It>> M = items(sp[0], sp[1]);
         int cnt = 0, dn = 0; for (List<It> l : M.values()) for (It i : l) if (i.k == K_DAY || i.k == K_STEP) { cnt++; if (i.done) dn++; }
         header("Calendar", NUi.ibtn(c, "plus", new View.OnClickListener() { public void onClick(View x) { F.dayGoal(sel); } }), gear());
-        add(NUi.label(c, "Day goals, steps and targets together" + (cnt > 0 ? " · " + dn + " of " + cnt + " done" : ""), NTheme.muted), 14);
+        add(NUi.label(c, "Day goals, steps and targets together" + (cnt > 0 ? " · " + dn + " of " + cnt + " done" : ""), NTheme.muted), 22);   /* web .ph.cph: row-gap 14 + data margin 8 */
 
         LinearLayout bar = NUi.row(c);
         View seg = NBits.seg(c, new String[][]{{"day", "Day"}, {"week", "Week"}, {"month", "Month"}}, v, new NBits.Pick() { public void on(String k) { setView(k); } });
@@ -118,7 +118,7 @@ final class NCalPage extends NPage {
         TextView tt = NUi.body(c, "Today", 15, NTheme.text, 600); tt.setPadding(NUi.dp(8), 0, 0, 0); today.addView(tt);
         NUi.tap(today, new View.OnClickListener() { public void onClick(View x) { sel = NDates.ymd(); refresh(); } });
         LinearLayout.LayoutParams tl = NUi.lp(-2, NUi.dp(46)); tl.leftMargin = NUi.dp(10); bar.addView(today, tl);
-        add(bar, 14);
+        add(bar, 18);   /* web .ph.cph margin-bottom 18 */
 
         LinearLayout card = new LinearLayout(c) {
             float dx0, dy0; boolean sw; final int slop = android.view.ViewConfiguration.get(c).getScaledTouchSlop();
@@ -147,7 +147,7 @@ final class NCalPage extends NPage {
         ct.addView(NBits.sbtn(c, "next", new View.OnClickListener() { public void onClick(View x) { step(1); } }), nl);
         card.addView(ct);
         if (v.equals("month")) month(card, n); else if (v.equals("week")) week(card, n, M); else day(card, n);
-        add(card, 0);
+        add(card, 24);   /* web .bar margin-bottom 24 */
 
         /* agenda */
         LinearLayout hd = NUi.sectionHead(c, v.equals("day") ? "Plan for the day" : v.equals("week") ? "This week" : "This month", "Add for " + NDates.dayName(sel), new View.OnClickListener() { public void onClick(View x) { F.dayGoal(sel); } });

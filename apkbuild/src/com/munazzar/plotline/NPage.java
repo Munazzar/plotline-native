@@ -18,7 +18,7 @@ abstract class NPage {
     ScrollView sv;
     LinearLayout body;
     FrameLayout frame;
-    boolean stale = true, back;
+    boolean stale = true, back, topLevel;   /* topLevel: pushed, but laid out like a main page (web NAV_TOP, e.g. Activity) */
     String focusTag;
 
     NPage(NShell sh) { this.sh = sh; this.c = sh.a; this.st = sh.st; }
@@ -35,7 +35,7 @@ abstract class NPage {
                     case android.view.MotionEvent.ACTION_DOWN: sx = e.getX(); sy = e.getY(); rx = e.getRawX(); drag = false; edge = sx < NUi.dp(28); return false;
                     case android.view.MotionEvent.ACTION_MOVE:
                         float dx = e.getX() - sx, dy = e.getY() - sy;
-                        if (edge && dx > slop && dx > 2 * Math.abs(dy)) { drag = true; return true; }
+                        if (edge && dx > slop && dx > 2 * Math.abs(dy)) { drag = true; sh.underTop().setVisibility(View.VISIBLE); return true; }
                         return false;
                     default: return false;
                 }
@@ -65,7 +65,8 @@ abstract class NPage {
     void pad() {
         if (body == null) return;
         int side = NUi.dp(sh.wide() ? 32 : 16);
-        body.setPadding(side, sh.top + NUi.dp(back ? (sh.focus ? 68 : 10) : 18), side, sh.bot + NUi.dp(back ? 40 : sh.focus ? 40 : 120));
+        boolean bk = back && !topLevel;
+        body.setPadding(side, sh.top + NUi.dp(bk ? (sh.focus ? 68 : 10) : 18), side, sh.bot + NUi.dp(bk ? 40 : sh.focus ? 40 : 120));
     }
 
     /* rebuild keeping the scroll position */
@@ -106,7 +107,7 @@ abstract class NPage {
     LinearLayout header(String title, View... actions) {
         LinearLayout r = NUi.row(c);
         r.setGravity(Gravity.CENTER_VERTICAL);
-        if (back) {
+        if (back && !topLevel) {
             r.addView(NUi.ibtn(c, "back", new View.OnClickListener() { public void onClick(View v) { sh.pop(); } }));
             View sp = new View(c); r.addView(sp, NUi.lpw(0, 1, 1));
             for (View a : actions) { LinearLayout.LayoutParams l = NUi.lp(-2, -2); l.leftMargin = NUi.dp(NUi.narrow ? 6 : 8); r.addView(a, l); }
@@ -124,7 +125,7 @@ abstract class NPage {
         /* web fitH1: the title never breaks inside a word. It shrinks to fit beside the buttons (down to 30px);
            if it would get smaller than that, the buttons move to their own row above and the title gets the width */
         TextView t = NUi.title(c, title, 40);
-        t.setLineSpacing(0, .88f);   /* web .ph h1: 800 40px/.88, wraps between words like the web */
+        NUi.cssLh(t, .88f);   /* web .ph h1: 800 40px/.88, wraps between words like the web */
         int avail = c.getResources().getDisplayMetrics().widthPixels - 2 * NUi.dp(sh.wide() ? 32 : 16), aw = 0;
         for (View a : actions) { a.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED); aw += a.getMeasuredWidth() + NUi.dp(NUi.narrow ? 6 : 8); }
         android.graphics.Paint pm = new android.graphics.Paint(t.getPaint()); pm.setTextSize(30 * c.getResources().getDisplayMetrics().scaledDensity);
@@ -159,7 +160,7 @@ abstract class NPage {
     View gear() {
         LinearLayout g = NUi.row(c);
         if (sh.focus) return g;   /* web hides .fsb and .gearb in full screen */
-        boolean fs = !(back && c.getResources().getConfiguration().screenWidthDp <= 560);   /* web: .crumb .fsb hidden on phones */
+        boolean fs = !(back && !topLevel && c.getResources().getConfiguration().screenWidthDp <= 560);   /* web: .crumb .fsb hidden on phones */
         if (fs) g.addView(NUi.ibtn(c, "full", new View.OnClickListener() { public void onClick(View v) { sh.focusMode(!sh.focus); } }));
         LinearLayout.LayoutParams l = NUi.lp(-2, -2); l.leftMargin = fs ? NUi.dp(NUi.narrow ? 6 : 8) : 0;
         g.addView(NUi.ibtn(c, "settings", new View.OnClickListener() { public void onClick(View v) { sh.openSettings(); } }), l);

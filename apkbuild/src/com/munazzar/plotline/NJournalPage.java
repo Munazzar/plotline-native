@@ -42,7 +42,7 @@ final class NJournalPage extends NPage {
         seg.addView(NBits.seg(c, new String[][]{{"j", "Journal"}, {"t", "Threads"}}, threads ? "t" : "j", new NBits.Pick() { public void on(String k) { threads = k.equals("t"); refresh(); } }), NUi.lpw(0, -2, 1));
         LinearLayout.LayoutParams il = NUi.lp(-2, -2); il.leftMargin = NUi.dp(10);
         seg.addView(NBits.iconSeg(c, new String[][]{{"h", "horz"}, {"v", "vert"}}, jlayout(), new NBits.Pick() { public void on(String k) { try { JSONObject l = st.settings().optJSONObject("layout"); if (l == null) { l = new JSONObject(); st.settings().put("layout", l); } l.put("journal", k); } catch (Exception ignored) { } sh.save(); refresh(); } }), il);
-        add(seg, 0);
+        add(seg, 16);   /* web .jbar sits 16 under the header */
         if (threads) threadList(F); else moments(F);
     }
 
